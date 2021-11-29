@@ -3,7 +3,6 @@ package io.falu.client.headers;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
@@ -21,8 +20,15 @@ public abstract class AuthenticationHeaderProvider implements IAuthenticationPro
      *
      * @param scheme the scheme to be used in the Authorization header as the prefix for the header value
      */
-    public AuthenticationHeaderProvider(@Nullable String scheme) {
-        this.scheme = scheme == null ? DEFAULT_SCHEME : scheme;
+    public AuthenticationHeaderProvider(@NotNull String scheme) {
+        this.scheme = scheme;
+    }
+
+    /**
+     * Creates an instance of @[AuthenticationHeaderProvider]
+     */
+    public AuthenticationHeaderProvider() {
+        this.scheme = DEFAULT_SCHEME;
     }
 
     /**

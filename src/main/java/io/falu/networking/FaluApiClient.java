@@ -7,9 +7,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import java.util.concurrent.TimeUnit;
 
 public class FaluApiClient extends AbstractHttpApiClient {
-    private Boolean enableLogging;
+    private final Boolean enableLogging;
 
     FaluApiClient(String key, Boolean enableLogging) {
+        super(new FaluAuthenticationHeaderProvider(key));
         this.enableLogging = enableLogging;
     }
 
