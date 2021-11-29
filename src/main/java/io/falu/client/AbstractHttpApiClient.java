@@ -3,10 +3,7 @@ package io.falu.client;
 import com.google.gson.Gson;
 import io.falu.client.headers.EmptyAuthenticationHeaderProvider;
 import io.falu.client.headers.IAuthenticationProvider;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -16,10 +13,10 @@ import java.io.IOException;
  * An abstraction of an HTTP client for accessing APIs built by TINGLE
  */
 public class AbstractHttpApiClient {
-    private static final String MEDIA_TYPE_JSON = "application/json; charset=utf-8";
-    private static final String MEDIA_TYPE_TEXT_JSON = "text/json";
-    private static final String MEDIA_TYPE_PATH_JSON = "application/json-path+json";
-    private static final String MEDIA_TYPE_PLUS_JSON = "application/*+json";
+    protected static final MediaType MEDIA_TYPE_JSON = MediaType.get("application/json; charset=utf-8");
+    protected static final MediaType MEDIA_TYPE_TEXT_JSON = MediaType.get("text/json");
+    protected static final MediaType MEDIA_TYPE_PATH_JSON = MediaType.get("application/json-path+json");
+    protected static final MediaType MEDIA_TYPE_PLUS_JSON = MediaType.get("application/*+json");
 
     private final OkHttpClient backChannel;
     private final Gson gson = new Gson();
