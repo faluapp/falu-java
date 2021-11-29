@@ -12,6 +12,16 @@ import java.util.Map;
 @NoArgsConstructor
 public abstract class FaluModel implements Serializable {
     /**
+     * Indicates if this object belongs in the live environment
+     */
+    Boolean live;
+
+    /**
+     * Unique identifier for the workspace that the object belongs to.
+     */
+    String workspaceId;
+
+    /**
      * An optional arbitrary string attached to the object.
      * Mainly used to describe the object and often useful for displaying to users.
      */

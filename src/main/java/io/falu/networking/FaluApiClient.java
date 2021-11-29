@@ -14,6 +14,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         this.enableLogging = enableLogging;
     }
 
+
+
+
     @Override
     protected OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
         builder
