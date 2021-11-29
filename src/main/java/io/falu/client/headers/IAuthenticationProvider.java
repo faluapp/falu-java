@@ -5,5 +5,5 @@ import okhttp3.Interceptor;
 /**
  * Contract for implementing authorization providers
  */
-interface IAuthenticationProvider extends Interceptor {
+public interface IAuthenticationProvider extends Interceptor {
 }

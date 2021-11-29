@@ -3,6 +3,7 @@ package io.falu.client;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import okhttp3.Headers;
 
 /**
@@ -12,8 +13,9 @@ import okhttp3.Headers;
  */
 @Getter
 @Setter
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-class ResourceResponse<TResource> {
+public class ResourceResponse<TResource> {
     // the status code of the response
     Integer statusCode;
 
@@ -21,7 +23,7 @@ class ResourceResponse<TResource> {
     Headers headers;
 
     // the de-serialized resource
-    TResource tResource;
+    TResource resource;
 
     // error de-serialized from the response
     HttpResponseProblem error;
