@@ -11,7 +11,7 @@ import java.io.IOException;
  * Implementation of @[IAuthenticationProvider] which sets the Authorization header using the scheme and parameter separated by a space.
  * The parameter set is gotten from the abstract method @[.getParameter].
  */
-abstract class AuthenticationHeaderProvider implements IAuthenticationProvider {
+public abstract class AuthenticationHeaderProvider implements IAuthenticationProvider {
     private static final String DEFAULT_SCHEME = "Bearer";
 
     private final String scheme;
@@ -21,7 +21,7 @@ abstract class AuthenticationHeaderProvider implements IAuthenticationProvider {
      *
      * @param scheme the scheme to be used in the Authorization header as the prefix for the header value
      */
-    AuthenticationHeaderProvider(@Nullable String scheme) {
+    public AuthenticationHeaderProvider(@Nullable String scheme) {
         this.scheme = scheme == null ? DEFAULT_SCHEME : scheme;
     }
 

@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -28,8 +29,18 @@ public class AbstractHttpApiClient {
      *
      * @param authenticationProvider the provider to use for authentication
      */
-    AbstractHttpApiClient(@Nullable IAuthenticationProvider authenticationProvider) {
-        IAuthenticationProvider provider = authenticationProvider == null ? new EmptyAuthenticationHeaderProvider() : authenticationProvider;
+    public AbstractHttpApiClient(@NotNull IAuthenticationProvider authenticationProvider) {
+        OkHttpClient.Builder builder = new OkHttpClient.Builder()
+                .addInterceptor(authenticationProvider);
+
+        backChannel = buildBackChannel(builder);
+    }
+
+    /**
+     * Creates an instance of @[AbstractHttpApiClient]
+     */
+    public AbstractHttpApiClient() {
+        IAuthenticationProvider provider = new EmptyAuthenticationHeaderProvider();
 
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(provider);
@@ -75,7 +86,7 @@ public class AbstractHttpApiClient {
             // close the body stream
             body.close();
         }
-        
+
         return (ResourceResponse<TResult>) ResourceResponse.builder()
                 .statusCode(code)
                 .headers(response.headers())
