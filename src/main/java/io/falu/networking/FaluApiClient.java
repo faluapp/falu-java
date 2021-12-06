@@ -1,7 +1,9 @@
 package io.falu.networking;
 
+import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
+import io.falu.client.headers.EmptyAuthenticationHeaderProvider;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
 import okhttp3.OkHttpClient;
@@ -16,8 +18,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
     private static final String BASE_URL = "https://api.falu.io";
     private final Boolean enableLogging;
 
-    FaluApiClient(String key, Boolean enableLogging) {
-        super(new FaluAuthenticationHeaderProvider(key));
+    public FaluApiClient(FaluClientOptions options) {
+        super(new FaluAuthenticationHeaderProvider(options.getApiKey()));
+        this.enableLogging = options.getEnableLogging();
+    }
+
+
+    FaluApiClient(Boolean enableLogging) {
+        super(new EmptyAuthenticationHeaderProvider());
         this.enableLogging = enableLogging;
     }
 
@@ -44,7 +52,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     // TODO: Update an evaluation
-    
+
     public ResourceResponse<Evaluation> scoreEvaluation(String evaluationId) throws IOException {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/evaluations/" + evaluationId + "/scores")
@@ -52,6 +60,11 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Evaluation.class);
     }
     //endregion
+
+
+    private Request.Builder buildRequest(Request.Builder builder, RequestOptions options) {
+        return builder;
+    }
 
     @Override
     protected OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
