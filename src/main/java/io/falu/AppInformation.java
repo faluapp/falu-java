@@ -30,7 +30,7 @@ public class AppInformation {
      */
     String url;
 
-    protected String getUserAgent() {
+    public String getUserAgent() {
         return "falu-java/" + "VERSION NAME(VERSION CODE)" + " (" + getName() + ";SDK " + getVersion() + ";)";
     }
 }

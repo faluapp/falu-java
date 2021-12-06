@@ -1,5 +1,6 @@
 package io.falu.networking;
 
+import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
 import io.falu.client.headers.EmptyAuthenticationHeaderProvider;
@@ -17,9 +18,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
     private static final String BASE_URL = "https://api.falu.io";
     private final Boolean enableLogging;
 
-    FaluApiClient(String key, Boolean enableLogging) {
-        super(new FaluAuthenticationHeaderProvider(key));
-        this.enableLogging = enableLogging;
+    public FaluApiClient(FaluClientOptions options) {
+        super(new FaluAuthenticationHeaderProvider(options.getApiKey()));
+        this.enableLogging = options.getEnableLogging();
     }
 
 

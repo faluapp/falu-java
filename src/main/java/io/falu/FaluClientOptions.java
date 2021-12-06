@@ -27,4 +27,9 @@ public class FaluClientOptions {
      * Information about the application.
      */
     private AppInformation appInformation;
+
+    /**
+     * Enable the display of HTTP request and response bodies
+     */
+    private Boolean enableLogging = false;
 }
