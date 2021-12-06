@@ -27,4 +27,13 @@ public class ResourceResponse<TResource> {
 
     // error de-serialized from the response
     HttpResponseProblem error;
+
+    public Boolean isUnauthorized() {
+        return getStatusCode() == 401;
+    }
+
+    public Boolean successful() {
+        return (statusCode >= 200 && statusCode <= 299) && error == null;
+    }
+
 }
