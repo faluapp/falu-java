@@ -6,6 +6,8 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.headers.EmptyAuthenticationHeaderProvider;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
+import io.falu.models.identity.IdentityRecord;
+import io.falu.models.identity.IdentitySearchModel;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -61,6 +63,16 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
     //endregion
 
+    //region Identity
+    public ResourceResponse<IdentityRecord> searchIdentity(IdentitySearchModel searchModel) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/identity/search")
+                .post(RequestBody.create(makeJson(searchModel), MEDIA_TYPE_JSON));
+
+        return execute(builder, IdentityRecord.class);
+    }
+
+    //endregion
 
     private Request.Builder buildRequest(Request.Builder builder, RequestOptions options) {
         return builder;
