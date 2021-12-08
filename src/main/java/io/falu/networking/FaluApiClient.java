@@ -8,6 +8,8 @@ import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
+import io.falu.models.identity.MarketingListOptions;
+import io.falu.models.identity.MarketingResult;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -72,6 +74,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, IdentityRecord.class);
     }
 
+    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions marketingListOptions) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/identity/marketing")
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
+        return execute(builder, MarketingResult[].class);
+    }
     //endregion
 
     private Request.Builder buildRequest(Request.Builder builder, RequestOptions options) {

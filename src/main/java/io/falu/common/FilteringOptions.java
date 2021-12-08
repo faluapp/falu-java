@@ -7,12 +7,7 @@ import org.jetbrains.annotations.Nullable;
  * Standard options for range filtering
  */
 @Getter
-public abstract class FilteringOptions<T> {
-    private final T lessThan;
-    private final T lessThanOrEqualTo;
-    private final T greaterThan;
-    private final T greaterThanOrEqualTo;
-
+public record FilteringOptions<T>(T lessThan, T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
     /**
      * Creates an instance of ${FilteringOptions<T>}
      *
