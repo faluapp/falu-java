@@ -11,6 +11,7 @@ import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
 import io.falu.models.payments.Payment;
+import io.falu.models.payments.PaymentCreateRequest;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -88,7 +89,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public ResourceResponse<Payment[]> getPayments() throws IOException {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/payments")
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+                .get();
 
         return execute(builder, Payment[].class);
     }
@@ -97,6 +98,17 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/payments/" + paymentId)
                 .get();
+
+        return execute(builder, Payment.class);
+    }
+
+    // TODO: Update payment
+
+    public ResourceResponse<Payment> createPayment(PaymentCreateRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payments")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
 
         return execute(builder, Payment.class);
     }
