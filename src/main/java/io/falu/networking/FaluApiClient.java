@@ -10,6 +10,7 @@ import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
+import io.falu.models.payments.Payment;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -80,6 +81,24 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
 
         return execute(builder, MarketingResult[].class);
+    }
+    //endregion
+
+    //region Payments
+    public ResourceResponse<Payment[]> getPayments() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payments")
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
+        return execute(builder, Payment[].class);
+    }
+
+    public ResourceResponse<Payment> getPayment(String paymentId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payments/" + paymentId)
+                .get();
+
+        return execute(builder, Payment.class);
     }
     //endregion
 

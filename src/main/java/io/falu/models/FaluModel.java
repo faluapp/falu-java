@@ -33,4 +33,10 @@ public abstract class FaluModel implements Serializable {
      * The key can only contain alphanumeric, and ‘-’, ‘_’ characters, and the string has to start with a letter.
      */
     Map<String, String> metadata;
+
+    /**
+     * A value that validates concurrent access of this object when stored in the database. T
+     * his value changes with every update and can thus be used to track changes.
+     */
+    String etag;
 }
