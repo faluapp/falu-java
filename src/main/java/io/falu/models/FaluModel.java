@@ -1,16 +1,31 @@
 package io.falu.models;
 
+import com.google.gson.annotations.JsonAdapter;
+import io.falu.client.adapters.ISO8601DateAdapter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 
 @Getter
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public abstract class FaluModel implements Serializable {
+    /**
+     * Time at which the object was created.
+     */
+    @JsonAdapter(ISO8601DateAdapter.class)
+    Date created;
+
+    /**
+     * Time at which the object was last updated.
+     */
+    @JsonAdapter(ISO8601DateAdapter.class)
+    Date updated;
+
     /**
      * Indicates if this object belongs in the live environment
      */

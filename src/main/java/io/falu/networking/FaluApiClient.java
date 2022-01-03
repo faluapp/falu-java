@@ -30,7 +30,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
 
-    FaluApiClient(Boolean enableLogging) {
+    public FaluApiClient(Boolean enableLogging) {
         super(new EmptyAuthenticationHeaderProvider());
         this.enableLogging = enableLogging;
     }
@@ -108,7 +108,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/payments")
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
-
 
         return execute(builder, Payment.class);
     }
