@@ -10,6 +10,8 @@ import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
+import io.falu.models.messages.Message;
+import io.falu.models.messages.MessageCreateRequest;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import okhttp3.OkHttpClient;
@@ -18,6 +20,7 @@ import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class FaluApiClient extends AbstractHttpApiClient {
@@ -110,6 +113,40 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, Payment.class);
+    }
+    //endregion
+
+    //region Messages
+    public ResourceResponse<Message[]> getMessages() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages")
+                .get();
+
+        return execute(builder, Message[].class);
+    }
+
+    public ResourceResponse<Message> createMessage(MessageCreateRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
+        return execute(builder, Message.class);
+    }
+
+    public ResourceResponse<Message> getMessage(String messageId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages/" + messageId)
+                .get();
+
+        return execute(builder, Message.class);
+    }
+
+    public ResourceResponse<Message[]> sendBulkMessages(List<MessageCreateRequest> messages) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages/bulk")
+                .post(RequestBody.create(makeJson(messages), MEDIA_TYPE_JSON));
+
+        return execute(builder, Message[].class);
     }
     //endregion
 
