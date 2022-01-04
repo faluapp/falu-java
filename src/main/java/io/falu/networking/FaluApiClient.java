@@ -12,6 +12,10 @@ import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.template.MessageTemplate;
+import io.falu.models.messages.template.MessageTemplateRequest;
+import io.falu.models.messages.template.MessageTemplateValidationRequest;
+import io.falu.models.messages.template.MessageTemplateValidationResponse;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import okhttp3.OkHttpClient;
@@ -116,7 +120,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
     //endregion
 
-    //region Messages
+    //region Messages, Message Templates, and Message Streams
     public ResourceResponse<Message[]> getMessages() throws IOException {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/messages")
@@ -147,6 +151,48 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(messages), MEDIA_TYPE_JSON));
 
         return execute(builder, Message[].class);
+    }
+
+    public ResourceResponse<MessageTemplate[]> getMessageTemplates() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages_templates")
+                .get();
+
+        return execute(builder, MessageTemplate[].class);
+    }
+
+    public ResourceResponse<MessageTemplate> createMessageTemplate(MessageTemplateRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages_templates")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
+        return execute(builder, MessageTemplate.class);
+    }
+
+    public ResourceResponse<MessageTemplate> getMessageTemplate(String templateId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages_templates" + templateId)
+                .get();
+
+        return execute(builder, MessageTemplate.class);
+    }
+
+    // TODO: Update messages, templates, and streams
+
+    public ResourceResponse<Object> deleteMessageTemplate(String templateId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages_templates" + templateId)
+                .delete();
+
+        return execute(builder, Object.class);
+    }
+
+    public ResourceResponse<MessageTemplateValidationResponse> validateMessageTemplate(MessageTemplateValidationRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/messages_templates/validate")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
+        return execute(builder, MessageTemplateValidationResponse.class);
     }
     //endregion
 

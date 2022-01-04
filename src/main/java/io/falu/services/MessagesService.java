@@ -5,6 +5,10 @@ import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.template.MessageTemplate;
+import io.falu.models.messages.template.MessageTemplateRequest;
+import io.falu.models.messages.template.MessageTemplateValidationRequest;
+import io.falu.models.messages.template.MessageTemplateValidationResponse;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -51,4 +55,48 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    public void getMessageTemplates(@NotNull ApiResultCallback<MessageTemplate[]> callback) {
+        try {
+            ResourceResponse<MessageTemplate[]> response = getApiClient().getMessageTemplates();
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void createMessageTemplate(@NotNull MessageTemplateRequest request, @NotNull ApiResultCallback<MessageTemplate> callback) {
+        try {
+            ResourceResponse<MessageTemplate> response = getApiClient().createMessageTemplate(request);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void getMessageTemplate(@NotNull String templateId, @NotNull ApiResultCallback<MessageTemplate> callback) {
+        try {
+            ResourceResponse<MessageTemplate> response = getApiClient().getMessageTemplate(templateId);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void deleteMessageTemplate(@NotNull String templateId, @NotNull ApiResultCallback<Object> callback) {
+        try {
+            ResourceResponse<Object> response = getApiClient().deleteMessageTemplate(templateId);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void validateMessageTemplate(@NotNull MessageTemplateValidationRequest request, @NotNull ApiResultCallback<MessageTemplateValidationResponse> callback) {
+        try {
+            ResourceResponse<MessageTemplateValidationResponse> response = getApiClient().validateMessageTemplate(request);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
 }
