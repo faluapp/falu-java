@@ -18,6 +18,7 @@ import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
 import io.falu.models.messages.template.MessageTemplateValidationResponse;
+import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import okhttp3.OkHttpClient;
@@ -234,12 +235,28 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageStream.class);
     }
 
-    public ResourceResponse<MessageStream> unarchiveMessageStream(String streamId) throws IOException{
+    public ResourceResponse<MessageStream> unarchiveMessageStream(String streamId) throws IOException {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/message_streams" + streamId + "/unarchive")
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageStream.class);
+    }
+    //endregion
+
+    //region Money Balance
+    public ResourceResponse<MoneyBalance> getMoneyBalances() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/money_balance")
+                .get();
+        return execute(builder, MoneyBalance.class);
+    }
+
+    public ResourceResponse<MoneyBalance> refreshMoneyBalances() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/money_balance")
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+        return execute(builder, MoneyBalance.class);
     }
     //endregion
 
