@@ -1,4 +1,4 @@
-package io.falu.models.paymentAuthorizations;
+package io.falu.models.payments.authorization;
 
 import com.google.gson.annotations.SerializedName;
 

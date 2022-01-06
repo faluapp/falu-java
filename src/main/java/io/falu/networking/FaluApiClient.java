@@ -21,6 +21,7 @@ import io.falu.models.messages.template.MessageTemplateValidationResponse;
 import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
+import io.falu.models.payments.authorization.PaymentAuthorization;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -120,6 +121,38 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, Payment.class);
+    }
+
+    public ResourceResponse<PaymentAuthorization[]> getPaymentAuthorizations() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payment_authorizations")
+                .get();
+
+        return execute(builder, PaymentAuthorization[].class);
+    }
+
+    public ResourceResponse<PaymentAuthorization> getPaymentAuthorization(String authorizationId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId)
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
+        return execute(builder, PaymentAuthorization.class);
+    }
+
+    public ResourceResponse<PaymentAuthorization> approvePaymentAuthorization(String authorizationId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId + "/approve")
+                .get();
+
+        return execute(builder, PaymentAuthorization.class);
+    }
+
+    public ResourceResponse<PaymentAuthorization> declinePaymentAuthorization(String authorizationId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId + "/decline")
+                .get();
+
+        return execute(builder, PaymentAuthorization.class);
     }
     //endregion
 

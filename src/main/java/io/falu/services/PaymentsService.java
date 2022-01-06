@@ -5,6 +5,7 @@ import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
+import io.falu.models.payments.authorization.PaymentAuthorization;
 import org.jetbrains.annotations.NotNull;
 
 public class PaymentsService extends BaseApiService {
@@ -57,4 +58,39 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    public void getPaymentAuthorizations(@NotNull ApiResultCallback<PaymentAuthorization[]> callback) {
+        try {
+            ResourceResponse<PaymentAuthorization[]> response = getApiClient().getPaymentAuthorizations();
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void getPaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
+        try {
+            ResourceResponse<PaymentAuthorization> response = getApiClient().getPaymentAuthorization(authorizationId);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void approvePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
+        try {
+            ResourceResponse<PaymentAuthorization> response = getApiClient().approvePaymentAuthorization(authorizationId);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void declinePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
+        try {
+            ResourceResponse<PaymentAuthorization> response = getApiClient().declinePaymentAuthorization(authorizationId);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
 }
