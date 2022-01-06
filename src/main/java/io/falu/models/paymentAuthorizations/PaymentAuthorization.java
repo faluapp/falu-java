@@ -67,5 +67,4 @@ public class PaymentAuthorization extends FaluModel {
      * Identifier of the payment created after the authorization is approved and closed.
      */
     private String paymentId;
-
 }

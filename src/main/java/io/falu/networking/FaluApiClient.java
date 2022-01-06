@@ -12,6 +12,7 @@ import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
@@ -193,6 +194,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageTemplateValidationResponse.class);
+    }
+
+    public ResourceResponse<MessageStream[]> getMessageStreams() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/message_streams")
+                .get();
+        return execute(builder, MessageStream[].class);
     }
     //endregion
 
