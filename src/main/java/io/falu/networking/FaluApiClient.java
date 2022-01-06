@@ -13,6 +13,7 @@ import io.falu.models.identity.MarketingResult;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
 import io.falu.models.messages.stream.MessageStream;
+import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
@@ -201,6 +202,44 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(BASE_URL + "/v1/message_streams")
                 .get();
         return execute(builder, MessageStream[].class);
+    }
+
+    public ResourceResponse<MessageStream> createMessageStream(MessageStreamCreateRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/message_streams")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
+        return execute(builder, MessageStream.class);
+    }
+
+    public ResourceResponse<MessageStream> getMessageStream(String streamId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/message_streams" + streamId)
+                .get();
+        return execute(builder, MessageStream.class);
+    }
+
+    public ResourceResponse<Object> deleteMessageStream(String streamId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/message_streams/" + streamId)
+                .delete();
+        return execute(builder, Object.class);
+    }
+
+    public ResourceResponse<MessageStream> archiveMessageStream(String streamId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/message_streams/" + streamId + "/archive")
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
+        return execute(builder, MessageStream.class);
+    }
+
+    public ResourceResponse<MessageStream> unarchiveMessageStream(String streamId) throws IOException{
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/message_streams" + streamId + "/unarchive")
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
+        return execute(builder, MessageStream.class);
     }
     //endregion
 
