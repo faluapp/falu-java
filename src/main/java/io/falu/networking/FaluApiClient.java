@@ -24,6 +24,8 @@ import io.falu.models.payments.PaymentCreateRequest;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.models.transfers.Transfer;
+import io.falu.models.transfers.TransferCreateRequest;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -316,6 +318,29 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(BASE_URL + "/v1/money_balance")
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, MoneyBalance.class);
+    }
+    //endregion
+
+    //region Transfers
+    public ResourceResponse<Transfer[]> getTransfers() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/transfers")
+                .get();
+        return execute(builder, Transfer[].class);
+    }
+
+    public ResourceResponse<Transfer> createTransfer(TransferCreateRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/transfers")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, Transfer.class);
+    }
+
+    public ResourceResponse<Transfer> getTransfer(String refundId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/transfers/" + refundId)
+                .get();
+        return execute(builder, Transfer.class);
     }
     //endregion
 
