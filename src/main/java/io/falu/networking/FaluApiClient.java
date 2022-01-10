@@ -26,6 +26,8 @@ import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.reversals.TransferReversal;
+import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -321,7 +323,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
     //endregion
 
-    //region Transfers
+    //region Transfers, Transfer Reversals
     public ResourceResponse<Transfer[]> getTransfers() throws IOException {
         Request.Builder builder = new Request.Builder()
                 .url(BASE_URL + "/v1/transfers")
@@ -341,6 +343,27 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(BASE_URL + "/v1/transfers/" + refundId)
                 .get();
         return execute(builder, Transfer.class);
+    }
+
+    public ResourceResponse<TransferReversal[]> getTransferReversals() throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/transfer_reversals")
+                .get();
+        return execute(builder, TransferReversal[].class);
+    }
+
+    public ResourceResponse<TransferReversal> createTransferReversal(TransferReversalCreateRequest request) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/transfer_reversals")
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, TransferReversal.class);
+    }
+
+    public ResourceResponse<TransferReversal> getTransferReversal(String transferId) throws IOException {
+        Request.Builder builder = new Request.Builder()
+                .url(BASE_URL + "/v1/transfer_reversals/" + transferId)
+                .get();
+        return execute(builder, TransferReversal.class);
     }
     //endregion
 
