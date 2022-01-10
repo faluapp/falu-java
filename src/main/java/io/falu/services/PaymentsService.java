@@ -6,6 +6,8 @@ import io.falu.client.ResourceResponse;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import io.falu.models.payments.authorization.PaymentAuthorization;
+import io.falu.models.payments.refunds.PaymentRefund;
+import io.falu.models.payments.refunds.PaymentRefundRequest;
 import org.jetbrains.annotations.NotNull;
 
 public class PaymentsService extends BaseApiService {
@@ -88,6 +90,33 @@ public class PaymentsService extends BaseApiService {
     public void declinePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
         try {
             ResourceResponse<PaymentAuthorization> response = getApiClient().declinePaymentAuthorization(authorizationId);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void getPaymentRefunds(@NotNull ApiResultCallback<PaymentRefund[]> callback) {
+        try {
+            ResourceResponse<PaymentRefund[]> response = getApiClient().getPaymentRefunds();
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void createPaymentRefund(@NotNull PaymentRefundRequest request, @NotNull ApiResultCallback<PaymentRefund> callback) {
+        try {
+            ResourceResponse<PaymentRefund> response = getApiClient().createPaymentRefund(request);
+            handleResponse(response, callback);
+        } catch (Exception e) {
+            callback.onError(e);
+        }
+    }
+
+    public void getPaymentRefund(@NotNull String refundId, @NotNull ApiResultCallback<PaymentRefund> callback) {
+        try {
+            ResourceResponse<PaymentRefund> response = getApiClient().getPaymentRefund(refundId);
             handleResponse(response, callback);
         } catch (Exception e) {
             callback.onError(e);
