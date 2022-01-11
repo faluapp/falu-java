@@ -22,6 +22,12 @@ public class MessagesService extends BaseApiService {
     }
 
     //region Messages
+
+    /**
+     * Get Messages.
+     *
+     * @param callback the result object for the request.
+     */
     public void getMessages(@NotNull ApiResultCallback<Message[]> callback) {
         try {
             ResourceResponse<Message[]> response = getApiClient().getMessages();
@@ -31,6 +37,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Create Message.
+     *
+     * @param request  the request object
+     * @param callback the result object for the request.
+     */
     public void createMessages(@NotNull MessageCreateRequest request, @NotNull ApiResultCallback<Message> callback) {
         try {
             ResourceResponse<Message> response = getApiClient().createMessage(request);
@@ -40,6 +52,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Get Message.
+     *
+     * @param messageId the unique identifier of the template
+     * @param callback  the result object for the request.
+     */
     public void getMessage(@NotNull String messageId, @NotNull ApiResultCallback<Message> callback) {
         try {
             ResourceResponse<Message> response = getApiClient().getMessage(messageId);
@@ -49,6 +67,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Send bulk messages.
+     *
+     * @param messages messages to send
+     * @param callback the result object for the request.
+     */
     public void sendBulkMessages(@NotNull List<MessageCreateRequest> messages, @NotNull ApiResultCallback<Message[]> callback) {
         try {
             ResourceResponse<Message[]> response = getApiClient().sendBulkMessages(messages);
@@ -60,6 +84,12 @@ public class MessagesService extends BaseApiService {
     //endregion
 
     //region Templates
+
+    /**
+     * Get Message Templates.
+     *
+     * @param callback the result object for the request.
+     */
     public void getMessageTemplates(@NotNull ApiResultCallback<MessageTemplate[]> callback) {
         try {
             ResourceResponse<MessageTemplate[]> response = getApiClient().getMessageTemplates();
@@ -69,6 +99,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Create Message Template.
+     *
+     * @param request  the request object
+     * @param callback the result object for the request.
+     */
     public void createMessageTemplate(@NotNull MessageTemplateRequest request, @NotNull ApiResultCallback<MessageTemplate> callback) {
         try {
             ResourceResponse<MessageTemplate> response = getApiClient().createMessageTemplate(request);
@@ -78,6 +114,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Get Message Template.
+     *
+     * @param templateId the unique identifier of the template.
+     * @param callback   the result object for the request.
+     */
     public void getMessageTemplate(@NotNull String templateId, @NotNull ApiResultCallback<MessageTemplate> callback) {
         try {
             ResourceResponse<MessageTemplate> response = getApiClient().getMessageTemplate(templateId);
@@ -87,6 +129,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Delete Message Template.
+     *
+     * @param templateId the unique identifier of the template.
+     * @param callback   the result object for the request.
+     */
     public void deleteMessageTemplate(@NotNull String templateId, @NotNull ApiResultCallback<Object> callback) {
         try {
             ResourceResponse<Object> response = getApiClient().deleteMessageTemplate(templateId);
@@ -96,6 +144,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Validate Message Template.
+     *
+     * @param request  the request object.
+     * @param callback the result object for the request.
+     */
     public void validateMessageTemplate(@NotNull MessageTemplateValidationRequest request, @NotNull ApiResultCallback<MessageTemplateValidationResponse> callback) {
         try {
             ResourceResponse<MessageTemplateValidationResponse> response = getApiClient().validateMessageTemplate(request);
@@ -107,6 +161,12 @@ public class MessagesService extends BaseApiService {
     //endregion
 
     //region Streams
+
+    /**
+     * Get Message Streams.
+     *
+     * @param callback the result object for the request.
+     */
     public void getMessageStreams(@NotNull ApiResultCallback<MessageStream[]> callback) {
         try {
             ResourceResponse<MessageStream[]> response = getApiClient().getMessageStreams();
@@ -116,6 +176,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Create Message Stream.
+     *
+     * @param request  the request object.
+     * @param callback the result object for the request.
+     */
     public void createMessageStream(@NotNull MessageStreamCreateRequest request, @NotNull ApiResultCallback<MessageStream> callback) {
         try {
             ResourceResponse<MessageStream> response = getApiClient().createMessageStream(request);
@@ -125,6 +191,12 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+    /**
+     * Get Message Stream.
+     *
+     * @param streamId the unique identifier of the object.
+     * @param callback the result object for the request.
+     */
     public void getMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<MessageStream> callback) {
         try {
             ResourceResponse<MessageStream> response = getApiClient().getMessageStream(streamId);
@@ -134,6 +206,13 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+
+    /**
+     * Delete Message Stream.
+     *
+     * @param streamId the unique identifier of the object.
+     * @param callback the result object for the request.
+     */
     public void deleteMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<Object> callback) {
         try {
             ResourceResponse<Object> response = getApiClient().deleteMessageStream(streamId);
@@ -143,6 +222,13 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+
+    /**
+     * Archive Message Stream.
+     *
+     * @param streamId the unique identifier of the object.
+     * @param callback the result object for the request.
+     */
     public void archiveMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<MessageStream> callback) {
         try {
             ResourceResponse<MessageStream> response = getApiClient().archiveMessageStream(streamId);
@@ -152,6 +238,13 @@ public class MessagesService extends BaseApiService {
         }
     }
 
+
+    /**
+     * Unarchive Message Stream.
+     *
+     * @param streamId the unique identifier of the object.
+     * @param callback the result object for the request.
+     */
     public void unarchiveMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<MessageStream> callback) {
         try {
             ResourceResponse<MessageStream> response = getApiClient().unarchiveMessageStream(streamId);

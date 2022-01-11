@@ -60,6 +60,11 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * List payment authorizations.
+     *
+     * @param callback the result object for the request.
+     */
     public void getPaymentAuthorizations(@NotNull ApiResultCallback<PaymentAuthorization[]> callback) {
         try {
             ResourceResponse<PaymentAuthorization[]> response = getApiClient().getPaymentAuthorizations();
@@ -69,6 +74,12 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * Get payment authorization.
+     *
+     * @param authorizationId unique identifier for the payment authorization.
+     * @param callback        the result object for the request.
+     */
     public void getPaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
         try {
             ResourceResponse<PaymentAuthorization> response = getApiClient().getPaymentAuthorization(authorizationId);
@@ -78,6 +89,12 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * Approve payment authorization.
+     *
+     * @param authorizationId unique identifier for the payment authorization.
+     * @param callback        the result object for the request.
+     */
     public void approvePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
         try {
             ResourceResponse<PaymentAuthorization> response = getApiClient().approvePaymentAuthorization(authorizationId);
@@ -87,6 +104,12 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * Decline payment authorization.
+     *
+     * @param authorizationId unique identifier for the payment authorization.
+     * @param callback        the result object for the request.
+     */
     public void declinePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
         try {
             ResourceResponse<PaymentAuthorization> response = getApiClient().declinePaymentAuthorization(authorizationId);
@@ -96,6 +119,11 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * List payment refunds.
+     *
+     * @param callback the result object for the request.
+     */
     public void getPaymentRefunds(@NotNull ApiResultCallback<PaymentRefund[]> callback) {
         try {
             ResourceResponse<PaymentRefund[]> response = getApiClient().getPaymentRefunds();
@@ -105,6 +133,12 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * Create payment refund.
+     *
+     * @param request  the request object.
+     * @param callback the result object for the request.
+     */
     public void createPaymentRefund(@NotNull PaymentRefundRequest request, @NotNull ApiResultCallback<PaymentRefund> callback) {
         try {
             ResourceResponse<PaymentRefund> response = getApiClient().createPaymentRefund(request);
@@ -114,6 +148,12 @@ public class PaymentsService extends BaseApiService {
         }
     }
 
+    /**
+     * Get payment refund.
+     *
+     * @param refundId unique identifier for the payment refund.
+     * @param callback the result object for the request.
+     */
     public void getPaymentRefund(@NotNull String refundId, @NotNull ApiResultCallback<PaymentRefund> callback) {
         try {
             ResourceResponse<PaymentRefund> response = getApiClient().getPaymentRefund(refundId);

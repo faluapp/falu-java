@@ -338,9 +338,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Transfer.class);
     }
 
-    public ResourceResponse<Transfer> getTransfer(String refundId) throws IOException {
+    public ResourceResponse<Transfer> getTransfer(String transferId) throws IOException {
         Request.Builder builder = new Request.Builder()
-                .url(BASE_URL + "/v1/transfers/" + refundId)
+                .url(BASE_URL + "/v1/transfers/" + transferId)
                 .get();
         return execute(builder, Transfer.class);
     }

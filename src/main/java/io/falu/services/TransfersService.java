@@ -14,6 +14,11 @@ public class TransfersService extends BaseApiService {
         super(options);
     }
 
+    /**
+     * Get Transfers.
+     *
+     * @param callback the result object for the request.
+     */
     public void getTransfers(@NotNull ApiResultCallback<Transfer[]> callback) {
         try {
             ResourceResponse<Transfer[]> response = getApiClient().getTransfers();
@@ -23,6 +28,12 @@ public class TransfersService extends BaseApiService {
         }
     }
 
+    /**
+     * Create Transfer.
+     *
+     * @param request  the request object.
+     * @param callback the result object for the request.
+     */
     public void createTransfer(@NotNull TransferCreateRequest request, @NotNull ApiResultCallback<Transfer> callback) {
         try {
             ResourceResponse<Transfer> response = getApiClient().createTransfer(request);
@@ -32,15 +43,26 @@ public class TransfersService extends BaseApiService {
         }
     }
 
-    public void getTransfer(@NotNull String refundId, @NotNull ApiResultCallback<Transfer> callback) {
+    /**
+     * Get Transfer.
+     *
+     * @param transferId the unique identifier of the transfer.
+     * @param callback   the result object for the request.
+     */
+    public void getTransfer(@NotNull String transferId, @NotNull ApiResultCallback<Transfer> callback) {
         try {
-            ResourceResponse<Transfer> response = getApiClient().getTransfer(refundId);
+            ResourceResponse<Transfer> response = getApiClient().getTransfer(transferId);
             handleResponse(response, callback);
         } catch (Exception e) {
             callback.onError(e);
         }
     }
 
+    /**
+     * Get Transfer Reversals.
+     *
+     * @param callback the result object for the request.
+     */
     public void getTransferReversals(@NotNull ApiResultCallback<TransferReversal[]> callback) {
         try {
             ResourceResponse<TransferReversal[]> response = getApiClient().getTransferReversals();
@@ -50,6 +72,12 @@ public class TransfersService extends BaseApiService {
         }
     }
 
+    /**
+     * Create Transfer Reversals.
+     *
+     * @param request  the request object.
+     * @param callback the result object for the request.
+     */
     public void createTransferReversal(@NotNull TransferReversalCreateRequest request, @NotNull ApiResultCallback<TransferReversal> callback) {
         try {
             ResourceResponse<TransferReversal> response = getApiClient().createTransferReversal(request);
@@ -59,6 +87,12 @@ public class TransfersService extends BaseApiService {
         }
     }
 
+    /**
+     * Get Transfer Reversal.
+     *
+     * @param reversalId the unique identifier of the reversal.
+     * @param callback   the result object for the request.
+     */
     public void getTransferReversal(@NotNull String reversalId, @NotNull ApiResultCallback<TransferReversal> callback) {
         try {
             ResourceResponse<TransferReversal> response = getApiClient().getTransferReversal(reversalId);

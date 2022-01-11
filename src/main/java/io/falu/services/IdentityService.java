@@ -14,6 +14,12 @@ public class IdentityService extends BaseApiService {
         super(options);
     }
 
+    /**
+     * Search Identity.
+     *
+     * @param searchModel the request object.
+     * @param callback    the result object for the request.
+     */
     public void searchIdentity(@NotNull IdentitySearchModel searchModel, @NotNull ApiResultCallback<IdentityRecord> callback) {
         try {
             ResourceResponse<IdentityRecord> response = getApiClient().searchIdentity(searchModel);
@@ -23,6 +29,12 @@ public class IdentityService extends BaseApiService {
         }
     }
 
+    /**
+     * Get Marketing Results.
+     *
+     * @param listOptions the filter options.
+     * @param callback    the result object for the request.
+     */
     public void getMarketingResults(MarketingListOptions listOptions, @NotNull ApiResultCallback<MarketingResult[]> callback) {
         try {
             ResourceResponse<MarketingResult[]> response = getApiClient().fetchMarketingResults(listOptions);

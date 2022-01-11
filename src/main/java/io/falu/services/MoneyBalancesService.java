@@ -11,6 +11,11 @@ public class MoneyBalancesService extends BaseApiService {
         super(options);
     }
 
+    /**
+     * Get money balances.
+     *
+     * @param callback the result object for the request.
+     */
     public void getMoneyBalances(@NotNull ApiResultCallback<MoneyBalance> callback) {
         try {
             ResourceResponse<MoneyBalance> response = getApiClient().getMoneyBalances();
@@ -20,6 +25,12 @@ public class MoneyBalancesService extends BaseApiService {
         }
     }
 
+
+    /**
+     * Refresh money balances.
+     *
+     * @param callback the result object for the request.
+     */
     public void refreshMoneyBalances(@NotNull ApiResultCallback<MoneyBalance> callback) {
         try {
             ResourceResponse<MoneyBalance> response = getApiClient().refreshMoneyBalances();

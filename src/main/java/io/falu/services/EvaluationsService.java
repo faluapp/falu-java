@@ -13,6 +13,11 @@ public class EvaluationsService extends BaseApiService {
         super(options);
     }
 
+    /**
+     * Get evaluations.
+     *
+     * @param callback the result object for the request.
+     */
     public void getEvaluations(@NotNull ApiResultCallback<Evaluation[]> callback) {
         try {
             ResourceResponse<Evaluation[]> response = getApiClient().getEvaluations();
@@ -22,6 +27,12 @@ public class EvaluationsService extends BaseApiService {
         }
     }
 
+    /**
+     * Create Evaluation.
+     *
+     * @param request  the request object.
+     * @param callback the result object for the request.
+     */
     public void createEvaluation(@NotNull EvaluationRequest request, @NotNull ApiResultCallback<Evaluation> callback) {
         try {
             ResourceResponse<Evaluation> response = getApiClient().createEvaluation(request);
@@ -31,6 +42,12 @@ public class EvaluationsService extends BaseApiService {
         }
     }
 
+    /**
+     * Get Evaluation.
+     *
+     * @param evaluationId the unique identifier of the object.
+     * @param callback     the result object for the request.
+     */
     public void getEvaluation(@NotNull String evaluationId, @NotNull ApiResultCallback<Evaluation> callback) {
         try {
             ResourceResponse<Evaluation> response = getApiClient().getEvaluation(evaluationId);
@@ -40,6 +57,12 @@ public class EvaluationsService extends BaseApiService {
         }
     }
 
+    /**
+     * Score Evaluation.
+     *
+     * @param evaluationId the unique identifier of the object.
+     * @param callback     the result object for the request.
+     */
     public void scoreEvaluation(@NotNull String evaluationId, @NotNull ApiResultCallback<Evaluation> callback) {
         try {
             ResourceResponse<Evaluation> response = getApiClient().scoreEvaluation(evaluationId);
