@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Falu SDK Configuration options
@@ -21,6 +22,7 @@ public class FaluClientOptions {
     /**
      * The API Key for authenticating requests to Falu servers
      */
+    @NotNull
     private String apiKey;
 
     /**

@@ -379,9 +379,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .readTimeout(50, TimeUnit.SECONDS)
                 .writeTimeout(50, TimeUnit.SECONDS);
 
-        if (enableLogging) {
-            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
-        }
+
+        builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+
 
         return super.buildBackChannel(builder);
     }
