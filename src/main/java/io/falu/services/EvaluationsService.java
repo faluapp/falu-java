@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class EvaluationsService extends BaseApiService {
 
-    EvaluationsService(FaluClientOptions options) {
+    public EvaluationsService(FaluClientOptions options) {
         super(options);
     }
 
