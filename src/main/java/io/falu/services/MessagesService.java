@@ -17,7 +17,7 @@ import java.util.List;
 
 public class MessagesService extends BaseApiService {
 
-    public MessagesService(FaluClientOptions options) {
+    public MessagesService(@NotNull FaluClientOptions options) {
         super(options);
     }
 

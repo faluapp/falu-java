@@ -10,7 +10,7 @@ import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
 import org.jetbrains.annotations.NotNull;
 
 public class TransfersService extends BaseApiService {
-    public TransfersService(FaluClientOptions options) {
+    public TransfersService(@NotNull FaluClientOptions options) {
         super(options);
     }
 

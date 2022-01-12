@@ -11,7 +11,7 @@ abstract class BaseApiService {
 
     private final FaluApiClient apiClient;
 
-    BaseApiService(FaluClientOptions options) {
+    BaseApiService(@NotNull FaluClientOptions options) {
         AppDetailsInterceptor appDetailsInterceptor = new AppDetailsInterceptor(options.getAppInformation());
         this.apiClient = new FaluApiClient(options);
     }

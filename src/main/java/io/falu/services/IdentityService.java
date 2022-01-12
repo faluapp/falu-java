@@ -10,7 +10,7 @@ import io.falu.models.identity.MarketingResult;
 import org.jetbrains.annotations.NotNull;
 
 public class IdentityService extends BaseApiService {
-    public IdentityService(FaluClientOptions options) {
+    public IdentityService(@NotNull FaluClientOptions options) {
         super(options);
     }
 

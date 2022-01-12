@@ -11,7 +11,7 @@ import io.falu.models.payments.refunds.PaymentRefundRequest;
 import org.jetbrains.annotations.NotNull;
 
 public class PaymentsService extends BaseApiService {
-    public PaymentsService(FaluClientOptions options) {
+    public PaymentsService(@NotNull FaluClientOptions options) {
         super(options);
     }
 

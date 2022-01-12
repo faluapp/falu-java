@@ -7,7 +7,7 @@ import io.falu.models.moneyBalances.MoneyBalance;
 import org.jetbrains.annotations.NotNull;
 
 public class MoneyBalancesService extends BaseApiService {
-    public MoneyBalancesService(FaluClientOptions options) {
+    public MoneyBalancesService(@NotNull FaluClientOptions options) {
         super(options);
     }
 
