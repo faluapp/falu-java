@@ -1,13 +1,15 @@
 package io.falu.client;
 
 import com.google.gson.Gson;
-import io.falu.client.headers.EmptyAuthenticationHeaderProvider;
 import io.falu.client.headers.IAuthenticationProvider;
+import io.falu.networking.AppDetailsInterceptor;
 import okhttp3.*;
+import okhttp3.logging.HttpLoggingInterceptor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * An abstraction of an HTTP client for accessing APIs built by TINGLE
@@ -26,34 +28,30 @@ public class AbstractHttpApiClient {
      *
      * @param authenticationProvider the provider to use for authentication
      */
-    public AbstractHttpApiClient(@NotNull IAuthenticationProvider authenticationProvider) {
+    public AbstractHttpApiClient(@NotNull IAuthenticationProvider authenticationProvider, AppDetailsInterceptor interceptor) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(authenticationProvider);
+                .addInterceptor(authenticationProvider)
+                .addInterceptor(interceptor)
+                .followRedirects(false)
+                .connectTimeout(50, TimeUnit.SECONDS) // default is 50 seconds
+                .readTimeout(50, TimeUnit.SECONDS)
+                .writeTimeout(50, TimeUnit.SECONDS);
 
-        backChannel = buildBackChannel(builder);
+
+        builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+
+        backChannel = builder.build();
     }
 
-    /**
-     * Creates an instance of @[AbstractHttpApiClient]
-     */
-    public AbstractHttpApiClient() {
-        IAuthenticationProvider provider = new EmptyAuthenticationHeaderProvider();
-
-        OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(provider);
-
-        backChannel = buildBackChannel(builder);
-    }
-
-    /**
-     * Builds the back channel @[OkHttpClient] to be used by the client
-     *
-     * @param builder the prepared builder to extend
-     * @return an initialized back channel
-     */
-    protected OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
-        return builder.build();
-    }
+//    /**
+//     * Builds the back channel @[OkHttpClient] to be used by the client
+//     *
+//     * @param builder the prepared builder to extend
+//     * @return an initialized back channel
+//     */
+//    protected synchronized OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
+//        return builder.build();
+//    }
 
     @SuppressWarnings("unchecked")
     protected <TResult> ResourceResponse<TResult> execute(Request.Builder builder, Class<TResult> classOfTResult) throws IOException {

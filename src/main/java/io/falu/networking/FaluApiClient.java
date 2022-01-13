@@ -3,7 +3,6 @@ package io.falu.networking;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
-import io.falu.client.headers.EmptyAuthenticationHeaderProvider;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.models.identity.IdentityRecord;
@@ -28,28 +27,17 @@ import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class FaluApiClient extends AbstractHttpApiClient {
     private static final String BASE_URL = "https://api.falu.io";
-    private final Boolean enableLogging;
 
-    public FaluApiClient(FaluClientOptions options) {
-        super(new FaluAuthenticationHeaderProvider(options.getApiKey()));
-        this.enableLogging = options.getEnableLogging();
-    }
-
-
-    public FaluApiClient(Boolean enableLogging) {
-        super(new EmptyAuthenticationHeaderProvider());
-        this.enableLogging = enableLogging;
+    public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor) {
+        super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor);
     }
 
     //region Evaluations
@@ -369,20 +357,5 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     private Request.Builder buildRequest(Request.Builder builder, RequestOptions options) {
         return builder;
-    }
-
-    @Override
-    protected OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
-        builder
-                .followRedirects(false)
-                .connectTimeout(50, TimeUnit.SECONDS) // default is 50 seconds
-                .readTimeout(50, TimeUnit.SECONDS)
-                .writeTimeout(50, TimeUnit.SECONDS);
-
-
-        builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
-
-
-        return super.buildBackChannel(builder);
     }
 }
