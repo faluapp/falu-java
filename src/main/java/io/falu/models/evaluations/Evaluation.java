@@ -2,12 +2,14 @@ package io.falu.models.evaluations;
 
 import io.falu.models.FaluModel;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * [The evaluation object](https://docs.falu.io/api/#evaluations/evaluations/schema)
  * Represents a financial evaluation.
  */
 @Getter
+@SuperBuilder
 public class Evaluation extends FaluModel {
     /**
      * Unique identifier of the evaluation.
