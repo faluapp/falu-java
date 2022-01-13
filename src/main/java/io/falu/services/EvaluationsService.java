@@ -1,11 +1,14 @@
 package io.falu.services;
 
-import io.falu.ApiResultCallback;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
+import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
 
 public class EvaluationsService extends BaseApiService {
 
@@ -15,60 +18,35 @@ public class EvaluationsService extends BaseApiService {
 
     /**
      * Get evaluations.
-     *
-     * @param callback the result object for the request.
      */
-    public void getEvaluations(@NotNull ApiResultCallback<Evaluation[]> callback) {
-        try {
-            ResourceResponse<Evaluation[]> response = getApiClient().getEvaluations();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Evaluation[]> getEvaluations(@Nullable RequestOptions options) throws IOException {
+        return getApiClient().getEvaluations(options);
     }
 
     /**
      * Create Evaluation.
      *
-     * @param request  the request object.
-     * @param callback the result object for the request.
+     * @param request the request object.
      */
-    public void createEvaluation(@NotNull EvaluationRequest request, @NotNull ApiResultCallback<Evaluation> callback) {
-        try {
-            ResourceResponse<Evaluation> response = getApiClient().createEvaluation(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Evaluation> createEvaluation(@NotNull EvaluationRequest request, @Nullable RequestOptions options) throws IOException {
+        return getApiClient().createEvaluation(request, options);
     }
 
     /**
      * Get Evaluation.
      *
      * @param evaluationId the unique identifier of the object.
-     * @param callback     the result object for the request.
      */
-    public void getEvaluation(@NotNull String evaluationId, @NotNull ApiResultCallback<Evaluation> callback) {
-        try {
-            ResourceResponse<Evaluation> response = getApiClient().getEvaluation(evaluationId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Evaluation> getEvaluation(@NotNull String evaluationId, @Nullable RequestOptions options) throws IOException {
+        return getApiClient().getEvaluation(evaluationId, options);
     }
 
     /**
      * Score Evaluation.
      *
      * @param evaluationId the unique identifier of the object.
-     * @param callback     the result object for the request.
      */
-    public void scoreEvaluation(@NotNull String evaluationId, @NotNull ApiResultCallback<Evaluation> callback) {
-        try {
-            ResourceResponse<Evaluation> response = getApiClient().scoreEvaluation(evaluationId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Evaluation> scoreEvaluation(@NotNull String evaluationId, @Nullable RequestOptions options) throws IOException {
+        return getApiClient().scoreEvaluation(evaluationId, options);
     }
 }

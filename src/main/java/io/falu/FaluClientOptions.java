@@ -33,5 +33,5 @@ public class FaluClientOptions {
     /**
      * Enable the display of HTTP request and response bodies
      */
-    private Boolean enableLogging = false;
+    private Boolean enableLogging;
 }

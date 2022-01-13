@@ -41,22 +41,22 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     //region Evaluations
-    public ResourceResponse<Evaluation[]> getEvaluations() throws IOException {
-        Request.Builder builder = new Request.Builder()
+    public ResourceResponse<Evaluation[]> getEvaluations(RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(new Request.Builder(), options)
                 .url(BASE_URL + "/v1/evaluations")
                 .get();
         return execute(builder, Evaluation[].class);
     }
 
-    public ResourceResponse<Evaluation> createEvaluation(EvaluationRequest request) throws IOException {
-        Request.Builder builder = new Request.Builder()
+    public ResourceResponse<Evaluation> createEvaluation(EvaluationRequest request, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(new Request.Builder(), options)
                 .url(BASE_URL + "/v1/evaluations")
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
         return execute(builder, Evaluation.class);
     }
 
-    public ResourceResponse<Evaluation> getEvaluation(String evaluationId) throws IOException {
-        Request.Builder builder = new Request.Builder()
+    public ResourceResponse<Evaluation> getEvaluation(String evaluationId, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(new Request.Builder(), options)
                 .url(BASE_URL + "/v1/evaluations/" + evaluationId)
                 .get();
         return execute(builder, Evaluation.class);
@@ -64,8 +64,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     // TODO: Update an evaluation
 
-    public ResourceResponse<Evaluation> scoreEvaluation(String evaluationId) throws IOException {
-        Request.Builder builder = new Request.Builder()
+    public ResourceResponse<Evaluation> scoreEvaluation(String evaluationId, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(new Request.Builder(), options)
                 .url(BASE_URL + "/v1/evaluations/" + evaluationId + "/scores")
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, Evaluation.class);
@@ -355,7 +355,19 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
     //endregion
 
-    private Request.Builder buildRequest(Request.Builder builder, RequestOptions options) {
+    private static Request.Builder buildRequest(Request.Builder builder, RequestOptions options) {
+        if (options.workspace != null && !options.workspace.isEmpty()) {
+            builder.header("X-Workspace-Id", options.workspace);
+        }
+
+        if (options.idempotencyKey != null && !options.idempotencyKey.isEmpty()) {
+            builder.header("X-Idempotency-Key", options.idempotencyKey);
+        }
+
+        boolean live = options.live != null && options.live;
+        builder.header("X-Live-Mode", String.valueOf(live));
+
+
         return builder;
     }
 }

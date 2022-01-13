@@ -19,6 +19,7 @@ public record AppDetailsInterceptor(AppInformation information) implements Inter
         Request request = chain
                 .request()
                 .newBuilder()
+                .header("X-Falu-Version", "2022-01-01")
                 .header("User-Agent", information.getUserAgent())
                 .build();
         return chain.proceed(request);

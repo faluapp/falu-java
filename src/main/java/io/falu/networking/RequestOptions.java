@@ -1,13 +1,13 @@
 package io.falu.networking;
 
 import lombok.EqualsAndHashCode;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Options that can be included in all requests/operations.
  */
 @EqualsAndHashCode(callSuper = false)
-@Setter
+@SuperBuilder
 public class RequestOptions {
     /**
      * The value to use for idempotent requests.
