@@ -73,16 +73,16 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     //region Identity
-    public ResourceResponse<IdentityRecord> searchIdentity(IdentitySearchModel searchModel) throws IOException {
-        Request.Builder builder = new Request.Builder()
+    public ResourceResponse<IdentityRecord> searchIdentity(IdentitySearchModel searchModel, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(new Request.Builder(), options)
                 .url(BASE_URL + "/v1/identity/search")
                 .post(RequestBody.create(makeJson(searchModel), MEDIA_TYPE_JSON));
 
         return execute(builder, IdentityRecord.class);
     }
 
-    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions marketingListOptions) throws IOException {
-        Request.Builder builder = new Request.Builder()
+    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions marketingListOptions, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(new Request.Builder(), options)
                 .url(BASE_URL + "/v1/identity/marketing")
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
 

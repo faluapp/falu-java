@@ -1,17 +1,13 @@
 package io.falu.services;
 
-import io.falu.ApiResultCallback;
 import io.falu.AppInformation;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
-import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
 import org.mockito.MockedConstruction;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,9 +18,6 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class EvaluationServiceTest {
-
-    @Captor
-    private ArgumentCaptor<ApiResultCallback<Evaluation[]>> callbackCaptor;
 
     @Test
     public void test_GettingEvaluationsWork() {
@@ -135,7 +128,6 @@ public class EvaluationServiceTest {
             Assertions.assertEquals(200, response.getStatusCode());
         }
     }
-
 
 
 }

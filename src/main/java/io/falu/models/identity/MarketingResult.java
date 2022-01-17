@@ -2,15 +2,16 @@ package io.falu.models.identity;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.falu.client.adapters.ISO8601DateAdapter;
+import io.falu.models.FaluModel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
 // 847 - 40123, kisumu
-@Setter
 @Getter
-public class MarketingResult {
+@SuperBuilder
+public class MarketingResult extends FaluModel {
     /**
      * Unique identifier for the object.
      */
