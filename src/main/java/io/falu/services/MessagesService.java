@@ -4,6 +4,7 @@ import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.template.MessageTemplate;
@@ -41,7 +42,7 @@ public class MessagesService extends BaseApiService {
      * @param request        the request object
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Message> createMessages(@NotNull MessageCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<MessageResponse> createMessages(@NotNull MessageCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createMessage(request, requestOptions);
     }
 
@@ -61,7 +62,7 @@ public class MessagesService extends BaseApiService {
      * @param messages       messages to send
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Message[]> sendBulkMessages(@NotNull List<MessageCreateRequest> messages, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<MessageResponse> sendBulkMessages(@NotNull List<MessageCreateRequest> messages, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().sendBulkMessages(messages, requestOptions);
     }
     //endregion

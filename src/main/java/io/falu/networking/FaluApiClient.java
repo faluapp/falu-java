@@ -11,6 +11,7 @@ import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.template.MessageTemplate;
@@ -183,12 +184,12 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Message[].class);
     }
 
-    public ResourceResponse<Message> createMessage(MessageCreateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageResponse> createMessage(MessageCreateRequest request, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/messages")
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
-        return execute(builder, Message.class);
+        return execute(builder, MessageResponse.class);
     }
 
     public ResourceResponse<Message> getMessage(String messageId, RequestOptions options) throws IOException {
@@ -199,12 +200,12 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Message.class);
     }
 
-    public ResourceResponse<Message[]> sendBulkMessages(List<MessageCreateRequest> messages, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageResponse> sendBulkMessages(List<MessageCreateRequest> messages, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/messages/bulk")
+                .url(BASE_URL + "/v1/messages/batch")
                 .post(RequestBody.create(makeJson(messages), MEDIA_TYPE_JSON));
 
-        return execute(builder, Message[].class);
+        return execute(builder, MessageResponse.class);
     }
 
     public ResourceResponse<MessageTemplate[]> getMessageTemplates(RequestOptions options) throws IOException {

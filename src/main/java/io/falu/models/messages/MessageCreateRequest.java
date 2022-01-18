@@ -1,6 +1,5 @@
 package io.falu.models.messages;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,7 +13,7 @@ public class MessageCreateRequest {
     /**
      * Destination phone number in ${https://en.wikipedia.org/wiki/E.164} E.164 format</see>.
      */
-    private String to;
+    private String[] to;
 
     /**
      * Actual message content to be sent.
@@ -33,5 +32,5 @@ public class MessageCreateRequest {
      * It can either be the name or unique identifier of the stream.
      * If not provided, message will default to the "transactional" stream.
      */
-    private String stream = "transactional";
+    private String stream;
 }

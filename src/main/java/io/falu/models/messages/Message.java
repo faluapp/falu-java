@@ -3,10 +3,8 @@ package io.falu.models.messages;
 import com.google.gson.annotations.JsonAdapter;
 import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.FaluModel;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -17,6 +15,7 @@ import java.util.Date;
 @Data
 @Getter
 @NoArgsConstructor
+@SuperBuilder(toBuilder = true)
 public class Message extends FaluModel {
     /**
      * Unique identifier for the object.
