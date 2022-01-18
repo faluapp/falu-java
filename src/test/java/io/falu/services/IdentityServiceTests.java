@@ -18,7 +18,7 @@ import java.util.Date;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class IdentityServiceTests {
+public class IdentityServiceTests extends BaseApiServiceTests {
 
     private final IdentityRecord identityRecord = IdentityRecord.builder()
             .id("idt_123")
@@ -42,16 +42,6 @@ public class IdentityServiceTests {
     @Test
     public void test_SearchIdentityWork() {
         try (MockedConstruction<IdentityService> mocked = Mockito.mockConstruction(IdentityService.class)) {
-            AppInformation information = AppInformation.builder()
-                    .name("Java-Tests")
-                    .version("1.0")
-                    .build();
-            FaluClientOptions options = FaluClientOptions.builder()
-                    .apiKey("")
-                    .enableLogging(true)
-                    .appInformation(information)
-                    .build();
-
             RequestOptions requestOptions = RequestOptions
                     .builder()
                     .idempotencyKey("05bc69eb-218d-46f2-8812-5bede8592abf")
