@@ -81,4 +81,34 @@ public class IdentityServiceTests {
             e.printStackTrace();
         }
     }
+
+
+    @Test
+    public void test_MarketingResultsWork() throws IOException {
+        AppInformation information = AppInformation.builder()
+                .name("Java-Tests")
+                .version("1.0")
+                .build();
+        FaluClientOptions options = FaluClientOptions.builder()
+                .apiKey("")
+                .enableLogging(true)
+                .appInformation(information)
+                .build();
+
+        RequestOptions requestOptions = RequestOptions
+                .builder()
+                .idempotencyKey("05bc69eb-218d-46f2-8812-5bede8592abf")
+                .live(false)
+                .build();
+
+        MarketingListOptions listOptions = MarketingListOptions.builder().build();
+
+        IdentityService service = new IdentityService(options);
+
+        ResourceResponse<MarketingResult[]> response = service.getMarketingResults(listOptions, requestOptions);
+
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+        Assertions.assertFalse(response.getResource().length != 0);
+    }
 }

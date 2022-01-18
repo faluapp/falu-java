@@ -3,6 +3,7 @@ package io.falu.models.identity;
 import io.falu.common.FilteringOptions;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -11,6 +12,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
+@SuperBuilder
 public class MarketingListOptions {
     /**
      * Three-letter ISO country code, in lowercase, where the record exists.
