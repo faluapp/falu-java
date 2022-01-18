@@ -8,7 +8,6 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
-// 847 - 40123, kisumu
 @Getter
 @SuperBuilder
 public class MarketingResult extends FaluModel {
@@ -16,18 +15,6 @@ public class MarketingResult extends FaluModel {
      * Unique identifier for the object.
      */
     private String id;
-
-    /**
-     * Time at which the object was created.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    private Date created;
-
-    /**
-     * Time at which the object was last updated.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    private Date updated;
 
     /**
      * Three-letter ISO country code, in lowercase, where the record exists.
@@ -59,10 +46,4 @@ public class MarketingResult extends FaluModel {
      * When predicted "GenderConfidence" will have a value.
      */
     private Gender gender;
-
-    /**
-     * A value that validates concurrent access of this object when stored in the database.
-     * This value changes with every update and can thus be used to track changes.
-     */
-    private String etag;
 }

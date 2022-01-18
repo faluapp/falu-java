@@ -8,14 +8,10 @@ import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.MockedConstruction;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.Date;
-
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class IdentityServiceTests extends BaseApiServiceTests {
@@ -26,7 +22,7 @@ public class IdentityServiceTests extends BaseApiServiceTests {
             .updated(new Date())
             .documentType(IdentityDocumentType.NATIONAL_ID)
             .documentNumber("123")
-            .country("KE")
+            .country("ken")
             .name("Cake")
             .birthday(new Date())
             .gender(Gender.MALE)
@@ -40,36 +36,28 @@ public class IdentityServiceTests extends BaseApiServiceTests {
 
 
     @Test
-    public void test_SearchIdentityWork() {
-        try (MockedConstruction<IdentityService> mocked = Mockito.mockConstruction(IdentityService.class)) {
-            RequestOptions requestOptions = RequestOptions
-                    .builder()
-                    .idempotencyKey("05bc69eb-218d-46f2-8812-5bede8592abf")
-                    .live(false)
-                    .build();
+    public void test_SearchIdentityWork() throws IOException {
+        RequestOptions requestOptions = RequestOptions
+                .builder()
+                .idempotencyKey("05bc69eb-218d-46f2-8812-5bede8592abf")
+                .live(false)
+                .build();
 
-            ResourceResponse<IdentityRecord> response = new ResourceResponse<>();
-            response.setResource(identityRecord);
-            response.setStatusCode(200);
+        IdentitySearchModel searchModel = IdentitySearchModel.builder()
+                .documentNumber(identityRecord.getDocumentNumber())
+                .documentType(identityRecord.getDocumentType())
+                .country(identityRecord.getCountry())
+                .build();
 
-            IdentitySearchModel searchModel = IdentitySearchModel.builder()
-                    .documentNumber(identityRecord.getDocumentNumber())
-                    .documentType(identityRecord.getDocumentType())
-                    .country(identityRecord.getCountry())
-                    .build();
+        IdentityService service = new IdentityService(options);
 
-            IdentityService service = new IdentityService(options);
+        ResourceResponse<IdentityRecord> response = service.searchIdentity(searchModel, requestOptions);
 
-            when(service.searchIdentity(searchModel, requestOptions)).thenReturn(response);
-
-            Assertions.assertEquals(200, response.getStatusCode());
-            Assertions.assertNotNull(response.getResource());
-            Assertions.assertEquals(identityRecord.getDocumentNumber(), response.getResource().getDocumentNumber());
-            Assertions.assertEquals(identityRecord.getDocumentType(), response.getResource().getDocumentType());
-            Assertions.assertEquals(identityRecord.getCountry(), response.getResource().getCountry());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+        Assertions.assertEquals(identityRecord.getDocumentNumber(), response.getResource().getDocumentNumber());
+        Assertions.assertEquals(identityRecord.getDocumentType(), response.getResource().getDocumentType());
+        Assertions.assertEquals(identityRecord.getCountry(), response.getResource().getCountry());
     }
 
 

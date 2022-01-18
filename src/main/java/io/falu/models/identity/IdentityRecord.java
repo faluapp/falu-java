@@ -25,18 +25,6 @@ public class IdentityRecord extends FaluModel {
     String country;
 
     /**
-     * Time at which the object was created.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    Date created;
-
-    /**
-     * Time at which the object was last updated.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    Date updated;
-
-    /**
      * The kind of identity document
      */
     IdentityDocumentType documentType;
@@ -84,10 +72,4 @@ public class IdentityRecord extends FaluModel {
      * It should not be used to determine predicted gender.
      */
     Float genderConfidence;
-
-    /**
-     * A value that validates concurrent access of this object when stored in the database.
-     * This value changes with every update and can thus be used to track changes.
-     */
-    String etag;
 }
