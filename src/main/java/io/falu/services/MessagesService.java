@@ -1,6 +1,5 @@
 package io.falu.services;
 
-import io.falu.ApiResultCallback;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.messages.Message;
@@ -11,8 +10,12 @@ import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
 import io.falu.models.messages.template.MessageTemplateValidationResponse;
+import io.falu.networking.RequestOptions;
+import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.List;
 
 public class MessagesService extends BaseApiService {
@@ -26,60 +29,40 @@ public class MessagesService extends BaseApiService {
     /**
      * Get Messages.
      *
-     * @param callback the result object for the request.
+     * @param options additional info to add to the request.
      */
-    public void getMessages(@NotNull ApiResultCallback<Message[]> callback) {
-        try {
-            ResourceResponse<Message[]> response = getApiClient().getMessages();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Message[]> getMessages(@Nullable RequestOptions options) throws IOException {
+        return getApiClient().getMessages(options);
     }
 
     /**
      * Create Message.
      *
-     * @param request  the request object
-     * @param callback the result object for the request.
+     * @param request        the request object
+     * @param requestOptions additional info to add to the request.
      */
-    public void createMessages(@NotNull MessageCreateRequest request, @NotNull ApiResultCallback<Message> callback) {
-        try {
-            ResourceResponse<Message> response = getApiClient().createMessage(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Message> createMessages(@NotNull MessageCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().createMessage(request, requestOptions);
     }
 
     /**
      * Get Message.
      *
-     * @param messageId the unique identifier of the template
-     * @param callback  the result object for the request.
+     * @param messageId      the unique identifier of the template
+     * @param requestOptions additional info to add to the request.
      */
-    public void getMessage(@NotNull String messageId, @NotNull ApiResultCallback<Message> callback) {
-        try {
-            ResourceResponse<Message> response = getApiClient().getMessage(messageId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Message> getMessage(@NotNull String messageId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessage(messageId, requestOptions);
     }
 
     /**
      * Send bulk messages.
      *
-     * @param messages messages to send
-     * @param callback the result object for the request.
+     * @param messages       messages to send
+     * @param requestOptions additional info to add to the request.
      */
-    public void sendBulkMessages(@NotNull List<MessageCreateRequest> messages, @NotNull ApiResultCallback<Message[]> callback) {
-        try {
-            ResourceResponse<Message[]> response = getApiClient().sendBulkMessages(messages);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Message[]> sendBulkMessages(@NotNull List<MessageCreateRequest> messages, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().sendBulkMessages(messages, requestOptions);
     }
     //endregion
 
@@ -88,75 +71,50 @@ public class MessagesService extends BaseApiService {
     /**
      * Get Message Templates.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getMessageTemplates(@NotNull ApiResultCallback<MessageTemplate[]> callback) {
-        try {
-            ResourceResponse<MessageTemplate[]> response = getApiClient().getMessageTemplates();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageTemplate[]> getMessageTemplates(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageTemplates(requestOptions);
     }
 
     /**
      * Create Message Template.
      *
-     * @param request  the request object
-     * @param callback the result object for the request.
+     * @param request        the request object
+     * @param requestOptions additional info to add to the request.
      */
-    public void createMessageTemplate(@NotNull MessageTemplateRequest request, @NotNull ApiResultCallback<MessageTemplate> callback) {
-        try {
-            ResourceResponse<MessageTemplate> response = getApiClient().createMessageTemplate(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageTemplate> createMessageTemplate(@NotNull MessageTemplateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().createMessageTemplate(request, requestOptions);
     }
 
     /**
      * Get Message Template.
      *
-     * @param templateId the unique identifier of the template.
-     * @param callback   the result object for the request.
+     * @param templateId     the unique identifier of the template.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getMessageTemplate(@NotNull String templateId, @NotNull ApiResultCallback<MessageTemplate> callback) {
-        try {
-            ResourceResponse<MessageTemplate> response = getApiClient().getMessageTemplate(templateId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageTemplate> getMessageTemplate(@NotNull String templateId, @NonNull RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageTemplate(templateId, requestOptions);
     }
 
     /**
      * Delete Message Template.
      *
-     * @param templateId the unique identifier of the template.
-     * @param callback   the result object for the request.
+     * @param templateId     the unique identifier of the template.
+     * @param requestOptions additional info to add to the request.
      */
-    public void deleteMessageTemplate(@NotNull String templateId, @NotNull ApiResultCallback<Object> callback) {
-        try {
-            ResourceResponse<Object> response = getApiClient().deleteMessageTemplate(templateId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Object> deleteMessageTemplate(@NotNull String templateId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().deleteMessageTemplate(templateId, requestOptions);
     }
 
     /**
      * Validate Message Template.
      *
-     * @param request  the request object.
-     * @param callback the result object for the request.
+     * @param request        the request object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void validateMessageTemplate(@NotNull MessageTemplateValidationRequest request, @NotNull ApiResultCallback<MessageTemplateValidationResponse> callback) {
-        try {
-            ResourceResponse<MessageTemplateValidationResponse> response = getApiClient().validateMessageTemplate(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageTemplateValidationResponse> validateMessageTemplate(@NotNull MessageTemplateValidationRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().validateMessageTemplate(request, requestOptions);
     }
     //endregion
 
@@ -165,93 +123,63 @@ public class MessagesService extends BaseApiService {
     /**
      * Get Message Streams.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions the result object for the request.
      */
-    public void getMessageStreams(@NotNull ApiResultCallback<MessageStream[]> callback) {
-        try {
-            ResourceResponse<MessageStream[]> response = getApiClient().getMessageStreams();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageStream[]> getMessageStreams(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageStreams(requestOptions);
     }
 
     /**
      * Create Message Stream.
      *
-     * @param request  the request object.
-     * @param callback the result object for the request.
+     * @param request        the request object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void createMessageStream(@NotNull MessageStreamCreateRequest request, @NotNull ApiResultCallback<MessageStream> callback) {
-        try {
-            ResourceResponse<MessageStream> response = getApiClient().createMessageStream(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageStream> createMessageStream(@NotNull MessageStreamCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().createMessageStream(request, requestOptions);
     }
 
     /**
      * Get Message Stream.
      *
-     * @param streamId the unique identifier of the object.
-     * @param callback the result object for the request.
+     * @param streamId       the unique identifier of the object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<MessageStream> callback) {
-        try {
-            ResourceResponse<MessageStream> response = getApiClient().getMessageStream(streamId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageStream> getMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageStream(streamId, requestOptions);
     }
 
 
     /**
      * Delete Message Stream.
      *
-     * @param streamId the unique identifier of the object.
-     * @param callback the result object for the request.
+     * @param streamId       the unique identifier of the object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void deleteMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<Object> callback) {
-        try {
-            ResourceResponse<Object> response = getApiClient().deleteMessageStream(streamId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Object> deleteMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().deleteMessageStream(streamId, requestOptions);
     }
 
 
     /**
      * Archive Message Stream.
      *
-     * @param streamId the unique identifier of the object.
-     * @param callback the result object for the request.
+     * @param streamId       the unique identifier of the object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void archiveMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<MessageStream> callback) {
-        try {
-            ResourceResponse<MessageStream> response = getApiClient().archiveMessageStream(streamId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageStream> archiveMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().archiveMessageStream(streamId, requestOptions);
     }
 
 
     /**
      * Unarchive Message Stream.
      *
-     * @param streamId the unique identifier of the object.
-     * @param callback the result object for the request.
+     * @param streamId       the unique identifier of the object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void unarchiveMessageStream(@NotNull String streamId, @NotNull ApiResultCallback<MessageStream> callback) {
-        try {
-            ResourceResponse<MessageStream> response = getApiClient().unarchiveMessageStream(streamId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MessageStream> unarchiveMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().unarchiveMessageStream(streamId, requestOptions);
     }
     //endregion
 }

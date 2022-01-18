@@ -1,6 +1,5 @@
 package io.falu.services;
 
-import io.falu.ApiResultCallback;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.payments.Payment;
@@ -8,7 +7,11 @@ import io.falu.models.payments.PaymentCreateRequest;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
 
 public class PaymentsService extends BaseApiService {
     public PaymentsService(@NotNull FaluClientOptions options) {
@@ -18,148 +21,99 @@ public class PaymentsService extends BaseApiService {
     /**
      * List payments.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getPayments(@NotNull ApiResultCallback<Payment[]> callback) {
-        try {
-            ResourceResponse<Payment[]> response = getApiClient().getPayments();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Payment[]> getPayments(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPayments(requestOptions);
     }
 
     /**
      * Retrieve a payment.
      *
-     * @param paymentId unique identifier for the payment.
-     * @param callback  the result object for the request.
+     * @param paymentId      unique identifier for the payment.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getPayment(@NotNull String paymentId, @NotNull ApiResultCallback<Payment> callback) {
-        try {
-            ResourceResponse<Payment> response = getApiClient().getPayment(paymentId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Payment> getPayment(@NotNull String paymentId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPayment(paymentId, requestOptions);
     }
 
 
     /**
      * Create payment.
      *
-     * @param request  the request object.
-     * @param callback the result object for the request.
+     * @param request        the request object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void createPayment(@NotNull PaymentCreateRequest request, @NotNull ApiResultCallback<Payment> callback) {
-        try {
-            ResourceResponse<Payment> response = getApiClient().createPayment(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<Payment> createPayment(@NotNull PaymentCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().createPayment(request, requestOptions);
+
     }
 
     /**
      * List payment authorizations.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getPaymentAuthorizations(@NotNull ApiResultCallback<PaymentAuthorization[]> callback) {
-        try {
-            ResourceResponse<PaymentAuthorization[]> response = getApiClient().getPaymentAuthorizations();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentAuthorization[]> getPaymentAuthorizations(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPaymentAuthorizations(requestOptions);
     }
 
     /**
      * Get payment authorization.
      *
      * @param authorizationId unique identifier for the payment authorization.
-     * @param callback        the result object for the request.
+     * @param requestOptions  additional info to add to the request.
      */
-    public void getPaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
-        try {
-            ResourceResponse<PaymentAuthorization> response = getApiClient().getPaymentAuthorization(authorizationId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentAuthorization> getPaymentAuthorization(@NotNull String authorizationId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPaymentAuthorization(authorizationId, requestOptions);
     }
 
     /**
      * Approve payment authorization.
      *
      * @param authorizationId unique identifier for the payment authorization.
-     * @param callback        the result object for the request.
+     * @param requestOptions  additional info to add to the request.
      */
-    public void approvePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
-        try {
-            ResourceResponse<PaymentAuthorization> response = getApiClient().approvePaymentAuthorization(authorizationId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentAuthorization> approvePaymentAuthorization(@NotNull String authorizationId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().approvePaymentAuthorization(authorizationId, requestOptions);
     }
 
     /**
      * Decline payment authorization.
      *
      * @param authorizationId unique identifier for the payment authorization.
-     * @param callback        the result object for the request.
+     * @param requestOptions  additional info to add to the request.
      */
-    public void declinePaymentAuthorization(@NotNull String authorizationId, @NotNull ApiResultCallback<PaymentAuthorization> callback) {
-        try {
-            ResourceResponse<PaymentAuthorization> response = getApiClient().declinePaymentAuthorization(authorizationId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentAuthorization> declinePaymentAuthorization(@NotNull String authorizationId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().declinePaymentAuthorization(authorizationId, requestOptions);
     }
 
     /**
      * List payment refunds.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getPaymentRefunds(@NotNull ApiResultCallback<PaymentRefund[]> callback) {
-        try {
-            ResourceResponse<PaymentRefund[]> response = getApiClient().getPaymentRefunds();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentRefund[]> getPaymentRefunds(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPaymentRefunds(requestOptions);
     }
 
     /**
      * Create payment refund.
      *
-     * @param request  the request object.
-     * @param callback the result object for the request.
+     * @param request        the request object.
+     * @param requestOptions additional info to add to the request.
      */
-    public void createPaymentRefund(@NotNull PaymentRefundRequest request, @NotNull ApiResultCallback<PaymentRefund> callback) {
-        try {
-            ResourceResponse<PaymentRefund> response = getApiClient().createPaymentRefund(request);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentRefund> createPaymentRefund(@NotNull PaymentRefundRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().createPaymentRefund(request, requestOptions);
     }
 
     /**
      * Get payment refund.
      *
-     * @param refundId unique identifier for the payment refund.
-     * @param callback the result object for the request.
+     * @param refundId       unique identifier for the payment refund.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getPaymentRefund(@NotNull String refundId, @NotNull ApiResultCallback<PaymentRefund> callback) {
-        try {
-            ResourceResponse<PaymentRefund> response = getApiClient().getPaymentRefund(refundId);
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<PaymentRefund> getPaymentRefund(@NotNull String refundId, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPaymentRefund(refundId, requestOptions);
     }
 }

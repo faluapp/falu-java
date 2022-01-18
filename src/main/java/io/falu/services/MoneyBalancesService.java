@@ -1,10 +1,13 @@
 package io.falu.services;
 
-import io.falu.ApiResultCallback;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.moneyBalances.MoneyBalance;
+import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.io.IOException;
 
 public class MoneyBalancesService extends BaseApiService {
     public MoneyBalancesService(@NotNull FaluClientOptions options) {
@@ -14,29 +17,19 @@ public class MoneyBalancesService extends BaseApiService {
     /**
      * Get money balances.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions additional info to add to the request.
      */
-    public void getMoneyBalances(@NotNull ApiResultCallback<MoneyBalance> callback) {
-        try {
-            ResourceResponse<MoneyBalance> response = getApiClient().getMoneyBalances();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MoneyBalance> getMoneyBalances(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMoneyBalances(requestOptions);
     }
 
 
     /**
      * Refresh money balances.
      *
-     * @param callback the result object for the request.
+     * @param requestOptions additional info to add to the request.
      */
-    public void refreshMoneyBalances(@NotNull ApiResultCallback<MoneyBalance> callback) {
-        try {
-            ResourceResponse<MoneyBalance> response = getApiClient().refreshMoneyBalances();
-            handleResponse(response, callback);
-        } catch (Exception e) {
-            callback.onError(e);
-        }
+    public ResourceResponse<MoneyBalance> refreshMoneyBalances(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().refreshMoneyBalances(requestOptions);
     }
 }
