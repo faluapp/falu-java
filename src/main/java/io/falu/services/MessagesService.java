@@ -139,7 +139,7 @@ public class MessagesService extends BaseApiService {
      * @param streamId       the unique identifier of the object.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Object> deleteMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<?> deleteMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().deleteMessageStream(streamId, requestOptions);
     }
 

@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class MtechSettings {
     /**
      * Application user-name for authentication.

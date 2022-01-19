@@ -4,6 +4,7 @@ import io.falu.client.ResourceResponse;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
 import io.falu.models.messages.MessageResponse;
+import io.falu.models.messages.stream.*;
 import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
@@ -155,4 +156,80 @@ public class MessageServiceTests extends BaseApiServiceTests {
         Assertions.assertNotNull(response.getResource());
     }
 
+    @Test
+    public void test_GettingMessageStreamWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        ResourceResponse<MessageStream> response = service.getMessageStream(message.getId(), requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_GetMessageStreamsWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        ResourceResponse<MessageStream[]> response = service.getApiClient().getMessageStreams(requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_CreateMessageStreamWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        CrossgateSettings crossgateSettings = CrossgateSettings.builder()
+                .appKey("cake")
+                .appSecret("cake")
+                .appSecret("cake")
+                .profileId("cake")
+                .build();
+
+
+        MessageStreamCreateRequest request = MessageStreamCreateRequest.builder()
+                .name("default")
+                .type(MessageStreamType.TRANSACTIONAL)
+                .provider(MessageStreamProviderType.CROSS_GATE)
+                .settings(MessageStreamSettings.builder().crossgate(crossgateSettings).build())
+                .build();
+
+        RequestOptions requestOptions = RequestOptions.builder()
+                .live(false)
+                .build();
+
+        ResourceResponse<MessageStream> response = service.getApiClient().createMessageStream(request, requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_DeleteMessageStreamWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        RequestOptions requestOptions = RequestOptions.builder()
+                .live(false)
+                .build();
+
+        ResourceResponse<?> response = service.deleteMessageStream(message.getId(), requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNull(response.getResource());
+    }
+
+    @Test
+    public void test_ArchiveMessageStreamWorks() throws IOException{
+        MessagesService service = new MessagesService(options);
+
+        ResourceResponse<MessageStream> response = service.archiveMessageStream(message.getId(), requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNull(response.getResource());
+    }
+
+    @Test
+    public void test_unarchiveMessageStreamWorks() throws IOException{
+        MessagesService service = new MessagesService(options);
+
+        ResourceResponse<MessageStream> response = service.unarchiveMessageStream(message.getId(), requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNull(response.getResource());
+    }
 }

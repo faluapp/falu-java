@@ -267,16 +267,16 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     public ResourceResponse<MessageStream> getMessageStream(String streamId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/message_streams" + streamId)
+                .url(BASE_URL + "/v1/message_streams/" + streamId)
                 .get();
         return execute(builder, MessageStream.class);
     }
 
-    public ResourceResponse<Object> deleteMessageStream(String streamId, RequestOptions options) throws IOException {
+    public ResourceResponse<?> deleteMessageStream(String streamId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/message_streams/" + streamId)
                 .delete();
-        return execute(builder, Object.class);
+        return execute(builder, ResourceResponse.class);
     }
 
     public ResourceResponse<MessageStream> archiveMessageStream(String streamId, RequestOptions options) throws IOException {
@@ -289,7 +289,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     public ResourceResponse<MessageStream> unarchiveMessageStream(String streamId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/message_streams" + streamId + "/unarchive")
+                .url(BASE_URL + "/v1/message_streams/" + streamId + "/unarchive")
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageStream.class);

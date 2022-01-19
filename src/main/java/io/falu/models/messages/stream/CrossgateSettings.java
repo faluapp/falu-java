@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class CrossgateSettings {
     /**
      * The application identifier for making requests with.

@@ -1,9 +1,6 @@
 package io.falu.models.messages.stream;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 /**
  * Settings of a message stream.
@@ -11,7 +8,7 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class MessageStreamSettings {
 
     /**

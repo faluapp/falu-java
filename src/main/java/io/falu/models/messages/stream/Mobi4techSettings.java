@@ -8,7 +8,7 @@ import lombok.*;
 @Data
 @Getter
 @Setter
-@NoArgsConstructor
+@Builder
 public class Mobi4techSettings {
     /**
      * Application username for authentication.

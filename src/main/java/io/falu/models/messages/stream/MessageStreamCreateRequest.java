@@ -29,5 +29,7 @@ public class MessageStreamCreateRequest {
     /**
      * Provider to be used.
      */
-    public MessageStreamProviderType provider;
+    private MessageStreamProviderType provider;
+
+    private MessageStreamSettings settings;
 }
