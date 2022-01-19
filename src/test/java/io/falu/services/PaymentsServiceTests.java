@@ -5,6 +5,9 @@ import io.falu.models.payments.MpesaPaymentRequest;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import io.falu.models.payments.authorization.PaymentAuthorization;
+import io.falu.models.payments.refunds.PaymentRefund;
+import io.falu.models.payments.refunds.PaymentRefundReason;
+import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -99,6 +102,42 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
                 .build();
 
         ResourceResponse<PaymentAuthorization> response = service.declinePaymentAuthorization("pauth_123", requestOptions);
+        Assertions.assertEquals(204, response.getStatusCode());
+        Assertions.assertNull(response.getResource());
+    }
+
+    @Test
+    public void test_GetPaymentRefundsWorks() throws IOException {
+        PaymentsService service = new PaymentsService(options);
+
+        ResourceResponse<PaymentRefund[]> response = service.getPaymentRefunds(requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_CreatePaymentRefundWorks() throws IOException {
+        PaymentsService service = new PaymentsService(options);
+
+        PaymentRefundRequest request = PaymentRefundRequest.builder()
+                .payment("pa_123")
+                .reason(PaymentRefundReason.CUSTOMER_REQUESTED)
+                .build();
+
+        RequestOptions requestOptions = RequestOptions.builder()
+                .live(false)
+                .build();
+
+        ResourceResponse<PaymentRefund> response = service.createPaymentRefund(request, requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_GetPaymentRefundWorks() throws IOException {
+        PaymentsService service = new PaymentsService(options);
+
+        ResourceResponse<PaymentRefund> response = service.getPaymentRefund("pr_123", requestOptions);
         Assertions.assertEquals(204, response.getStatusCode());
         Assertions.assertNull(response.getResource());
     }

@@ -23,7 +23,7 @@ public class PaymentRefund extends FaluModel {
     /**
      * Identifier of the payment refunded.
      */
-    private String paymentId;
+    private String payment;
 
     /**
      * Amount refunded in the smallest currency unit.

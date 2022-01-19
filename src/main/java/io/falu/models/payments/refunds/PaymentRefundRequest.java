@@ -13,7 +13,7 @@ public class PaymentRefundRequest {
     /**
      * Identifier of the payment to refund.
      */
-    private String paymentId;
+    private String payment;
 
     /**
      * The reason for refunding a payment.
