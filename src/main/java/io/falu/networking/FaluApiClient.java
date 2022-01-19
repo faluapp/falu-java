@@ -210,7 +210,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     public ResourceResponse<MessageTemplate[]> getMessageTemplates(RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/messages_templates")
+                .url(BASE_URL + "/v1/message_templates")
                 .get();
 
         return execute(builder, MessageTemplate[].class);
@@ -218,7 +218,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     public ResourceResponse<MessageTemplate> createMessageTemplate(MessageTemplateRequest request, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/messages_templates")
+                .url(BASE_URL + "/v1/message_templates")
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageTemplate.class);
@@ -226,7 +226,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     public ResourceResponse<MessageTemplate> getMessageTemplate(String templateId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/messages_templates" + templateId)
+                .url(BASE_URL + "/v1/message_templates/" + templateId)
                 .get();
 
         return execute(builder, MessageTemplate.class);
@@ -234,17 +234,17 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     // TODO: Update messages, templates, and streams
 
-    public ResourceResponse<Object> deleteMessageTemplate(String templateId, RequestOptions options) throws IOException {
+    public ResourceResponse<?> deleteMessageTemplate(String templateId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/messages_templates" + templateId)
+                .url(BASE_URL + "/v1/message_templates/" + templateId)
                 .delete();
 
-        return execute(builder, Object.class);
+        return execute(builder, ResourceResponse.class);
     }
 
     public ResourceResponse<MessageTemplateValidationResponse> validateMessageTemplate(MessageTemplateValidationRequest request, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/messages_templates/validate")
+                .url(BASE_URL + "/v1/message_templates/validate")
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageTemplateValidationResponse.class);

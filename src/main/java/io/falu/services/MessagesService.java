@@ -104,7 +104,7 @@ public class MessagesService extends BaseApiService {
      * @param templateId     the unique identifier of the template.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Object> deleteMessageTemplate(@NotNull String templateId, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<?> deleteMessageTemplate(@NotNull String templateId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().deleteMessageTemplate(templateId, requestOptions);
     }
 
@@ -125,25 +125,7 @@ public class MessagesService extends BaseApiService {
      * Get Message Streams.
      *
      * @param requestOptions the result object for the request.
-     */
-    public ResourceResponse<MessageStream[]> getMessageStreams(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getMessageStreams(requestOptions);
-    }
-
-    /**
-     * Create Message Stream.
-     *
-     * @param request        the request object.
-     * @param requestOptions additional info to add to the request.
-     */
-    public ResourceResponse<MessageStream> createMessageStream(@NotNull MessageStreamCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().createMessageStream(request, requestOptions);
-    }
-
-    /**
-     * Get Message Stream.
-     *
-     * @param streamId       the unique identifier of the object.
+        the unique identifier of the object.
      * @param requestOptions additional info to add to the request.
      */
     public ResourceResponse<MessageStream> getMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {

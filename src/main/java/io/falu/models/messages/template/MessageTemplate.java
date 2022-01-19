@@ -30,10 +30,4 @@ public class MessageTemplate extends FaluModel {
      * See our template language documentation for more information on the syntax for this field.
      */
     private String body;
-
-    /**
-     * An optional arbitrary string attached to the object.
-     * Mainly used to describe the object and often useful for displaying to users.
-     */
-    private String description;
 }
