@@ -33,18 +33,6 @@ public class Payment extends FaluModel {
     PaymentStatus status;
 
     /**
-     * Time at which the object was created.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    Date created;
-
-    /**
-     * Time at which the object was last updated.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    Date updated;
-
-    /**
      * Time at which the payment succeeded. Only populated when successful.
      */
     @JsonAdapter(ISO8601DateAdapter.class)

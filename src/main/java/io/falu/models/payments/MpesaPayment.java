@@ -35,7 +35,7 @@ public class MpesaPayment {
     /**
      * Type of payment.
      */
-    public MpeaPaymentType type;
+    public MpesaPaymentType type;
 
     /**
      * Phone number that made the payment, in E.164 format.

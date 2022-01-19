@@ -22,6 +22,11 @@ public class PaymentCreateRequest {
     private int amount;
 
     /**
+     * For mpesa payments
+     */
+    private MpesaPaymentRequest mpesa;
+
+    /**
      * An optional arbitrary string attached to the object. Mainly used to describe the object and often useful for displaying to users.
      */
     private String description;
