@@ -27,7 +27,7 @@ public class TransferReversal extends FaluModel {
     /**
      * Identifier of the transfer reversed.
      */
-    private String transferId;
+    private String transfer;
 
     /**
      * Amount reversed in smallest currency unit.

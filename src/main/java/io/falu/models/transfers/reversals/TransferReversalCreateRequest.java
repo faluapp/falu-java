@@ -14,7 +14,7 @@ public class TransferReversalCreateRequest {
     /**
      * Identifier of the Transfer to reverse.
      */
-    public String transferId;
+    public String transfer;
 
     /**
      * Reason for the reversal.
