@@ -27,7 +27,7 @@ public class IdentityRecord extends FaluModel {
     /**
      * The kind of identity document
      */
-    IdentityDocumentType documentType;
+    String documentType;
 
     /**
      * The identification document number.
@@ -64,7 +64,7 @@ public class IdentityRecord extends FaluModel {
      * This value may be fixed or predicted.
      * When predicted "GenderConfidence" will have a value.
      */
-    Gender gender;
+    String gender;
 
     /**
      * The confidence for the value predicted in ${gender}.

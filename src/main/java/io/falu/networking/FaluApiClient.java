@@ -3,6 +3,7 @@ package io.falu.networking;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.models.identity.IdentityRecord;
@@ -60,6 +61,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/evaluations/" + evaluationId)
                 .get();
+        return execute(builder, Evaluation.class);
+    }
+
+    public ResourceResponse<Evaluation> updateEvaluation(String evaluationId, JsonPatchDocument patch, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/evaluations/" + evaluationId)
+                .patch(RequestBody.create(makeJson(patch.getOperations()), MEDIA_TYPE_JSON));
         return execute(builder, Evaluation.class);
     }
 

@@ -25,12 +25,12 @@ public class Evaluation extends FaluModel {
      * Represents the scope within which an evaluation is generated.
      * This can also be considered the purpose of the evaluation.
      */
-    private EvaluationScope scope;
+    private String scope;
 
     /**
      * Represents the status of an evaluation
      */
-    private EvaluationStatus status;
+    private String status;
 
     /**
      * Represents the scoring result for an evaluation.

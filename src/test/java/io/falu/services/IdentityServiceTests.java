@@ -20,12 +20,12 @@ public class IdentityServiceTests extends BaseApiServiceTests {
             .id("idt_123")
             .created(new Date())
             .updated(new Date())
-            .documentType(IdentityDocumentType.NATIONAL_ID)
+            .documentType("nationalId")
             .documentNumber("123")
             .country("ken")
             .name("Cake")
             .birthday(new Date())
-            .gender(Gender.MALE)
+            .gender("male")
             .build();
 
     private final MarketingResult marketingResult = MarketingResult.builder()
@@ -45,7 +45,7 @@ public class IdentityServiceTests extends BaseApiServiceTests {
 
         IdentitySearchModel searchModel = IdentitySearchModel.builder()
                 .documentNumber(identityRecord.getDocumentNumber())
-                .documentType(identityRecord.getDocumentType())
+                .documentType(IdentityDocumentType.NATIONAL_ID)
                 .country(identityRecord.getCountry())
                 .build();
 

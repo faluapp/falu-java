@@ -1,39 +1,42 @@
 package io.falu.client.patch;
 
 import io.falu.client.patch.operations.*;
+import io.falu.models.AbstractCreationRequest;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Consumer;
 
-public class JsonPatchDocument {
+public class JsonPatchDocument<T extends AbstractCreationRequest> {
     private final ArrayList<JsonPatchOperation> operations = new ArrayList<>();
 
-    public JsonPatchDocument add(String path, Object value) {
+    public JsonPatchDocument<T> add(String path, Object value) {
         operations.add(new AddOperation(path, value));
         return this;
     }
 
-    public JsonPatchDocument remove(String path) {
+    public JsonPatchDocument<T> remove(String path) {
         operations.add(new RemoveOperation(path));
         return this;
     }
 
-    public JsonPatchDocument replace(String path, Object value) {
+    public JsonPatchDocument<T> replace(String path, Object value) {
         operations.add(new ReplaceOperation(path, value));
         return this;
     }
 
-    public JsonPatchDocument test(String path, Object value) {
+    public JsonPatchDocument<T> test(String path, Object value) {
         operations.add(new TestOperation(path, value));
         return this;
     }
 
-    public JsonPatchDocument move(String from, String path) {
+    public JsonPatchDocument<T> move(String from, String path) {
         operations.add(new MoveOperation(from, path));
         return this;
     }
 
-    public JsonPatchDocument copy(String from, String path) {
+    public JsonPatchDocument<T> copy(String from, String path) {
         operations.add(new MoveOperation(from, path));
         return this;
     }

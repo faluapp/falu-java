@@ -1,5 +1,6 @@
 package io.falu.models.evaluations;
 
+import io.falu.models.AbstractCreationRequest;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
@@ -8,7 +9,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Setter
 @SuperBuilder()
-public class EvaluationRequest {
+public class EvaluationRequest extends AbstractCreationRequest {
     /**
      * Represents the currency e.g kes
      */

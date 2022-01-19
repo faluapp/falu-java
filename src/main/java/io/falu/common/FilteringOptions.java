@@ -1,6 +1,5 @@
 package io.falu.common;
 
-import lombok.Getter;
 import org.jetbrains.annotations.Nullable;
 
 /**
