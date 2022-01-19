@@ -47,18 +47,6 @@ public class PaymentAuthorization extends FaluModel {
     private PaymentAuthorizationReason reason;
 
     /**
-     * Time at which the object was created.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    private Date created;
-
-    /**
-     * Time at which the object was last updated.
-     */
-    @JsonAdapter(ISO8601DateAdapter.class)
-    private Date updated;
-
-    /**
      * The medium used for the payment.
      */
     private PaymentType type;

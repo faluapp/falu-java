@@ -137,7 +137,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public ResourceResponse<PaymentAuthorization> approvePaymentAuthorization(String authorizationId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId + "/approve")
-                .get();
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
 
         return execute(builder, PaymentAuthorization.class);
     }
@@ -145,7 +145,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public ResourceResponse<PaymentAuthorization> declinePaymentAuthorization(String authorizationId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId + "/decline")
-                .get();
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
 
         return execute(builder, PaymentAuthorization.class);
     }
