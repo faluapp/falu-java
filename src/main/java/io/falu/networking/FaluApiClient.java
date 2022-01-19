@@ -299,14 +299,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //region Money Balance
     public ResourceResponse<MoneyBalance> getMoneyBalances(RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/money_balance")
+                .url(BASE_URL + "/v1/money_balances")
                 .get();
         return execute(builder, MoneyBalance.class);
     }
 
     public ResourceResponse<MoneyBalance> refreshMoneyBalances(RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
-                .url(BASE_URL + "/v1/money_balance")
+                .url(BASE_URL + "/v1/money_balances/refresh")
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, MoneyBalance.class);
     }

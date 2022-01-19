@@ -14,7 +14,7 @@ import java.io.IOException;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class EvaluationServiceTest extends BaseApiServiceTests {
+public class EvaluationServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_GettingEvaluationsWork() {
