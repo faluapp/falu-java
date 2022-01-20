@@ -2,10 +2,13 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.TransferPatchModel;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
+import io.falu.models.transfers.reversals.TransferReversalPatchModel;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -47,6 +50,17 @@ public class TransfersService extends BaseApiService {
     }
 
     /**
+     * Get Transfer.
+     *
+     * @param transferId     the unique identifier of the transfer.
+     * @param patch          the patch document.
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<Transfer> updateTransfer(@NotNull String transferId, @NotNull JsonPatchDocument<TransferPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateTransfer(transferId, patch, requestOptions);
+    }
+
+    /**
      * Get Transfer Reversals.
      *
      * @param requestOptions additional info to add to the request.
@@ -73,5 +87,16 @@ public class TransfersService extends BaseApiService {
      */
     public ResourceResponse<TransferReversal> getTransferReversal(@NotNull String reversalId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getTransferReversal(reversalId, requestOptions);
+    }
+
+    /**
+     * Update Transfer Reversal.
+     *
+     * @param reversalId     the unique identifier of the reversal.
+     * @param patch          the patch document.
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<TransferReversal> updateTransferReversal(@NotNull String reversalId, @NotNull JsonPatchDocument<TransferReversalPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateTransferReversal(reversalId, patch, requestOptions);
     }
 }

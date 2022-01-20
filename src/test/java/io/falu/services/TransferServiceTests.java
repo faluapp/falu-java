@@ -1,6 +1,7 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.payments.refunds.PaymentRefundReason;
 import io.falu.models.transfers.*;
 import io.falu.models.transfers.reversals.TransferReversal;
@@ -44,6 +45,22 @@ public class TransferServiceTests extends BaseApiServiceTests {
                 .build();
 
         ResourceResponse<Transfer> response = service.createTransfer(request, requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_UpdateTransferWorks() throws IOException {
+        TransfersService service = new TransfersService(options);
+
+        RequestOptions requestOptions = RequestOptions.builder()
+                .live(false)
+                .build();
+
+        JsonPatchDocument<TransferPatchModel> document = new JsonPatchDocument<TransferPatchModel>()
+                .replace("description", "cake");
+
+        ResourceResponse<Transfer> response = service.updateTransfer("tr_123", document, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

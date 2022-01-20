@@ -30,8 +30,10 @@ import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.TransferPatchModel;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
+import io.falu.models.transfers.reversals.TransferReversalPatchModel;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -389,6 +391,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Transfer.class);
     }
 
+    public ResourceResponse<Transfer> updateTransfer(String transferId, JsonPatchDocument<TransferPatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/transfers/" + transferId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+
+        return execute(builder, Transfer.class);
+    }
+
     public ResourceResponse<TransferReversal[]> getTransferReversals(RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/transfer_reversals")
@@ -400,6 +410,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/transfer_reversals")
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, TransferReversal.class);
+    }
+
+    public ResourceResponse<TransferReversal> updateTransferReversal(String transferId, JsonPatchDocument<TransferReversalPatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/transfer_reversals/" + transferId)
+                .post(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+        
         return execute(builder, TransferReversal.class);
     }
 
