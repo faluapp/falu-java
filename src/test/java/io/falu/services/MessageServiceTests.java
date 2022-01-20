@@ -2,9 +2,9 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.MessagePatchModel;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.MessagePatchModel;
 import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.*;
 import io.falu.models.messages.template.MessageTemplate;
@@ -187,7 +187,7 @@ public class MessageServiceTests extends BaseApiServiceTests {
     public void test_GetMessageStreamsWorks() throws IOException {
         MessagesService service = new MessagesService(options);
 
-        ResourceResponse<MessageStream[]> response = service.getApiClient().getMessageStreams(requestOptions);
+        ResourceResponse<MessageStream[]> response = service.getMessageStreams(requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -216,6 +216,18 @@ public class MessageServiceTests extends BaseApiServiceTests {
                 .build();
 
         ResourceResponse<MessageStream> response = service.getApiClient().createMessageStream(request, requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_UpdateMessageStreamWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        JsonPatchDocument<MessageStreamPatchModel> document = new JsonPatchDocument<MessageStreamPatchModel>()
+                .replace("description", "cake");
+
+        ResourceResponse<MessageStream> response = service.updateMessageStream("mstr_123", document, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

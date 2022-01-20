@@ -4,7 +4,6 @@ import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.MessagePatchModel;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
@@ -14,9 +13,11 @@ import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.MessagePatchModel;
 import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
+import io.falu.models.messages.stream.MessageStreamPatchModel;
 import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
@@ -287,6 +288,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/message_streams/" + streamId)
                 .get();
+        return execute(builder, MessageStream.class);
+    }
+
+    public ResourceResponse<MessageStream> updateMessageStream(String streamId, JsonPatchDocument<MessageStreamPatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/message_streams/" + streamId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageStream.class);
     }
 

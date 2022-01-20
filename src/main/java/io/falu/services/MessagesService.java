@@ -3,11 +3,12 @@ package io.falu.services;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.MessagePatchModel;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
+import io.falu.models.messages.MessagePatchModel;
 import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
+import io.falu.models.messages.stream.MessageStreamPatchModel;
 import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
@@ -65,7 +66,7 @@ public class MessagesService extends BaseApiService {
      * @param requestOptions additional info to add to the request.
      */
     public ResourceResponse<Message> updateMessage(@NotNull String messageId, @NotNull JsonPatchDocument<MessagePatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateMessage(messageId, patch,requestOptions);
+        return getApiClient().updateMessage(messageId, patch, requestOptions);
     }
 
     /**
@@ -136,14 +137,25 @@ public class MessagesService extends BaseApiService {
     /**
      * Get Message Streams.
      *
-     * @param requestOptions the result object for the request.
-     *                       the unique identifier of the object.
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<MessageStream[]> getMessageStreams(@Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageStreams(requestOptions);
+    }
+
+    /**
+     * Get Message Stream.
+     *
+     * @param streamId       the result object for the request.
      * @param requestOptions additional info to add to the request.
      */
     public ResourceResponse<MessageStream> getMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getMessageStream(streamId, requestOptions);
     }
 
+    public ResourceResponse<MessageStream> updateMessageStream(@NotNull String streamId, @NotNull JsonPatchDocument<MessageStreamPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateMessageStream(streamId, patch, requestOptions);
+    }
 
     /**
      * Delete Message Stream.
@@ -155,7 +167,6 @@ public class MessagesService extends BaseApiService {
         return getApiClient().deleteMessageStream(streamId, requestOptions);
     }
 
-
     /**
      * Archive Message Stream.
      *
@@ -165,7 +176,6 @@ public class MessagesService extends BaseApiService {
     public ResourceResponse<MessageStream> archiveMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().archiveMessageStream(streamId, requestOptions);
     }
-
 
     /**
      * Unarchive Message Stream.
