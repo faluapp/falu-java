@@ -4,6 +4,7 @@ import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.evaluations.Evaluation;
+import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
@@ -56,7 +57,7 @@ public class EvaluationsService extends BaseApiService {
      *
      * @param evaluationId the unique identifier of the object.
      */
-    public ResourceResponse<Evaluation> updateEvaluation(@NotNull String evaluationId, @NotNull JsonPatchDocument patch, @Nullable RequestOptions options) throws IOException {
+    public ResourceResponse<Evaluation> updateEvaluation(@NotNull String evaluationId, @NotNull JsonPatchDocument<EvaluationPatchModel> patch, @Nullable RequestOptions options) throws IOException {
         return getApiClient().updateEvaluation(evaluationId, patch, options);
     }
 }

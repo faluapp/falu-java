@@ -1,6 +1,8 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
+import io.falu.models.MessagePatchModel;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
 import io.falu.models.messages.MessageResponse;
@@ -86,6 +88,22 @@ public class MessageServiceTests extends BaseApiServiceTests {
         MessageCreateRequest[] messages = new MessageCreateRequest[]{request};
 
         ResourceResponse<MessageResponse> response = service.sendBulkMessages(List.of(messages), requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_UpdatingMessageWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        RequestOptions requestOptions = RequestOptions.builder()
+                .live(false)
+                .build();
+
+        JsonPatchDocument<MessagePatchModel> document = new JsonPatchDocument<MessagePatchModel>()
+                .replace("metadata", new HashMap<>());
+
+        ResourceResponse<Message> response = service.updateMessage(message.getId(), document, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -216,7 +234,7 @@ public class MessageServiceTests extends BaseApiServiceTests {
     }
 
     @Test
-    public void test_ArchiveMessageStreamWorks() throws IOException{
+    public void test_ArchiveMessageStreamWorks() throws IOException {
         MessagesService service = new MessagesService(options);
 
         ResourceResponse<MessageStream> response = service.archiveMessageStream(message.getId(), requestOptions);
@@ -225,7 +243,7 @@ public class MessageServiceTests extends BaseApiServiceTests {
     }
 
     @Test
-    public void test_unarchiveMessageStreamWorks() throws IOException{
+    public void test_unarchiveMessageStreamWorks() throws IOException {
         MessagesService service = new MessagesService(options);
 
         ResourceResponse<MessageStream> response = service.unarchiveMessageStream(message.getId(), requestOptions);

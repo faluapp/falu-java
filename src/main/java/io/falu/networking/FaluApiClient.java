@@ -4,7 +4,9 @@ import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
+import io.falu.models.MessagePatchModel;
 import io.falu.models.evaluations.Evaluation;
+import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
@@ -64,7 +66,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Evaluation.class);
     }
 
-    public ResourceResponse<Evaluation> updateEvaluation(String evaluationId, JsonPatchDocument patch, RequestOptions options) throws IOException {
+    public ResourceResponse<Evaluation> updateEvaluation(String evaluationId, JsonPatchDocument<EvaluationPatchModel> patch, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/evaluations/" + evaluationId)
                 .patch(RequestBody.create(makeJson(patch.getOperations()), MEDIA_TYPE_JSON));
@@ -204,6 +206,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/messages/" + messageId)
                 .get();
+
+        return execute(builder, Message.class);
+    }
+
+    public ResourceResponse<Message> updateMessage(String messageId, JsonPatchDocument<MessagePatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/messages/" + messageId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
 
         return execute(builder, Message.class);
     }

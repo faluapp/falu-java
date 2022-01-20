@@ -2,11 +2,12 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
+import io.falu.models.MessagePatchModel;
 import io.falu.models.messages.Message;
 import io.falu.models.messages.MessageCreateRequest;
 import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
-import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.template.MessageTemplate;
 import io.falu.models.messages.template.MessageTemplateRequest;
 import io.falu.models.messages.template.MessageTemplateValidationRequest;
@@ -54,6 +55,17 @@ public class MessagesService extends BaseApiService {
      */
     public ResourceResponse<Message> getMessage(@NotNull String messageId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getMessage(messageId, requestOptions);
+    }
+
+    /**
+     * Update Message.
+     *
+     * @param messageId      the unique identifier of the template.
+     * @param patch          the patch request object.
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<Message> updateMessage(@NotNull String messageId, @NotNull JsonPatchDocument<MessagePatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateMessage(messageId, patch,requestOptions);
     }
 
     /**
@@ -125,7 +137,7 @@ public class MessagesService extends BaseApiService {
      * Get Message Streams.
      *
      * @param requestOptions the result object for the request.
-        the unique identifier of the object.
+     *                       the unique identifier of the object.
      * @param requestOptions additional info to add to the request.
      */
     public ResourceResponse<MessageStream> getMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
