@@ -7,10 +7,7 @@ import io.falu.models.messages.MessageCreateRequest;
 import io.falu.models.messages.MessagePatchModel;
 import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.*;
-import io.falu.models.messages.template.MessageTemplate;
-import io.falu.models.messages.template.MessageTemplateRequest;
-import io.falu.models.messages.template.MessageTemplateValidationRequest;
-import io.falu.models.messages.template.MessageTemplateValidationResponse;
+import io.falu.models.messages.template.*;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -136,6 +133,18 @@ public class MessageServiceTests extends BaseApiServiceTests {
                 .body("Hi {{name}}! Thanks for being a loyal customer. We appreciate you!")
                 .build();
         ResourceResponse<MessageTemplate> response = service.createMessageTemplate(request, requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
+    public void test_UpdateMessageTemplateWorks() throws IOException {
+        MessagesService service = new MessagesService(options);
+
+        JsonPatchDocument<MessageTemplatePatchModel> document = new JsonPatchDocument<MessageTemplatePatchModel>()
+                .replace("description", "cake");
+
+        ResourceResponse<MessageTemplate> response = service.updateMessageTemplate("", document, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

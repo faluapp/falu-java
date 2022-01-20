@@ -9,10 +9,7 @@ import io.falu.models.messages.MessagePatchModel;
 import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamPatchModel;
-import io.falu.models.messages.template.MessageTemplate;
-import io.falu.models.messages.template.MessageTemplateRequest;
-import io.falu.models.messages.template.MessageTemplateValidationRequest;
-import io.falu.models.messages.template.MessageTemplateValidationResponse;
+import io.falu.models.messages.template.*;
 import io.falu.networking.RequestOptions;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -112,6 +109,17 @@ public class MessagesService extends BaseApiService {
     }
 
     /**
+     * Update Message Template.
+     *
+     * @param templateId     the unique identifier of the template.
+     * @param patch          the patch document.
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<MessageTemplate> updateMessageTemplate(@NotNull String templateId, @NotNull JsonPatchDocument<MessageTemplatePatchModel> patch, @NonNull RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateMessageTemplate(templateId, patch, requestOptions);
+    }
+
+    /**
      * Delete Message Template.
      *
      * @param templateId     the unique identifier of the template.
@@ -153,6 +161,13 @@ public class MessagesService extends BaseApiService {
         return getApiClient().getMessageStream(streamId, requestOptions);
     }
 
+    /**
+     * Update Message Stream.
+     *
+     * @param streamId       the result object for the request.
+     * @param patch          the patch document object.
+     * @param requestOptions additional info to add to the request.
+     */
     public ResourceResponse<MessageStream> updateMessageStream(@NotNull String streamId, @NotNull JsonPatchDocument<MessageStreamPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().updateMessageStream(streamId, patch, requestOptions);
     }

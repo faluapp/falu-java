@@ -18,10 +18,7 @@ import io.falu.models.messages.MessageResponse;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.stream.MessageStreamPatchModel;
-import io.falu.models.messages.template.MessageTemplate;
-import io.falu.models.messages.template.MessageTemplateRequest;
-import io.falu.models.messages.template.MessageTemplateValidationRequest;
-import io.falu.models.messages.template.MessageTemplateValidationResponse;
+import io.falu.models.messages.template.*;
 import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
@@ -251,7 +248,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageTemplate.class);
     }
 
-    // TODO: Update messages, templates, and streams
+    public ResourceResponse<MessageTemplate> updateMessageTemplate(String templateId, JsonPatchDocument<MessageTemplatePatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/message_templates/" + templateId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+
+        return execute(builder, MessageTemplate.class);
+    }
 
     public ResourceResponse<?> deleteMessageTemplate(String templateId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
