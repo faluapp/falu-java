@@ -22,8 +22,11 @@ import io.falu.models.messages.template.*;
 import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
+import io.falu.models.payments.PaymentPatchModel;
 import io.falu.models.payments.authorization.PaymentAuthorization;
+import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
 import io.falu.models.payments.refunds.PaymentRefund;
+import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
@@ -116,7 +119,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Payment.class);
     }
 
-    // TODO: Update payment
+    public ResourceResponse<Payment> updatePayment(String paymentId, JsonPatchDocument<PaymentPatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/payments/" + paymentId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+
+        return execute(builder, Payment.class);
+    }
 
     public ResourceResponse<Payment> createPayment(PaymentCreateRequest request, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
@@ -137,7 +146,15 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public ResourceResponse<PaymentAuthorization> getPaymentAuthorization(String authorizationId, RequestOptions options) throws IOException {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+                .get();
+
+        return execute(builder, PaymentAuthorization.class);
+    }
+
+    public ResourceResponse<PaymentAuthorization> updatePaymentAuthorization(String authorizationId, JsonPatchDocument<PaymentAuthorizationPatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/payment_authorizations/" + authorizationId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
 
         return execute(builder, PaymentAuthorization.class);
     }
@@ -178,6 +195,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/payment_refunds/" + refundId)
                 .get();
+
+        return execute(builder, PaymentRefund.class);
+    }
+
+    public ResourceResponse<PaymentRefund> updatePaymentRefund(String refundId, JsonPatchDocument<PaymentRefundPatchModel> document, RequestOptions options) throws IOException {
+        Request.Builder builder = buildRequest(options)
+                .url(BASE_URL + "/v1/payment_refunds/" + refundId)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
 
         return execute(builder, PaymentRefund.class);
     }

@@ -1,11 +1,15 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.payments.MpesaPaymentRequest;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
+import io.falu.models.payments.PaymentPatchModel;
 import io.falu.models.payments.authorization.PaymentAuthorization;
+import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
 import io.falu.models.payments.refunds.PaymentRefund;
+import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundReason;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.networking.RequestOptions;
@@ -63,6 +67,22 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
     }
 
     @Test
+    public void test_UpdatePaymentWorks() throws IOException {
+        PaymentsService service = new PaymentsService(options);
+
+        RequestOptions requestOptions = RequestOptions.builder()
+                .live(false)
+                .build();
+
+        JsonPatchDocument<PaymentPatchModel> document = new JsonPatchDocument<PaymentPatchModel>()
+                .replace("description", "cake");
+
+        ResourceResponse<Payment> response = service.updatePayment("pa_123", document, requestOptions);
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
+    }
+
+    @Test
     public void test_GetPaymentAuthorizationsWorks() throws IOException {
         PaymentsService service = new PaymentsService(options);
 
@@ -76,6 +96,18 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
         PaymentsService service = new PaymentsService(options);
 
         ResourceResponse<PaymentAuthorization> response = service.getPaymentAuthorization("pauth_123", requestOptions);
+        Assertions.assertEquals(204, response.getStatusCode());
+        Assertions.assertNull(response.getResource());
+    }
+
+    @Test
+    public void test_UpdatePaymentAuthorizationWorks() throws IOException {
+        PaymentsService service = new PaymentsService(options);
+
+        JsonPatchDocument<PaymentAuthorizationPatchModel> document = new JsonPatchDocument<PaymentAuthorizationPatchModel>()
+                .replace("description", "cake");
+
+        ResourceResponse<PaymentAuthorization> response = service.updatePaymentAuthorization("pauth_123", document, requestOptions);
         Assertions.assertEquals(204, response.getStatusCode());
         Assertions.assertNull(response.getResource());
     }
@@ -138,6 +170,18 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
         PaymentsService service = new PaymentsService(options);
 
         ResourceResponse<PaymentRefund> response = service.getPaymentRefund("pr_123", requestOptions);
+        Assertions.assertEquals(204, response.getStatusCode());
+        Assertions.assertNull(response.getResource());
+    }
+
+    @Test
+    public void test_UpdatePaymentRefundWorks() throws IOException {
+        PaymentsService service = new PaymentsService(options);
+
+        JsonPatchDocument<PaymentRefundPatchModel> document = new JsonPatchDocument<PaymentRefundPatchModel>()
+                .replace("replace", "cake");
+
+        ResourceResponse<PaymentRefund> response = service.updatePaymentRefund("pr_123", document, requestOptions);
         Assertions.assertEquals(204, response.getStatusCode());
         Assertions.assertNull(response.getResource());
     }

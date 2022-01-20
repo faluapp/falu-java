@@ -2,10 +2,14 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
+import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
+import io.falu.models.payments.PaymentPatchModel;
 import io.falu.models.payments.authorization.PaymentAuthorization;
+import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
 import io.falu.models.payments.refunds.PaymentRefund;
+import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +41,6 @@ public class PaymentsService extends BaseApiService {
         return getApiClient().getPayment(paymentId, requestOptions);
     }
 
-
     /**
      * Create payment.
      *
@@ -46,7 +49,17 @@ public class PaymentsService extends BaseApiService {
      */
     public ResourceResponse<Payment> createPayment(@NotNull PaymentCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createPayment(request, requestOptions);
+    }
 
+    /**
+     * Retrieve a payment.
+     *
+     * @param paymentId unique identifier for the payment.
+     * @param patch     the patch document.
+     * @param options   additional info to add to the request.
+     */
+    public ResourceResponse<Payment> updatePayment(@NotNull String paymentId, @NotNull JsonPatchDocument<PaymentPatchModel> patch, @Nullable RequestOptions options) throws IOException {
+        return getApiClient().updatePayment(paymentId, patch, options);
     }
 
     /**
@@ -66,6 +79,17 @@ public class PaymentsService extends BaseApiService {
      */
     public ResourceResponse<PaymentAuthorization> getPaymentAuthorization(@NotNull String authorizationId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getPaymentAuthorization(authorizationId, requestOptions);
+    }
+
+    /**
+     * Update payment authorization.
+     *
+     * @param authorizationId unique identifier for the payment authorization.
+     * @param patch           the patch document.
+     * @param requestOptions  additional info to add to the request.
+     */
+    public ResourceResponse<PaymentAuthorization> updatePaymentAuthorization(@NotNull String authorizationId, @NotNull JsonPatchDocument<PaymentAuthorizationPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updatePaymentAuthorization(authorizationId, patch, requestOptions);
     }
 
     /**
@@ -115,5 +139,16 @@ public class PaymentsService extends BaseApiService {
      */
     public ResourceResponse<PaymentRefund> getPaymentRefund(@NotNull String refundId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getPaymentRefund(refundId, requestOptions);
+    }
+
+    /**
+     * Get payment refund.
+     *
+     * @param refundId       unique identifier for the payment refund.
+     * @param patch          the patch document.
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<PaymentRefund> updatePaymentRefund(@NotNull String refundId, @NotNull JsonPatchDocument<PaymentRefundPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updatePaymentRefund(refundId, patch, requestOptions);
     }
 }
