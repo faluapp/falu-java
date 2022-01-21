@@ -1,6 +1,7 @@
 package io.falu.models.evaluations;
 
 import io.falu.common.BasicListOptions;
+import io.falu.common.QueryValues;
 import lombok.experimental.SuperBuilder;
 
 /**
@@ -22,4 +23,13 @@ public class EvaluationsListOptions extends BasicListOptions {
      * Filter options for Evaluation.Status property.
      */
     private String[] status;
+
+    @Override
+    public void populate(QueryValues values) {
+        super.populate(values);
+        values
+                .add("email", email)
+                .add("phone", phone)
+                .add("status", status);
+    }
 }
