@@ -4,9 +4,7 @@ import io.falu.client.patch.operations.*;
 import io.falu.models.AbstractCreationRequest;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class JsonPatchDocument<T extends AbstractCreationRequest> {
     private final ArrayList<JsonPatchOperation> operations = new ArrayList<>();

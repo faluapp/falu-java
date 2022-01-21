@@ -1,6 +1,6 @@
 package io.falu.models.identity;
 
-import io.falu.common.FilteringOptions;
+import io.falu.common.RangeFilteringOptions;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -29,11 +29,11 @@ public class MarketingListOptions {
      * Range filter options for birthday property but based on age.
      * Cannot be used with ${Birthday}
      */
-    FilteringOptions<Integer> age;
+    RangeFilteringOptions<Integer> age;
 
     /**
      * Range filter options for birthday property.
      * Cannot be used with ${Age}.
      */
-    FilteringOptions<Date> birthday;
+    RangeFilteringOptions<Date> birthday;
 }

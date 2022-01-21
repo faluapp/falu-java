@@ -6,6 +6,7 @@ import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
+import io.falu.models.evaluations.EvaluationsListOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,8 +22,8 @@ public class EvaluationsService extends BaseApiService {
     /**
      * Get evaluations.
      */
-    public ResourceResponse<Evaluation[]> getEvaluations(@Nullable RequestOptions options) throws IOException {
-        return getApiClient().getEvaluations(options);
+    public ResourceResponse<Evaluation[]> getEvaluations(@Nullable EvaluationsListOptions options, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getEvaluations(options, requestOptions);
     }
 
     /**

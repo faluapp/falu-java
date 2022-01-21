@@ -5,6 +5,7 @@ import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
+import io.falu.models.evaluations.EvaluationsListOptions;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +23,11 @@ public class EvaluationServiceTests extends BaseApiServiceTests {
 
         EvaluationsService service = new EvaluationsService(options);
 
-        ResourceResponse<Evaluation[]> response = service.getEvaluations(requestOptions);
+        EvaluationsListOptions opt = EvaluationsListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<Evaluation[]> response = service.getEvaluations(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

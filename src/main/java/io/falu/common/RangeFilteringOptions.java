@@ -5,7 +5,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Standard options for range filtering
  */
-public record FilteringOptions<T>(T lessThan, T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
+public record RangeFilteringOptions<T>(T lessThan, T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
     /**
      * Creates an instance of ${FilteringOptions<T>}
      *
@@ -14,7 +14,7 @@ public record FilteringOptions<T>(T lessThan, T lessThanOrEqualTo, T greaterThan
      * @param greaterThan          Option for greater than
      * @param greaterThanOrEqualTo Option for greater than or equal to
      */
-    public FilteringOptions(@Nullable T lessThan, @Nullable T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
+    public RangeFilteringOptions(@Nullable T lessThan, @Nullable T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
         this.lessThan = lessThan;
         this.greaterThan = greaterThan;
         this.lessThanOrEqualTo = lessThanOrEqualTo;

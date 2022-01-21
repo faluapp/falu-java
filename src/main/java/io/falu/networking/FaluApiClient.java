@@ -7,6 +7,7 @@ import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
+import io.falu.models.evaluations.EvaluationsListOptions;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
@@ -48,8 +49,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     //region Evaluations
-    public ResourceResponse<Evaluation[]> getEvaluations(RequestOptions options) throws IOException {
-        Request.Builder builder = buildRequest(options)
+    public ResourceResponse<Evaluation[]> getEvaluations(EvaluationsListOptions options, RequestOptions requestOptions) throws IOException {
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(BASE_URL + "/v1/evaluations")
                 .get();
         return execute(builder, Evaluation[].class);
@@ -417,7 +418,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         Request.Builder builder = buildRequest(options)
                 .url(BASE_URL + "/v1/transfer_reversals/" + transferId)
                 .post(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
-        
+
         return execute(builder, TransferReversal.class);
     }
 
