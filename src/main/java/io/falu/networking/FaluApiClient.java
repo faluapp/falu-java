@@ -24,11 +24,14 @@ import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import io.falu.models.payments.PaymentPatchModel;
+import io.falu.models.payments.PaymentsListOptions;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
+import io.falu.models.payments.authorization.PaymentAuthorizationsListOptions;
 import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.models.payments.refunds.PaymentRefundsListOptions;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
 import io.falu.models.transfers.TransferPatchModel;
@@ -120,10 +123,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     //region Payments
-    public ResourceResponse<Payment[]> getPayments(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/payments", null);
+    public ResourceResponse<Payment[]> getPayments(PaymentsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/payments", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
 
@@ -160,10 +163,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Payment.class);
     }
 
-    public ResourceResponse<PaymentAuthorization[]> getPaymentAuthorizations(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/payment_authorizations", null);
+    public ResourceResponse<PaymentAuthorization[]> getPaymentAuthorizations(PaymentAuthorizationsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/payment_authorizations", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
 
@@ -206,10 +209,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, PaymentAuthorization.class);
     }
 
-    public ResourceResponse<PaymentRefund[]> getPaymentRefunds(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/payment_refunds/", null);
+    public ResourceResponse<PaymentRefund[]> getPaymentRefunds(PaymentRefundsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/payment_refunds/", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
 

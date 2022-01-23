@@ -6,11 +6,14 @@ import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.payments.Payment;
 import io.falu.models.payments.PaymentCreateRequest;
 import io.falu.models.payments.PaymentPatchModel;
+import io.falu.models.payments.PaymentsListOptions;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
+import io.falu.models.payments.authorization.PaymentAuthorizationsListOptions;
 import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.models.payments.refunds.PaymentRefundsListOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,8 +30,8 @@ public class PaymentsService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Payment[]> getPayments(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getPayments(requestOptions);
+    public ResourceResponse<Payment[]> getPayments(@Nullable PaymentsListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPayments(listOptions, requestOptions);
     }
 
     /**
@@ -67,8 +70,8 @@ public class PaymentsService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<PaymentAuthorization[]> getPaymentAuthorizations(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getPaymentAuthorizations(requestOptions);
+    public ResourceResponse<PaymentAuthorization[]> getPaymentAuthorizations(@Nullable PaymentAuthorizationsListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPaymentAuthorizations(listOptions, requestOptions);
     }
 
     /**
@@ -117,8 +120,8 @@ public class PaymentsService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<PaymentRefund[]> getPaymentRefunds(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getPaymentRefunds(requestOptions);
+    public ResourceResponse<PaymentRefund[]> getPaymentRefunds(@Nullable PaymentRefundsListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getPaymentRefunds(listOptions, requestOptions);
     }
 
     /**

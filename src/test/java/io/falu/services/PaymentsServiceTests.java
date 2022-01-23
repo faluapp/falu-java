@@ -2,16 +2,11 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.payments.MpesaPaymentRequest;
-import io.falu.models.payments.Payment;
-import io.falu.models.payments.PaymentCreateRequest;
-import io.falu.models.payments.PaymentPatchModel;
+import io.falu.models.payments.*;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
-import io.falu.models.payments.refunds.PaymentRefund;
-import io.falu.models.payments.refunds.PaymentRefundPatchModel;
-import io.falu.models.payments.refunds.PaymentRefundReason;
-import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.models.payments.authorization.PaymentAuthorizationsListOptions;
+import io.falu.models.payments.refunds.*;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,7 +22,11 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
     public void test_GetPaymentsWorks() throws IOException {
         PaymentsService service = new PaymentsService(options);
 
-        ResourceResponse<Payment[]> response = service.getPayments(requestOptions);
+        PaymentsListOptions opt = PaymentsListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<Payment[]> response = service.getPayments(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -86,7 +85,11 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
     public void test_GetPaymentAuthorizationsWorks() throws IOException {
         PaymentsService service = new PaymentsService(options);
 
-        ResourceResponse<PaymentAuthorization[]> response = service.getPaymentAuthorizations(requestOptions);
+        PaymentAuthorizationsListOptions opt = PaymentAuthorizationsListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<PaymentAuthorization[]> response = service.getPaymentAuthorizations(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -142,7 +145,11 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
     public void test_GetPaymentRefundsWorks() throws IOException {
         PaymentsService service = new PaymentsService(options);
 
-        ResourceResponse<PaymentRefund[]> response = service.getPaymentRefunds(requestOptions);
+        PaymentRefundsListOptions opt = PaymentRefundsListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<PaymentRefund[]> response = service.getPaymentRefunds(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
