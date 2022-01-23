@@ -1,6 +1,6 @@
 package io.falu.models.payments.authorization;
 
-import io.falu.common.BasicListOptions;
+import io.falu.common.BasicListOptionsWithMoney;
 import io.falu.common.QueryValues;
 import lombok.experimental.SuperBuilder;
 
@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
  * Options for filtering and pagination of payment authorizations.
  */
 @SuperBuilder
-public class PaymentAuthorizationsListOptions extends BasicListOptions {
+public class PaymentAuthorizationsListOptions extends BasicListOptionsWithMoney {
     /**
      * Filter options for ${PaymentAuthorization.status} property.
      */

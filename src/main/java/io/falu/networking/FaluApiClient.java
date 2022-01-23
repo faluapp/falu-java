@@ -34,10 +34,12 @@ import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.models.payments.refunds.PaymentRefundsListOptions;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.TransferListOptions;
 import io.falu.models.transfers.TransferPatchModel;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
 import io.falu.models.transfers.reversals.TransferReversalPatchModel;
+import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -435,10 +437,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     //region Transfers, Transfer Reversals
-    public ResourceResponse<Transfer[]> getTransfers(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/transfers", null);
+    public ResourceResponse<Transfer[]> getTransfers(TransferListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/transfers", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
         return execute(builder, Transfer[].class);
@@ -471,10 +473,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Transfer.class);
     }
 
-    public ResourceResponse<TransferReversal[]> getTransferReversals(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/transfer_reversals", null);
+    public ResourceResponse<TransferReversal[]> getTransferReversals(TransferReversalsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/transfer_reversals", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
         return execute(builder, TransferReversal[].class);

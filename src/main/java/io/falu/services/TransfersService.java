@@ -5,10 +5,12 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.TransferListOptions;
 import io.falu.models.transfers.TransferPatchModel;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
 import io.falu.models.transfers.reversals.TransferReversalPatchModel;
+import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -25,8 +27,8 @@ public class TransfersService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Transfer[]> getTransfers(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getTransfers(requestOptions);
+    public ResourceResponse<Transfer[]> getTransfers(@Nullable TransferListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getTransfers(listOptions, requestOptions);
     }
 
     /**
@@ -65,8 +67,8 @@ public class TransfersService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<TransferReversal[]> getTransferReversals(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getTransferReversals(requestOptions);
+    public ResourceResponse<TransferReversal[]> getTransferReversals(@Nullable TransferReversalsListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getTransferReversals(listOptions, requestOptions);
     }
 
     /**

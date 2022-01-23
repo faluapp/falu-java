@@ -1,16 +1,16 @@
-package io.falu.models.payments.refunds;
+package io.falu.models.transfers;
 
 import io.falu.common.BasicListOptionsWithMoney;
 import io.falu.common.QueryValues;
 import lombok.experimental.SuperBuilder;
 
 /**
- * Options for filtering and pagination of list payment refunds operation.
+ * Options for filtering and pagination of transfers.
  */
 @SuperBuilder
-public class PaymentRefundsListOptions extends BasicListOptionsWithMoney {
+public class TransferListOptions extends BasicListOptionsWithMoney {
     /**
-     * Filter options for ${PaymentRefund.status} property.
+     * Filter options for ${Transfer.status} property.
      */
     private String[] status;
 

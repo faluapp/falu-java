@@ -2,11 +2,11 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.AbstractCreationRequest;
 import io.falu.models.payments.refunds.PaymentRefundReason;
 import io.falu.models.transfers.*;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
+import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,11 @@ public class TransferServiceTests extends BaseApiServiceTests {
     public void test_GetTransfersWorks() throws IOException {
         TransfersService service = new TransfersService(options);
 
-        ResourceResponse<Transfer[]> response = service.getTransfers(requestOptions);
+        TransferListOptions opt = TransferListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<Transfer[]> response = service.getTransfers(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -79,7 +83,11 @@ public class TransferServiceTests extends BaseApiServiceTests {
     public void test_GetTransferReversalsWorks() throws IOException {
         TransfersService service = new TransfersService(options);
 
-        ResourceResponse<TransferReversal[]> response = service.getTransferReversals(requestOptions);
+        TransferReversalsListOptions opt = TransferReversalsListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<TransferReversal[]> response = service.getTransferReversals(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
