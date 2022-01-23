@@ -2,10 +2,7 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.messages.Message;
-import io.falu.models.messages.MessageCreateRequest;
-import io.falu.models.messages.MessagePatchModel;
-import io.falu.models.messages.MessageResponse;
+import io.falu.models.messages.*;
 import io.falu.models.messages.stream.*;
 import io.falu.models.messages.template.*;
 import io.falu.networking.RequestOptions;
@@ -44,7 +41,11 @@ public class MessageServiceTests extends BaseApiServiceTests {
     public void test_GettingMessagesWorks() throws IOException {
         MessagesService service = new MessagesService(options);
 
-        ResourceResponse<Message[]> response = service.getMessages(requestOptions);
+        MessagesListOptions opt = MessagesListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<Message[]> response = service.getMessages(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -119,7 +120,11 @@ public class MessageServiceTests extends BaseApiServiceTests {
     public void test_GettingMessageTemplatesWorks() throws IOException {
         MessagesService service = new MessagesService(options);
 
-        ResourceResponse<MessageTemplate[]> response = service.getMessageTemplates(requestOptions);
+        MessageTemplatesListOptions opt = (MessageTemplatesListOptions) MessageTemplatesListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<MessageTemplate[]> response = service.getMessageTemplates(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -196,7 +201,11 @@ public class MessageServiceTests extends BaseApiServiceTests {
     public void test_GetMessageStreamsWorks() throws IOException {
         MessagesService service = new MessagesService(options);
 
-        ResourceResponse<MessageStream[]> response = service.getMessageStreams(requestOptions);
+        MessageStreamsListOptions opt = (MessageStreamsListOptions) MessageStreamsListOptions.builder()
+                .count(1)
+                .build();
+
+        ResourceResponse<MessageStream[]> response = service.getMessageStreams(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

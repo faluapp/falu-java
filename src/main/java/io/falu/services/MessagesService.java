@@ -3,12 +3,10 @@ package io.falu.services;
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.messages.Message;
-import io.falu.models.messages.MessageCreateRequest;
-import io.falu.models.messages.MessagePatchModel;
-import io.falu.models.messages.MessageResponse;
+import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamPatchModel;
+import io.falu.models.messages.stream.MessageStreamsListOptions;
 import io.falu.models.messages.template.*;
 import io.falu.networking.RequestOptions;
 import lombok.NonNull;
@@ -31,8 +29,8 @@ public class MessagesService extends BaseApiService {
      *
      * @param options additional info to add to the request.
      */
-    public ResourceResponse<Message[]> getMessages(@Nullable RequestOptions options) throws IOException {
-        return getApiClient().getMessages(options);
+    public ResourceResponse<Message[]> getMessages(@Nullable MessagesListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessages(listOptions, requestOptions);
     }
 
     /**
@@ -84,8 +82,8 @@ public class MessagesService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageTemplate[]> getMessageTemplates(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getMessageTemplates(requestOptions);
+    public ResourceResponse<MessageTemplate[]> getMessageTemplates(@Nullable MessageTemplatesListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageTemplates(listOptions, requestOptions);
     }
 
     /**
@@ -147,8 +145,8 @@ public class MessagesService extends BaseApiService {
      *
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageStream[]> getMessageStreams(@Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().getMessageStreams(requestOptions);
+    public ResourceResponse<MessageStream[]> getMessageStreams(@Nullable MessageStreamsListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().getMessageStreams(listOptions, requestOptions);
     }
 
     /**

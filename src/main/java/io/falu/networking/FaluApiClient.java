@@ -14,13 +14,11 @@ import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
-import io.falu.models.messages.Message;
-import io.falu.models.messages.MessageCreateRequest;
-import io.falu.models.messages.MessagePatchModel;
-import io.falu.models.messages.MessageResponse;
+import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.stream.MessageStreamPatchModel;
+import io.falu.models.messages.stream.MessageStreamsListOptions;
 import io.falu.models.messages.template.*;
 import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
@@ -248,8 +246,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     //region Messages, Message Templates, and Message Streams
-    public ResourceResponse<Message[]> getMessages(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/messages", null);
+    public ResourceResponse<Message[]> getMessages(MessagesListOptions listOptions, RequestOptions options) throws IOException {
+        HttpUrl url = buildUrl("v1/messages", listOptions);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
@@ -294,10 +292,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageResponse.class);
     }
 
-    public ResourceResponse<MessageTemplate[]> getMessageTemplates(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/message_templates", null);
+    public ResourceResponse<MessageTemplate[]> getMessageTemplates(MessageTemplatesListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/message_templates", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
         return execute(builder, MessageTemplate[].class);
@@ -348,10 +346,10 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageTemplateValidationResponse.class);
     }
 
-    public ResourceResponse<MessageStream[]> getMessageStreams(RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/message_streams", null);
+    public ResourceResponse<MessageStream[]> getMessageStreams(MessageStreamsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/message_streams", listOptions);
 
-        Request.Builder builder = buildRequest(options)
+        Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
                 .get();
         return execute(builder, MessageStream[].class);
