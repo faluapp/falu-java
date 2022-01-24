@@ -73,10 +73,13 @@ public class QueryValues {
     }
 
     /***/
-    public HttpUrl getHttpUrl() {
+    public HttpUrl.Builder getQueryParameters() {
         HttpUrl.Builder builder = new HttpUrl.Builder();
-        values.forEach(builder::addEncodedQueryParameter);
-        return builder.build();
+
+        for (Map.Entry<String, String> entry : values.entrySet()) {
+            builder.addEncodedQueryParameter(entry.getKey(), entry.getValue());
+        }
+        return builder;
     }
 
     public Map<String, String> getValues() {
