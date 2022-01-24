@@ -3,6 +3,7 @@ package io.falu.models.payments;
 import com.google.gson.annotations.JsonAdapter;
 import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.FaluModel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -11,55 +12,56 @@ import java.util.Date;
  * Represents a transaction done by a customer to the business.
  */
 @NoArgsConstructor
+@Getter
 public class Payment extends FaluModel {
     /**
      * Unique identifier for the object.
      */
-    String id;
+    private String id;
 
     /**
      * Three-letter ISO currency code, in lowercase.
      */
-    String currency;
+    private String currency;
 
     /**
      * Amount of the payment in smallest currency unit.
      */
-    int amount;
+    private int amount;
 
     /**
      * The status of a payment.
      */
-    PaymentStatus status;
+    private String status;
 
     /**
      * Time at which the payment succeeded. Only populated when successful.
      */
     @JsonAdapter(ISO8601DateAdapter.class)
-    Date succeeded;
+    private Date succeeded;
 
     /**
      * Identifier of the authorization, if the payment passed through a flow requiring authorization.
      */
-    String authorizationId;
+    private String authorizationId;
 
     /**
      * The medium used for the payment.
      */
-    PaymentType type;
+    private PaymentType type;
 
     /**
      * Details about failure of a payment, transfer or reversal.
      */
-    Object pesalink;
+    private Object pesalink;
 
     /**
      * If this is an MPESA Payment, this contains details about the MPESA payment.
      */
-    MpesaPayment mpesa;
+    private MpesaPayment mpesa;
 
     /**
      * Identifier of the payment refund, if the payment has been refunded.
      */
-    String refundId;
+    private String refundId;
 }

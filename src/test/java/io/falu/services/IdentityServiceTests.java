@@ -79,7 +79,9 @@ public class IdentityServiceTests extends BaseApiServiceTests {
                 .live(false)
                 .build();
 
-        MarketingListOptions listOptions = MarketingListOptions.builder().build();
+        MarketingListOptions listOptions = MarketingListOptions.builder()
+                .count(1)
+                .build();
 
         IdentityService service = new IdentityService(options);
 

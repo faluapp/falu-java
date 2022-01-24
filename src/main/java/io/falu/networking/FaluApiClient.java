@@ -1,5 +1,6 @@
 package io.falu.networking;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
@@ -10,6 +11,9 @@ import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.models.evaluations.EvaluationsListOptions;
+import io.falu.models.files.File;
+import io.falu.models.files.FileCreateRequest;
+import io.falu.models.files.FileListOptions;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
@@ -41,6 +45,7 @@ import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
 import io.falu.models.transfers.reversals.TransferReversalPatchModel;
 import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import okhttp3.HttpUrl;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import org.jetbrains.annotations.Nullable;
@@ -112,8 +117,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, IdentityRecord.class);
     }
 
-    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions marketingListOptions, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/marketing", null);
+    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions listOptions, RequestOptions options) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/marketing", listOptions);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
@@ -507,6 +512,49 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(url)
                 .get();
         return execute(builder, TransferReversal.class);
+    }
+    //endregion
+
+
+    //region Files and File Links
+    public ResourceResponse<File[]> getFiles(FileListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/files", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, File[].class);
+    }
+
+    public ResourceResponse<File> getFile(String fileId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/files/" + fileId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, File.class);
+    }
+
+    public ResourceResponse<File> uploadFile(FileCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/files", null);
+
+        MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("purpose", request.getPurpose())
+                .addFormDataPart("file",
+                        request.getContent().getName(), RequestBody.create(request.getContent(), request.getMediaType()))
+                .addFormDataPart("description", request.getDescription());
+
+        if (request.getExpires() != null) {
+            bodyBuilder.addFormDataPart("expires", ISO8601Utils.format(request.getExpires()));
+        }
+
+        RequestBody requestBody = bodyBuilder.build();
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(requestBody);
+        return execute(builder, File.class);
     }
     //endregion
 
