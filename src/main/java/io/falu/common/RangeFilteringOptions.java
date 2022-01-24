@@ -7,17 +7,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public record RangeFilteringOptions<T>(T lessThan, T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
     /**
-     * Creates an instance of ${FilteringOptions<T>}
-     *
-     * @param lessThan             Option for less than
-     * @param lessThanOrEqualTo    Option for less than or equal to
-     * @param greaterThan          Option for greater than
-     * @param greaterThanOrEqualTo Option for greater than or equal to
+     * Option for greater than
      */
-    public RangeFilteringOptions(@Nullable T lessThan, @Nullable T lessThanOrEqualTo, T greaterThan, T greaterThanOrEqualTo) {
+    public RangeFilteringOptions(@Nullable T lessThan, @Nullable T lessThanOrEqualTo, @Nullable T greaterThan, @Nullable T greaterThanOrEqualTo) {
         this.lessThan = lessThan;
         this.greaterThan = greaterThan;
         this.lessThanOrEqualTo = lessThanOrEqualTo;
         this.greaterThanOrEqualTo = greaterThanOrEqualTo;
     }
 }
+

@@ -62,6 +62,12 @@ public class QueryValues {
     }
 
     /***/
+    public QueryValues add(String property, QueryValues other) {
+        if (other == null) return this;
+
+    }
+
+    /***/
     public <T> QueryValues fromRange(RangeFilteringOptions<T> options) {
         if (options != null) {
             add("lt", options.lessThan());
@@ -80,6 +86,14 @@ public class QueryValues {
             builder.addEncodedQueryParameter(entry.getKey(), entry.getValue());
         }
         return builder;
+    }
+
+    public String[] getKeys() {
+        return values.keySet().toArray(new String[0]);
+    }
+
+    public String[] getParams() {
+        return values.values().toArray(new String[0]);
     }
 
     public Map<String, String> getValues() {

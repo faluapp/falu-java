@@ -1,12 +1,18 @@
 package io.falu;
 
+import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
+import io.falu.common.RangeFilteringOptions;
 import okhttp3.HttpUrl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,5 +38,66 @@ public class QueryValueTests {
 
         String url = httpUrl.toString();
         Assertions.assertEquals("https://example.com/test?ct=100&age.lt=40&count=100&created.gte=2021-03-10T19:41:25.0000000+03:00&sort=descending", url);
+    }
+
+    @Test
+    public void test_BasicListOptionsWorks() {
+        BasicListOptions opt = BasicListOptions.builder()
+                .sorting("descending")
+                .count(12)
+                .created(null)
+                .updated(null)
+                .build();
+
+        QueryValues query = new QueryValues();
+        opt.populate(query);
+
+        Assertions.assertFalse(query.getValues().isEmpty());
+        Assertions.assertEquals(Arrays.toString(new String[]{"count", "sort"}), Arrays.toString(query.getKeys()));
+        Assertions.assertEquals(Arrays.toString(new String[]{"12", "descending"}), Arrays.toString(query.getParams()));
+    }
+
+    @Test
+    public void test_BasicListOptionsWithDateWorks() {
+        RangeFilteringOptions<Date> filter = new RangeFilteringOptions<>(
+                toDate("3/10/2021 4:41:25 PM +00:00"),
+                toDate("3/10/2021 7:41:25 PM +03:00"),
+                toDate("3/11/2021 4:41:25 PM +00:00"),
+                toDate("3/11/2021 4:41:25 PM +00:00"));
+
+        BasicListOptions opt = BasicListOptions.builder()
+                .created(filter)
+                .build();
+
+        QueryValues query = new QueryValues();
+        opt.populate(query);
+
+        Assertions.assertFalse(query.getValues().isEmpty());
+        Assertions.assertEquals(Arrays.toString(new String[]{
+                        "created.lt",
+                        "created.lte",
+                        "created.gt",
+                        "created.gte"}),
+                Arrays.toString(query.getKeys())
+        );
+        Assertions.assertEquals(Arrays.toString(new String[]{
+                        "2021-10-03T01:41:25Z",
+                        "2021-11-03T01:41:25Z",
+                        "2021-10-03T04:41:25Z",
+                        "2021-11-03T01:41:25Z",}),
+                Arrays.toString(query.getParams())
+        );
+
+    }
+
+
+    private Date toDate(String dateToConsider) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ssss");
+        try {
+            return formatter.parse(dateToConsider);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
