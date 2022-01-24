@@ -74,17 +74,17 @@ public class QueryValueTests {
 
         Assertions.assertFalse(query.getValues().isEmpty());
         Assertions.assertEquals(Arrays.toString(new String[]{
-                        "created.lt",
-                        "created.lte",
                         "created.gt",
-                        "created.gte"}),
+                        "created.gte",
+                        "created.lt",
+                        "created.lte"}),
                 Arrays.toString(query.getKeys())
         );
         Assertions.assertEquals(Arrays.toString(new String[]{
-                        "2021-10-03T01:41:25Z",
                         "2021-11-03T01:41:25Z",
-                        "2021-10-03T04:41:25Z",
-                        "2021-11-03T01:41:25Z",}),
+                        "2021-11-03T01:41:25Z",
+                        "2021-10-03T01:41:25Z",
+                        "2021-10-03T04:41:25Z"}),
                 Arrays.toString(query.getParams())
         );
 

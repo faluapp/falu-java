@@ -38,7 +38,7 @@ public class BasicListOptions {
         values
                 .add("sort", sorting)
                 .add("count", count)
-                .add("created", values.fromRange(created))
-                .add("updated", values.fromRange(updated));
+                .add("created", new QueryValues().fromRange(created))
+                .add("updated", new QueryValues().fromRange(updated));
     }
 }

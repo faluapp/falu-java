@@ -65,6 +65,14 @@ public class QueryValues {
     public QueryValues add(String property, QueryValues other) {
         if (other == null) return this;
 
+        if (property == null || property.isEmpty()) {
+            return this;
+        }
+        
+        for (Map.Entry<String, String> entry : other.values.entrySet()) {
+            add(property + "." + entry.getKey(), entry.getValue());
+        }
+        return this;
     }
 
     /***/
