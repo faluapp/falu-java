@@ -2,6 +2,7 @@ package io.falu.common;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import okhttp3.HttpUrl;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public class QueryValues {
         if (property == null || property.isEmpty()) {
             return this;
         }
-        
+
         for (Map.Entry<String, String> entry : other.values.entrySet()) {
             add(property + "." + entry.getKey(), entry.getValue());
         }
@@ -87,13 +88,10 @@ public class QueryValues {
     }
 
     /***/
-    public HttpUrl.Builder getQueryParameters() {
-        HttpUrl.Builder builder = new HttpUrl.Builder();
-
+    public void getQueryParameters(HttpUrl.Builder builder) {
         for (Map.Entry<String, String> entry : values.entrySet()) {
             builder.addEncodedQueryParameter(entry.getKey(), entry.getValue());
         }
-        return builder;
     }
 
     public String[] getKeys() {

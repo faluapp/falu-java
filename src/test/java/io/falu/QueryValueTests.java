@@ -31,11 +31,14 @@ public class QueryValueTests {
 
         QueryValues values = new QueryValues(params);
 
-        HttpUrl httpUrl = values.getQueryParameters()
+        HttpUrl.Builder builder = new HttpUrl.Builder()
                 .scheme("https")
                 .host("example.com")
-                .addPathSegments("test")
-                .build();
+                .addPathSegments("test");
+
+        values.getQueryParameters(builder);
+
+        HttpUrl httpUrl = builder.build();
 
         String url = httpUrl.toString();
         Assertions.assertEquals("https://example.com/test?ct=100&age.lt=40&count=100&created.gte=2021-03-10T19:41:25.0000000+03:00&sort=descending", url);

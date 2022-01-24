@@ -47,7 +47,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 public class FaluApiClient extends AbstractHttpApiClient {
     private static final String HOST = "api.falu.io";
@@ -538,9 +537,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         if (listOptions != null) {
             QueryValues args = new QueryValues();
             listOptions.populate(args);
-            Map<String, String> values = args.getValues();
-
-            values.forEach(builder::addEncodedQueryParameter);
+            args.getQueryParameters(builder);
         }
 
         return builder.build();
