@@ -14,6 +14,10 @@ import io.falu.models.evaluations.EvaluationsListOptions;
 import io.falu.models.files.File;
 import io.falu.models.files.FileCreateRequest;
 import io.falu.models.files.FileListOptions;
+import io.falu.models.files.links.FileLink;
+import io.falu.models.files.links.FileLinkCreateRequest;
+import io.falu.models.files.links.FileLinkPatchModel;
+import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
@@ -555,6 +559,42 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(url)
                 .post(requestBody);
         return execute(builder, File.class);
+    }
+
+    public ResourceResponse<FileLink[]> getFileLinks(FileLinksListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/file_links", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, FileLink[].class);
+    }
+
+    public ResourceResponse<FileLink> createFileLink(FileLinkCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/file_links", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, FileLink.class);
+    }
+
+    public ResourceResponse<FileLink> getFileLink(String linkId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, FileLink.class);
+    }
+
+    public ResourceResponse<FileLink> updateFileLink(String linkId, JsonPatchDocument<FileLinkPatchModel> document, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+        return execute(builder, FileLink.class);
     }
     //endregion
 
