@@ -101,6 +101,8 @@ MessageCreateRequest request = MessageCreateRequest.builder()
 falu.getMessagesService().createMessages(request, null);
 ```
 
+> Templates should be created only once before use. Store the template ID or the Alias in your application and use either to reference the template.
+
 ## Payments
 
 Below is a sample of how to request money from a customer via MPESA STK Push (a.k.a. Popup, Checkout, etc.).
@@ -118,7 +120,64 @@ PaymentCreateRequest request = PaymentCreateRequest.builder()
         )
         .build();
 
-falu.getPaymentsService().createPayment(request, requestOptions);
+falu.getPaymentsService().createPayment(request, null);
+```
+
+> Your incoming account for MPESA must be configured in your [Workspace settings][workspace-settings] before you can initiate an outgoing payment to a customer.
+
+## Transfers
+
+With `Falu` you can send and receive money to and from customers or businesses via multiple payment providers.
+Below is a sample of how to send money to a customer via MPESA.
+
+```java
+TransferCreateRequestMpesa mpesa = TransferCreateRequestMpesa.builder()
+        .customer(TransferCreateRequestMpesaToCustomer.builder().phone("+254722000000").build())
+        .build();
+
+TransferCreateRequest request = TransferCreateRequest.builder()
+        .amount(1000)
+        .currency("kes")
+        .purpose(TransferPurpose.SALARY)
+        .mpesa(mpesa)
+        .build();
+
+falu.getTransfersService().createTransfer(request, null);      
+```
+
+> Your outgoing account for MPESA must be configured in your [Workspace settings][workspace-settings] before you can initiate an outgoing payment to a customer.
+
+## Identity
+
+With `Falu` you can verify your user's identity from a documentation perspective. Below is a sample of how to do verify the user's phone number against a name or id card.
+
+```java
+IdentitySearchModel searchModel = IdentitySearchModel.builder()
+              .phone("+254722000000")
+              .build();
+
+falu.getIdentityService().searchIdentity(searchModel, null);
+```
+
+## Evaluations
+
+With `Falu` you can evaluate the credit worthiness of your customers via financial statements. This is particularly useful for mobile lending. Below is a sample of how to evaluate a user.
+
+```java
+EvaluationRequest request = EvaluationRequest.builder()
+    .currency("kes")
+    .scope(EvaluationScope.PERSONAL)
+    .name("<name>")
+    .phone("+254722000000")
+    .password("1234567")
+    .fileId("file_123")
+    .build();
+
+RequestOptions requestOptions = RequestOptions.builder()
+    .live(false)
+    .build();
+
+ResourceResponse<Evaluation> response = falu.getEvaluationsService().createEvaluation(request, requestOptions);
 ```
 
 ## Development
