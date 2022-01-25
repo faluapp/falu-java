@@ -48,6 +48,10 @@ import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
 import io.falu.models.transfers.reversals.TransferReversalPatchModel;
 import io.falu.models.transfers.reversals.TransferReversalsListOptions;
+import io.falu.models.webhooks.WebhookEndpoint;
+import io.falu.models.webhooks.WebhookEndpointCreateRequest;
+import io.falu.models.webhooks.WebhookEndpointListOptions;
+import io.falu.models.webhooks.WebhookEndpointPatchModel;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
@@ -595,6 +599,52 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(url)
                 .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
         return execute(builder, FileLink.class);
+    }
+    //endregion
+
+    //region Webhook Endpoints
+    public ResourceResponse<WebhookEndpoint[]> getWebhookEndpoints(WebhookEndpointListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/webhooks/endpoints", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, WebhookEndpoint[].class);
+    }
+
+    public ResourceResponse<WebhookEndpoint> createWebhookEndpoint(WebhookEndpointCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/webhooks/endpoints", null);
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, WebhookEndpoint.class);
+    }
+
+    public ResourceResponse<WebhookEndpoint> getWebhookEndpoint(String endpointId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, WebhookEndpoint.class);
+    }
+
+    public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(String endpointId, JsonPatchDocument<WebhookEndpointPatchModel> document, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+        return execute(builder, WebhookEndpoint.class);
+    }
+
+    public ResourceResponse<?> deleteWebhookEndpoint(String endpointId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .delete();
+        return execute(builder, ResourceResponse.class);
     }
     //endregion
 
