@@ -27,7 +27,7 @@ public class MessagesService extends BaseApiService {
     /**
      * Get Messages.
      *
-     * @param options additional info to add to the request.
+     * @param requestOptions additional info to add to the request.
      */
     public ResourceResponse<Message[]> getMessages(@Nullable MessagesListOptions listOptions, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getMessages(listOptions, requestOptions);

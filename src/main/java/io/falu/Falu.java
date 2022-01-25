@@ -1,6 +1,5 @@
 package io.falu;
 
-import io.falu.models.transfers.Transfer;
 import io.falu.services.*;
 import lombok.Getter;
 import org.jetbrains.annotations.NotNull;
@@ -26,6 +25,4 @@ public class Falu {
         this.paymentsService = new PaymentsService(options);
         this.transfersService = new TransfersService(options);
     }
-
-
 }
