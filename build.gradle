@@ -1,9 +1,17 @@
-plugins {
-    id 'java'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'io.github.gradle-nexus:publish-plugin:1.1.0'
+    }
 }
 
-group 'io.falu'
-version '1.0-SNAPSHOT'
+plugins {
+    id 'java'
+    id "maven-publish"
+    id "signing"
+}
 
 repositories {
     mavenCentral()
@@ -23,6 +31,20 @@ dependencies {
     testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
 }
 
+jar {
+    manifest {
+        attributes("Implementation-Title": POM_NAME,
+                "Implementation-Version": VERSION_NAME,
+                "Implementation-Vendor": VENDOR_NAME,
+                "Bundle-SymbolicName": POM_ARTIFACT_ID,
+                "Export-Package": "com.falu.*")
+
+        archiveVersion = VERSION_NAME
+    }
+}
+
 test {
     useJUnitPlatform()
 }
+
+apply from: "${rootDir}/deploy/deploy.gradle"

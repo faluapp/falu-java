@@ -19,7 +19,7 @@ public enum PaymentAuthorizationReason {
     INVALID,
 
     /**
-     * Authorization webhook endpoint was used to approve or decline.ß
+     * Authorization webhook endpoint was used to approve or decline.
      */
     @SerializedName("realtime")
     REALTIME,

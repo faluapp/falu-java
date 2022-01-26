@@ -1,0 +1,137 @@
+apply plugin: "signing"
+apply plugin: "maven-publish"
+apply plugin: "io.github.gradle-nexus.publish-plugin"
+
+def getReleaseRepositoryUrl() {
+    return hasProperty("RELEASE_REPOSITORY_URL") ? RELEASE_REPOSITORY_URL
+            : "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+
+def getSnapshotRepositoryUrl() {
+    return hasProperty("SNAPSHOT_REPOSITORY_URL") ? SNAPSHOT_REPOSITORY_URL
+            : "https://oss.sonatype.org/content/repositories/snapshots/"
+}
+
+def getRepositoryStagingId() {
+    return hasProperty("NEXUS_PROFILE_ID") ? NEXUS_PROFILE_ID : ""
+}
+
+def getRepositoryUsername() {
+    return hasProperty("NEXUS_USERNAME") ? NEXUS_USERNAME : ""
+}
+
+def getRepositoryPassword() {
+    return hasProperty("NEXUS_PASSWORD") ? NEXUS_PASSWORD : ""
+}
+
+task sourcesJar(type: Jar) {
+    classifier = "sources"
+    from sourceSets.main.allJava
+}
+
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = "javadoc"
+//    from javadoc.destinationDir
+//}
+artifacts {
+    archives jar
+    archives sourcesJar
+    //archives javadocJar
+}
+
+afterEvaluate {
+    // See https://developer.android.com/studio/build/maven-publish-plugin
+    // and https://docs.gradle.org/current/userguide/publishing_maven.html
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                groupId = GROUP
+                artifactId = POM_ARTIFACT_ID
+                version = VERSION_NAME
+                from components.java
+                artifact sourcesJar
+//                artifact javadocJar
+
+                pom {
+                    name = POM_NAME
+                    description = POM_DESCRIPTION
+                    url = POM_URL
+                    packaging = POM_PACKAGING
+                    licenses {
+                        license {
+                            name = POM_LICENCE_NAME
+                            url = POM_LICENCE_URL
+                            distribution = POM_LICENCE_DIST
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = POM_DEVELOPER_ID
+                            name = POM_DEVELOPER_NAME
+                            email = POM_DEVELOPER_EMAIL
+                        }
+                    }
+                    organization {
+                        name = POM_DEVELOPER_NAME
+                        url = POM_ORGANIZATION_URL
+                    }
+                    scm {
+                        connection = POM_SCM_CONNECTION
+                        developerConnection = POM_SCM_DEV_CONNECTION
+                        url = POM_SCM_URL
+                    }
+                }
+                pom.withXml {
+                    final dependenciesNode = asNode().appendNode("dependencies")
+                    ext.addDependency = { dep, scope ->
+                        logger.lifecycle("updating dep $dep")
+                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
+                            return // invalid dependencies should be ignored
+                        }
+
+                        final depGroup = dep.group
+                        final depName = dep.name
+                        final depVersion = dep.version
+
+                        final dependencyNode = dependenciesNode.appendNode("dependency")
+                        dependencyNode.appendNode("groupId", depGroup)
+                        dependencyNode.appendNode("artifactId", depName)
+                        dependencyNode.appendNode("version", depVersion)
+                        dependencyNode.appendNode("scope", scope)
+
+                    }
+                    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
+                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                url getReleaseRepositoryUrl()
+                credentials {
+                    username getRepositoryUsername()
+                    password getRepositoryPassword()
+                }
+            }
+        }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            stagingProfileId = getRepositoryStagingId()
+            username = getRepositoryUsername()
+            password = getRepositoryPassword()
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+        }
+    }
+}
+
+signing {
+    sign publishing.publications
+}
+

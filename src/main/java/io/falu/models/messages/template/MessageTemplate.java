@@ -21,7 +21,7 @@ public class MessageTemplate extends FaluModel {
 
     /**
      * A string used for easier identification of a message template. Allowed characters are numbers,
-     * ASCII letters, and ‘-’, ‘_’ characters, and the string has to start with a letter.
+     * ASCII letters, and -, _ characters, and the string has to start with a letter.
      */
     private String alias;
 
