@@ -45,13 +45,13 @@ public abstract class FaluModel implements Serializable {
     /**
      * Set of key-value pairs that you can attach to an object.
      * This can be useful for storing additional information about the object in a structured format.
-     * The key can only contain alphanumeric, and ‘-’, ‘_’ characters, and the string has to start with a letter.
+     * The key can only contain alphanumeric, and -, _ characters, and the string has to start with a letter.
      */
     Map<String, String> metadata;
 
     /**
-     * A value that validates concurrent access of this object when stored in the database. T
-     * his value changes with every update and can thus be used to track changes.
+     * A value that validates concurrent access of this object when stored in the database.
+     * This value changes with every update and can thus be used to track changes.
      */
     String etag;
 }

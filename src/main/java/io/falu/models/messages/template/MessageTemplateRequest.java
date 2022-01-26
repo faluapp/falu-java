@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 public class MessageTemplateRequest {
     /**
      * An optional string you can provide to identify this template.
-     * Allowed characters are numbers, ASCII letters, and ‘.’, ‘-’, ‘_’ characters,
+     * Allowed characters are numbers, ASCII letters, and ., -, _ characters,
      * and the string has to start with a letter.
      */
     private String alias;
@@ -27,7 +27,7 @@ public class MessageTemplateRequest {
 
     /**
      * A string used for easier identification of a message template.
-     * Allowed characters are numbers, ASCII letters, and ‘-’, ‘_’ characters, and the string has to start with a letter.
+     * Allowed characters are numbers, ASCII letters, and -, _ characters, and the string has to start with a letter.
      */
     private String body;
 }

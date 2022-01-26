@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 public class MessageTemplatePatchModel extends AbstractCreationRequest {
     /**
      * An optional string you can provide to identify this template.
-     * Allowed characters are numbers, ASCII letters, and ‘.’, ‘-’, ‘_’ characters,
+     * Allowed characters are numbers, ASCII letters, and ., -, _ characters,
      * and the string has to start with a letter.
      */
     public String alias;
