@@ -31,12 +31,12 @@ task sourcesJar(type: Jar) {
 
 //task javadocJar(type: Jar, dependsOn: javadoc) {
 //    classifier = "javadoc"
-//    from javadoc.destinationDir
 //}
+
 artifacts {
     archives jar
     archives sourcesJar
-    //archives javadocJar
+    // archives javadocJar
 }
 
 afterEvaluate {
@@ -51,7 +51,6 @@ afterEvaluate {
                 version = VERSION_NAME
                 from components.java
                 artifact sourcesJar
-//                artifact javadocJar
 
                 pom {
                     name = POM_NAME
@@ -82,28 +81,6 @@ afterEvaluate {
                         url = POM_SCM_URL
                     }
                 }
-                pom.withXml {
-                    final dependenciesNode = asNode().appendNode("dependencies")
-                    ext.addDependency = { dep, scope ->
-                        logger.lifecycle("updating dep $dep")
-                        if (dep.group == null || dep.version == null || dep.name == null || dep.name == "unspecified") {
-                            return // invalid dependencies should be ignored
-                        }
-
-                        final depGroup = dep.group
-                        final depName = dep.name
-                        final depVersion = dep.version
-
-                        final dependencyNode = dependenciesNode.appendNode("dependency")
-                        dependencyNode.appendNode("groupId", depGroup)
-                        dependencyNode.appendNode("artifactId", depName)
-                        dependencyNode.appendNode("version", depVersion)
-                        dependencyNode.appendNode("scope", scope)
-
-                    }
-                    configurations.api.getDependencies().each { dep -> addDependency(dep, "compile") }
-                    configurations.implementation.getDependencies().each { dep -> addDependency(dep, "runtime") }
-                }
             }
         }
 
@@ -130,6 +107,10 @@ nexusPublishing {
         }
     }
 }
+
+ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_FILE_PATH")
 
 signing {
     sign publishing.publications
