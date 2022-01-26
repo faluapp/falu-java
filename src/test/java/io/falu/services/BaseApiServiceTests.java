@@ -15,7 +15,7 @@ public abstract class BaseApiServiceTests {
             .build();
 
     protected final FaluClientOptions options = FaluClientOptions.builder()
-            .apiKey("sk_test_LoLSnhr5sm4JjdOgxCx9rpCCiWuQ7kTw")
+            .apiKey("sk_test_123")
             .enableLogging(true)
             .appInformation(information)
             .build();
