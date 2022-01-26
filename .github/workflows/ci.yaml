@@ -36,7 +36,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew build --stacktrace
+        run: ./gradlew build --exclude-task test --stacktrace
 
   #################################################################################
   #   Deploy the package to Maven Central
