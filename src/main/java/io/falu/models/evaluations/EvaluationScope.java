@@ -6,17 +6,5 @@ public enum EvaluationScope {
     @SerializedName("business")
     BUSINESS,
     @SerializedName("personal")
-    PERSONAL;
-
-    String getDescription() {
-        switch (this) {
-            case BUSINESS -> {
-                return "business";
-            }
-            case PERSONAL -> {
-                return "personal";
-            }
-        }
-        return "";
-    }
+    PERSONAL
 }

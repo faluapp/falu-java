@@ -13,7 +13,7 @@ public class EvaluationRequest extends AbstractCreationRequest {
     /**
      * Represents the currency e.g kes
      */
-    String currency = "kes";
+    String currency;
 
     /**
      * Represents the scope within which an evaluation is generated.
@@ -24,7 +24,7 @@ public class EvaluationRequest extends AbstractCreationRequest {
     /**
      * Represents the kind of provider used for a statement in an evaluation.
      */
-    StatementProvider provider = StatementProvider.MPESA;
+    StatementProvider provider;
 
     /**
      * The full name of the person or business that owns the statement.
