@@ -79,10 +79,10 @@ public class QueryValues {
     /***/
     public <T> QueryValues fromRange(RangeFilteringOptions<T> options) {
         if (options != null) {
-            add("lt", options.lessThan());
-            add("lte", options.lessThanOrEqualTo());
-            add("gt", options.greaterThan());
-            add("gte", options.greaterThanOrEqualTo());
+            add("lt", options.lessThan);
+            add("lte", options.lessThanOrEqualTo);
+            add("gt", options.greaterThan);
+            add("gte", options.greaterThanOrEqualTo);
         }
         return this;
     }

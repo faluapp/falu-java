@@ -18,7 +18,7 @@ public class IdentitySearchModel {
      * Three-letter ISO country code, in lowercase, where the record exists.
      */
     @NotNull
-    public String country = "kes";
+    public String country;
 
     /**
      * The phone number to search in E.164 format. Required if DocumentNumber is not specified.
