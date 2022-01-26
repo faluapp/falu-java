@@ -60,7 +60,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Publish To maven central
-        run: ./gradlew publishReleasePublicationToSonatypeRepository --max-workers 1 closeAndReleaseSonatypeStagingRepository --stacktrace
+        run: |
+          ./gradlew publish --no-daemon --no-parallel
+          ./gradlew closeAndReleaseRepository
         env:
           RELEASE_REPOSITORY_URL: ${{ secrets.RELEASE_REPOSITORY_URL }}
           NEXUS_PROFILE_ID: ${{ secrets.NEXUS_PROFILE_ID }}
