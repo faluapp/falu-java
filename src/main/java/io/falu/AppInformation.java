@@ -31,6 +31,11 @@ public class AppInformation {
     String url;
 
     public String getUserAgent() {
-        return "falu-java/" + "1.0.0(1)" + " (" + getName() + ";SDK " + getVersion() + ";)";
+        String versionName = System.getenv("VERSION_NAME");
+        String versionCode = System.getenv("VERSION_CODE");
+        System.getenv().forEach((k, v) -> {
+            System.out.println(k + ":" + v);
+        });
+        return "falu-java/" + versionName + "(" + versionCode + ")" + " (" + getName() + ";SDK " + getVersion() + ";)";
     }
 }

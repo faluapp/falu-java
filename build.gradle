@@ -35,4 +35,11 @@ test {
     useJUnitPlatform()
 }
 
+task getPublishVersionCode(type: Exec) {
+    def code = 'git rev-list HEAD --count'.execute().text.trim()
+    environment 'VERSION_CODE', code
+}
+
+ext.getPublishVersion = { -> return System.getenv("VERSION_NAME") ?: "1.0.0-SNAPSHOT" }
+
 apply from: "${rootDir}/deploy/deploy.gradle"

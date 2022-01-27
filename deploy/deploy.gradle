@@ -3,7 +3,7 @@ apply plugin: "maven-publish"
 apply plugin: "io.github.gradle-nexus.publish-plugin"
 
 def isReleaseBuild() {
-    return !VERSION_NAME.contains("SNAPSHOT")
+    return !getPublishVersion().contains("SNAPSHOT")
 }
 
 def getReleaseRepositoryUrl() {
@@ -52,7 +52,7 @@ afterEvaluate {
             mavenJava(MavenPublication) {
                 groupId = GROUP
                 artifactId = POM_ARTIFACT_ID
-                version = VERSION_NAME
+                version = getPublishVersion()
                 from components.java
                 artifact sourcesJar
 
