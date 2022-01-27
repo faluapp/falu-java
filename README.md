@@ -4,7 +4,7 @@
 # Falu JAVA
 
 ![GitHub tag (latest by date)][sdk-version]
-[![Falu Java](https://github.com/tinglesoftware/falu-java/actions/workflows/ci.yaml/badge.svg)](https://github.com/tinglesoftware/falu-java/actions/workflows/ci.yaml)
+[![Build and Publish](https://github.com/tinglesoftware/falu-java/actions/workflows/build-release.yml/badge.svg)](https://github.com/tinglesoftware/falu-java/actions/workflows/build-release.yml)
 
 The official [Falu][falu] Java library, supporting Java 1.8+.
 
