@@ -115,11 +115,27 @@ nexusPublishing {
     }
 }
 
-ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
-ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
-ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_KEY")
-
 signing {
     sign publishing.publications
 }
+
+ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+
+// If the key content is in an environmental var, write it to "tmp/key.gpg" and update
+// ext['signing.secretKeyRingFile'] to point to it
+def keyContent = System.getenv("SIGNING_KEY")
+if (keyContent != null) {
+    def tempDirectory = new File("$rootProject.rootDir/tmp")
+    mkdir tempDirectory
+    def keyFile = new File("$tempDirectory/key.gpg")
+    keyFile.createNewFile()
+    def os = keyFile.newDataOutputStream()
+    os.write(keyContent.decodeBase64())
+    os.close()
+    keyContent = ''
+
+    ext['signing.secretKeyRingFile'] = keyFile.absolutePath
+}
+
 
