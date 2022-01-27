@@ -25,6 +25,7 @@ jobs:
           versionSpec: '5.x'
 
       - name: Determine Version
+        id: gitversion
         uses: gittools/actions/gitversion/execute@v0
         with:
           useConfigFile: true
@@ -39,19 +40,13 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Print key
-        run: echo "${{ secrets.NEXUS_USERNAME }}"
-
       - name: Publish To maven central
-        run: |
-          ./gradlew publish --no-daemon --no-parallel
-          ./gradlew closeAndReleaseRepository
+        run: ./gradlew publish
         env:
-          RELEASE_REPOSITORY_URL: ${{ secrets.RELEASE_REPOSITORY_URL }}
           NEXUS_PROFILE_ID: ${{ secrets.NEXUS_PROFILE_ID }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
           NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
           SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
           SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
-          VERSION_NAME: $GITVERSION_SEMVER
+          VERSION_NAME: ${{ steps.gitversion.outputs.semVer }}

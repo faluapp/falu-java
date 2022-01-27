@@ -8,6 +8,10 @@ buildscript {
 }
 
 plugins {
+    id "io.github.gradle-nexus.publish-plugin" version "1.1.0"
+}
+
+plugins {
     id 'java'
     id "maven-publish"
     id "signing"
@@ -41,5 +45,19 @@ task getPublishVersionCode(type: Exec) {
 }
 
 ext.getPublishVersion = { -> return System.getenv("VERSION_NAME") ?: "1.0.0-SNAPSHOT" }
+
+ext.getReleaseRepositoryUrl = { ->
+    return System.getenv("RELEASE_REPOSITORY_URL") ?: "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+}
+
+ext.getSnapshotRepositoryUrl = { ->
+    return System.getenv("SNAPSHOT_REPOSITORY_URL") ?: "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+}
+
+ext.getRepositoryStagingId = { -> return System.getenv("NEXUS_PROFILE_ID") }
+
+ext.getRepositoryUsername = { -> return System.getenv("NEXUS_USERNAME") }
+
+ext.getRepositoryPassword = { -> return System.getenv("NEXUS_PASSWORD") }
 
 apply from: "${rootDir}/deploy/deploy.gradle"
