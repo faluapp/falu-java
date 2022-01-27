@@ -41,7 +41,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Publish To maven central
-        run: ./gradlew publish
+        run: ./gradlew publish --max-workers 1 closeAndReleaseStagingRepository --stacktrace
         env:
           NEXUS_PROFILE_ID: ${{ secrets.NEXUS_PROFILE_ID }}
           NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
