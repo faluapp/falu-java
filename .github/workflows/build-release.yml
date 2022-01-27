@@ -1,0 +1,57 @@
+name: Build and Publish
+
+on:
+  push:
+    tags:
+      - '*'
+    paths-ignore: # do not trigger for changes:
+      - README.md
+      - LICENSE
+      - CHANGELOG.md
+      - docs/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Required for GitVersion
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Print key
+        run: echo "${{ secrets.NEXUS_USERNAME }}"
+
+      - name: Publish To maven central
+        run: |
+          ./gradlew publish --no-daemon --no-parallel
+          ./gradlew closeAndReleaseRepository
+        env:
+          RELEASE_REPOSITORY_URL: ${{ secrets.RELEASE_REPOSITORY_URL }}
+          NEXUS_PROFILE_ID: ${{ secrets.NEXUS_PROFILE_ID }}
+          NEXUS_USERNAME: ${{ secrets.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+          SIGNING_KEY_ID: ${{ secrets.SIGNING_KEY_ID }}
+          BUILD_BUILDNUMBER: $GITVERSION_SEMVER
