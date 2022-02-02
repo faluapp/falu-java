@@ -38,14 +38,9 @@ FaluExample.java
 public class FaluExample {
 
     public static void main(String[] args) {
-        AppInformation information = AppInformation.builder()
-                .name("Java-Tests")
-                .version("1.0")
-                .build();
 
         FaluClientOptions options = FaluClientOptions.builder()
                 .apiKey("sk_test_123")
-                .enableLogging(true)
                 .appInformation(information)
                 .build();
 
