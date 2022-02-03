@@ -16,6 +16,8 @@ public class Falu {
     private final MoneyBalancesService moneyBalancesService;
     private final PaymentsService paymentsService;
     private final TransfersService transfersService;
+    private final FilesService filesService;
+    private final WebhooksService webhooksService;
 
     public Falu(@NotNull FaluClientOptions options) {
         this.evaluationsService = new EvaluationsService(options);
@@ -24,5 +26,7 @@ public class Falu {
         this.moneyBalancesService = new MoneyBalancesService(options);
         this.paymentsService = new PaymentsService(options);
         this.transfersService = new TransfersService(options);
+        this.filesService = new FilesService(options);
+        this.webhooksService = new WebhooksService(options);
     }
 }
