@@ -11,6 +11,8 @@ import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
 import io.falu.models.evaluations.EvaluationsListOptions;
+import io.falu.models.events.EventListOptions;
+import io.falu.models.events.WebhookEvent;
 import io.falu.models.files.File;
 import io.falu.models.files.FileCreateRequest;
 import io.falu.models.files.FileListOptions;
@@ -65,8 +67,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
     private static final String HOST = "api.falu.io";
     private static final String SCHEME = "https";
 
-    public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor) {
-        super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor);
+    public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor, Boolean enableLogging) {
+        super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor, enableLogging);
     }
 
     //region Evaluations
@@ -602,7 +604,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
     //endregion
 
-    //region Webhook Endpoints
+    //region Webhook Endpoints, Events
     public ResourceResponse<WebhookEndpoint[]> getWebhookEndpoints(WebhookEndpointListOptions listOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/webhooks/endpoints", listOptions);
 
@@ -645,6 +647,25 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(url)
                 .delete();
         return execute(builder, ResourceResponse.class);
+    }
+
+    public ResourceResponse<WebhookEvent[]> getWebhookEvents(EventListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/events", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, WebhookEvent[].class);
+    }
+
+    public ResourceResponse<WebhookEvent> getWebhookEvent(String eventId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/event/" + eventId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+
+        return execute(builder, WebhookEvent.class);
     }
     //endregion
 
