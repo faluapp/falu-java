@@ -1,5 +1,7 @@
 package io.falu.models.payments;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Details about an MPESA Payment
  */
@@ -7,6 +9,7 @@ public class MpesaPayment {
     /**
      * The target MPESA business short code.
      */
+    @SerializedName("business_short_code")
     public String businessShortCode;
 
     /**
