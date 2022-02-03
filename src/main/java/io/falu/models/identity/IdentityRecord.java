@@ -61,15 +61,6 @@ public class IdentityRecord extends FaluModel {
     /**
      * The gender of the entity.
      * This value may be fixed or predicted.
-     * This value may be fixed or predicted.
-     * When predicted "GenderConfidence" will have a value.
      */
     String gender;
-
-    /**
-     * The confidence for the value predicted in ${gender}.
-     * This value is null when the gender is fixed and not predicted.
-     * It should not be used to determine predicted gender.
-     */
-    Float genderConfidence;
 }

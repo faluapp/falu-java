@@ -28,7 +28,7 @@ public class AbstractHttpApiClient {
      *
      * @param authenticationProvider the provider to use for authentication
      */
-    public AbstractHttpApiClient(@NotNull IAuthenticationProvider authenticationProvider, AppDetailsInterceptor interceptor) {
+    public AbstractHttpApiClient(@NotNull IAuthenticationProvider authenticationProvider, AppDetailsInterceptor interceptor, Boolean enableDebug) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .addInterceptor(authenticationProvider)
                 .addInterceptor(interceptor)
@@ -37,21 +37,12 @@ public class AbstractHttpApiClient {
                 .readTimeout(50, TimeUnit.SECONDS)
                 .writeTimeout(50, TimeUnit.SECONDS);
 
-
-        builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        if (enableDebug != null && enableDebug) {
+            builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
 
         backChannel = builder.build();
     }
-
-//    /**
-//     * Builds the back channel @[OkHttpClient] to be used by the client
-//     *
-//     * @param builder the prepared builder to extend
-//     * @return an initialized back channel
-//     */
-//    protected synchronized OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
-//        return builder.build();
-//    }
 
     @SuppressWarnings("unchecked")
     protected <TResult> ResourceResponse<TResult> execute(Request.Builder builder, Class<TResult> classOfTResult) throws IOException {

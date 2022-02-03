@@ -1,5 +1,6 @@
 package io.falu.models.transfers;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +30,7 @@ public class TransferMpesaDetails {
     /**
      * The target MPESA business short code.
      */
+    @SerializedName("business_short_code")
     private String businessShortCode;
 
     /**

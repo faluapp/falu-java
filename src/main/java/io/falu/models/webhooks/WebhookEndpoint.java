@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class WebhookEndpoint extends FaluModel {
     /**
      * The list of events to enable for this endpoint.
+     * Possible values are available in @{EventTypes}
      */
     private String[] events;
 

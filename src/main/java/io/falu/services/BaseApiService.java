@@ -13,7 +13,7 @@ abstract class BaseApiService {
 
     BaseApiService(@NotNull FaluClientOptions options) {
         AppDetailsInterceptor appDetailsInterceptor = new AppDetailsInterceptor(options.getAppInformation());
-        this.apiClient = new FaluApiClient(options, appDetailsInterceptor);
+        this.apiClient = new FaluApiClient(options, appDetailsInterceptor, options.getEnableLogging());
     }
 
     protected FaluApiClient getApiClient() {
