@@ -1,5 +1,6 @@
 package io.falu.models.messages;
 
+import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ public class MessageProvider {
     /**
      * Unique identifier for the request as provided by the provider.
      */
+    @SerializedName("request_id")
     private String requestId;
 
     /**
