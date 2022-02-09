@@ -1,13 +1,14 @@
 package io.falu.models.transfers;
 
 import io.falu.models.FaluModel;
-import io.falu.models.payments.refunds.PaymentRefundStatus;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Represents a transaction made by the business to customer or another business.
  */
 @Getter
+@SuperBuilder
 public class Transfer extends FaluModel {
     /**
      * Unique identifier for the object.
@@ -27,17 +28,17 @@ public class Transfer extends FaluModel {
     /**
      * The status of a transfer.
      */
-    private PaymentRefundStatus status;
+    private String status;
 
     /**
      * The medium used for the transfer.
      */
-    private TransferType type;
+    private String type;
 
     /**
      * The purpose of a transfer.
      */
-    private TransferPurpose purpose;
+    private String purpose;
 
     /**
      * Represents the provider details for a MPESA transfer.
