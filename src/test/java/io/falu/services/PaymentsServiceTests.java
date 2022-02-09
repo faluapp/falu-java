@@ -6,26 +6,67 @@ import io.falu.models.payments.*;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
 import io.falu.models.payments.authorization.PaymentAuthorizationsListOptions;
-import io.falu.models.payments.refunds.*;
-import io.falu.networking.RequestOptions;
+import io.falu.models.payments.refunds.PaymentRefund;
+import io.falu.models.payments.refunds.PaymentRefundPatchModel;
+import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.models.payments.refunds.PaymentRefundsListOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.Date;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 @ExtendWith(MockitoExtension.class)
 public class PaymentsServiceTests extends BaseApiServiceTests {
 
+    private final Payment payment = Payment.builder()
+            .id("pa_123")
+            .currency("kes")
+            .amount(100_00)
+            .build();
+
+
+    private final PaymentAuthorization paymentAuthorization = PaymentAuthorization.builder()
+            .id("pauth_123")
+            .currency("kes")
+            .amount(5_000_00)
+            .created(new Date())
+            .updated(new Date())
+            .build();
+
+    private final PaymentRefund paymentRefund = PaymentRefund.builder()
+            .id("pr_123")
+            .currency("kes")
+            .created(new Date())
+            .updated(new Date())
+            .amount(5_000_0)
+            .build();
+
+    @Mock
+    private PaymentsService service;
+
     @Test
     public void test_GetPaymentsWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentsListOptions opt = PaymentsListOptions.builder()
                 .count(1)
                 .build();
 
+        // given
+        ResourceResponse<Payment[]> expectedResponse = getResourceResponse(200, new Payment[]{payment});
+        when(service.getPayments(opt, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, new Payment[]{payment}));
+
+        // when
         ResourceResponse<Payment[]> response = service.getPayments(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -33,16 +74,23 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_GetPaymentWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
+        // given
+        ResourceResponse<Payment> expectedResponse = getResourceResponse(200, payment);
+        when(service.getPayment("pa_123", requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, payment));
+
+        // when
         ResourceResponse<Payment> response = service.getPayment("pa_123", requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 
     @Test
     public void test_CreatePaymentWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentCreateRequest request = PaymentCreateRequest.builder()
                 .amount(1000)
@@ -56,10 +104,13 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
                 )
                 .build();
 
-        RequestOptions requestOptions = RequestOptions.builder()
-                .live(false)
-                .build();
+        // given
+        ResourceResponse<Payment> expectedResponse = getResourceResponse(200, payment);
+        when(service.createPayment(request, requestOptions)).thenReturn(expectedResponse);
 
+        mockWebServer.enqueue(getMockedResponse(200, payment));
+
+        // when
         ResourceResponse<Payment> response = service.createPayment(request, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -67,15 +118,18 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_UpdatePaymentWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
-
-        RequestOptions requestOptions = RequestOptions.builder()
-                .live(false)
-                .build();
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         JsonPatchDocument<PaymentPatchModel> document = new JsonPatchDocument<PaymentPatchModel>()
                 .replace("description", "cake");
 
+        // given
+        ResourceResponse<Payment> expectedResponse = getResourceResponse(200, payment);
+        when(service.updatePayment("pa_123", document, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, payment));
+
+        // when
         ResourceResponse<Payment> response = service.updatePayment("pa_123", document, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -83,12 +137,19 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_GetPaymentAuthorizationsWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentAuthorizationsListOptions opt = PaymentAuthorizationsListOptions.builder()
                 .count(1)
                 .build();
 
+        // given
+        ResourceResponse<PaymentAuthorization[]> expectedResponse = getResourceResponse(200, new PaymentAuthorization[]{paymentAuthorization});
+        when(service.getPaymentAuthorizations(opt, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, new PaymentAuthorization[]{paymentAuthorization}));
+
+        // when
         ResourceResponse<PaymentAuthorization[]> response = service.getPaymentAuthorizations(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -96,59 +157,86 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_GetPaymentAuthorizationWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
+        // given
+        ResourceResponse<PaymentAuthorization> expectedResponse = getResourceResponse(200, paymentAuthorization);
+        when(service.getPaymentAuthorization("pauth_123", requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, paymentAuthorization));
+
+        // when
         ResourceResponse<PaymentAuthorization> response = service.getPaymentAuthorization("pauth_123", requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 
     @Test
     public void test_UpdatePaymentAuthorizationWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         JsonPatchDocument<PaymentAuthorizationPatchModel> document = new JsonPatchDocument<PaymentAuthorizationPatchModel>()
                 .replace("description", "cake");
 
+        // given
+        ResourceResponse<PaymentAuthorization> expectedResponse = getResourceResponse(200, paymentAuthorization);
+        when(service.updatePaymentAuthorization("pauth_123", document, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, paymentAuthorization));
+
+        // when
         ResourceResponse<PaymentAuthorization> response = service.updatePaymentAuthorization("pauth_123", document, requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 
     @Test
     public void test_ApprovePaymentAuthorizationWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
-        RequestOptions requestOptions = RequestOptions.builder()
-                .live(false)
-                .build();
+        // given
+        ResourceResponse<PaymentAuthorization> expectedResponse = getResourceResponse(200, paymentAuthorization);
+        when(service.approvePaymentAuthorization("pauth_123", requestOptions)).thenReturn(expectedResponse);
 
+        mockWebServer.enqueue(getMockedResponse(200, paymentAuthorization));
+
+        // when
         ResourceResponse<PaymentAuthorization> response = service.approvePaymentAuthorization("pauth_123", requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 
     @Test
     public void test_DeclinePaymentAuthorizationWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
-        RequestOptions requestOptions = RequestOptions.builder()
-                .live(false)
-                .build();
+        // given
+        ResourceResponse<PaymentAuthorization> expectedResponse = getResourceResponse(200, paymentAuthorization);
+        when(service.declinePaymentAuthorization("pauth_123", requestOptions)).thenReturn(expectedResponse);
 
+        mockWebServer.enqueue(getMockedResponse(200, paymentAuthorization));
+
+        // when
         ResourceResponse<PaymentAuthorization> response = service.declinePaymentAuthorization("pauth_123", requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 
     @Test
     public void test_GetPaymentRefundsWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentRefundsListOptions opt = PaymentRefundsListOptions.builder()
                 .count(1)
                 .build();
 
+        // given
+        ResourceResponse<PaymentRefund[]> expectedResponse = getResourceResponse(200, new PaymentRefund[]{paymentRefund});
+        when(service.getPaymentRefunds(opt, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, new PaymentRefund[]{paymentRefund}));
+
+        // when
         ResourceResponse<PaymentRefund[]> response = service.getPaymentRefunds(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -156,17 +244,20 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_CreatePaymentRefundWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentRefundRequest request = PaymentRefundRequest.builder()
                 .payment("pa_123")
-                .reason(PaymentRefundReason.CUSTOMER_REQUESTED)
+                .reason("customerRequested")
                 .build();
 
-        RequestOptions requestOptions = RequestOptions.builder()
-                .live(false)
-                .build();
+        // given
+        ResourceResponse<PaymentRefund> expectedResponse = getResourceResponse(200, paymentRefund);
+        when(service.createPaymentRefund(request, requestOptions)).thenReturn(expectedResponse);
 
+        mockWebServer.enqueue(getMockedResponse(200, paymentRefund));
+
+        // when
         ResourceResponse<PaymentRefund> response = service.createPaymentRefund(request, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -174,22 +265,36 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_GetPaymentRefundWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
+        // given
+        ResourceResponse<PaymentRefund> expectedResponse = getResourceResponse(200, paymentRefund);
+        when(service.getPaymentRefund("pr_123", requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, paymentRefund));
+
+        // when
         ResourceResponse<PaymentRefund> response = service.getPaymentRefund("pr_123", requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 
     @Test
     public void test_UpdatePaymentRefundWorks() throws IOException {
-        PaymentsService service = new PaymentsService(options);
+        service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         JsonPatchDocument<PaymentRefundPatchModel> document = new JsonPatchDocument<PaymentRefundPatchModel>()
                 .replace("replace", "cake");
 
+        // given
+        ResourceResponse<PaymentRefund> expectedResponse = getResourceResponse(200, paymentRefund);
+        when(service.updatePaymentRefund("pr_123", document, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, paymentRefund));
+
+        // when
         ResourceResponse<PaymentRefund> response = service.updatePaymentRefund("pr_123", document, requestOptions);
-        Assertions.assertEquals(204, response.getStatusCode());
-        Assertions.assertNull(response.getResource());
+        Assertions.assertEquals(200, response.getStatusCode());
+        Assertions.assertNotNull(response.getResource());
     }
 }

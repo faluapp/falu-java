@@ -18,5 +18,5 @@ public class PaymentRefundRequest {
     /**
      * The reason for refunding a payment.
      */
-    private PaymentRefundReason reason;
+    private String reason;
 }
