@@ -9,21 +9,44 @@ import io.falu.models.webhooks.WebhookEndpointPatchModel;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
+import java.util.Date;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 @ExtendWith(MockitoExtension.class)
 public class WebhookServiceTests extends BaseApiServiceTests {
 
+    private final WebhookEndpoint webhookEndpoint = WebhookEndpoint.builder()
+            .id("we_123")
+            .url("https://localhost:1234")
+            .created(new Date())
+            .updated(new Date())
+            .build();
+
+    @Mock
+    private WebhooksService service;
+
     @Test
     public void test_GetWebhooksWorks() throws IOException {
-        WebhooksService service = new WebhooksService(options);
+        service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         WebhookEndpointListOptions opt = WebhookEndpointListOptions.builder()
                 .count(1)
                 .build();
 
+        // given
+        ResourceResponse<WebhookEndpoint[]> expectedResponse = getResourceResponse(200, new WebhookEndpoint[]{webhookEndpoint});
+        when(service.getWebhookEndpoints(opt, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, new WebhookEndpoint[]{webhookEndpoint}));
+
+        // when
         ResourceResponse<WebhookEndpoint[]> response = service.getWebhookEndpoints(opt, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -31,7 +54,7 @@ public class WebhookServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_CreateWebhooksWorks() throws IOException {
-        WebhooksService service = new WebhooksService(options);
+        service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         WebhookEndpointCreateRequest request = WebhookEndpointCreateRequest.builder()
                 .events(new String[]{"evaluation.completed"})
@@ -40,6 +63,13 @@ public class WebhookServiceTests extends BaseApiServiceTests {
                 .token("e0gNHBa90CfdKbtcWgksn52cvXoXMqCTaLdttJAsQVU=")
                 .build();
 
+        // given
+        ResourceResponse<WebhookEndpoint> expectedResponse = getResourceResponse(200, webhookEndpoint);
+        when(service.createWebhookEndpoints(request, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, webhookEndpoint));
+
+        // when
         ResourceResponse<WebhookEndpoint> response = service.createWebhookEndpoints(request, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -47,8 +77,15 @@ public class WebhookServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_GetWebhookWorks() throws IOException {
-        WebhooksService service = new WebhooksService(options);
+        service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
+        // given
+        ResourceResponse<WebhookEndpoint> expectedResponse = getResourceResponse(200, webhookEndpoint);
+        when(service.getWebhookEndpoint("we_123", requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, webhookEndpoint));
+
+        // when
         ResourceResponse<WebhookEndpoint> response = service.getWebhookEndpoint("we_123", requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -56,11 +93,18 @@ public class WebhookServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_updateWebhookWorks() throws IOException {
-        WebhooksService service = new WebhooksService(options);
+        service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         JsonPatchDocument<WebhookEndpointPatchModel> document = new JsonPatchDocument<WebhookEndpointPatchModel>()
                 .replace("description", "cake");
 
+        // given
+        ResourceResponse<WebhookEndpoint> expectedResponse = getResourceResponse(200, webhookEndpoint);
+        when(service.updateWebhookEndpoint("we_123", document, requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, webhookEndpoint));
+
+        // when
         ResourceResponse<WebhookEndpoint> response = service.updateWebhookEndpoint("we_123", document, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
@@ -68,8 +112,15 @@ public class WebhookServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_deleteWebhookWorks() throws IOException {
-        WebhooksService service = new WebhooksService(options);
+        service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
+        // given
+        ResourceResponse expectedResponse = getResourceResponse(200, null);
+        when(service.deleteWebhookEndpoint("we_123", requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, webhookEndpoint));
+
+        // when
         ResourceResponse<?> response = service.deleteWebhookEndpoint("we_123", requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
     }
