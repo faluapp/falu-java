@@ -3,6 +3,7 @@ package io.falu.models.moneyBalances;
 import io.falu.models.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.HashMap;
 
@@ -12,6 +13,7 @@ import java.util.HashMap;
  */
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 public class MoneyBalance extends FaluModel {
     /**
      * Breakdown of balance by business code.
