@@ -22,12 +22,15 @@ public class AppDetailsInterceptor implements Interceptor {
     @NotNull
     @Override
     public Response intercept(@NotNull Chain chain) throws IOException {
-        Request request = chain
+        Request.Builder builder = chain
                 .request()
                 .newBuilder()
-                .header("X-Falu-Version", "2022-01-01")
-                .header("User-Agent", information.getUserAgent())
-                .build();
-        return chain.proceed(request);
+                .header("X-Falu-Version", "2022-01-01");
+
+        if (information != null) {
+            builder.header("User-Agent", information.getUserAgent());
+        }
+
+        return chain.proceed(builder.build());
     }
 }

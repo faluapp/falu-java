@@ -34,7 +34,7 @@ public abstract class FaluModel implements Serializable {
     /**
      * Unique identifier for the workspace that the object belongs to.
      */
-    String workspaceId;
+    String workspace;
 
     /**
      * An optional arbitrary string attached to the object.

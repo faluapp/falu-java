@@ -19,5 +19,5 @@ public class TransferReversalCreateRequest {
     /**
      * Reason for the reversal.
      */
-    public PaymentRefundReason reason;
+    public String reason;
 }

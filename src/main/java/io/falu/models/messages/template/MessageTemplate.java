@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * A template for sending messages.
@@ -13,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 public class MessageTemplate extends FaluModel {
     /**
      * Unique identifier for the object.

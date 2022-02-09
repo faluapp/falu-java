@@ -5,6 +5,7 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
+import io.falu.models.messages.stream.MessageStreamCreateRequest;
 import io.falu.models.messages.stream.MessageStreamPatchModel;
 import io.falu.models.messages.stream.MessageStreamsListOptions;
 import io.falu.models.messages.template.*;
@@ -158,6 +159,17 @@ public class MessagesService extends BaseApiService {
     public ResourceResponse<MessageStream> getMessageStream(@NotNull String streamId, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getMessageStream(streamId, requestOptions);
     }
+
+    /**
+     * Create Message Stream.
+     *
+     * @param request        the request object
+     * @param requestOptions additional info to add to the request.
+     */
+    public ResourceResponse<MessageStream> createMessageStream(@NotNull MessageStreamCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().createMessageStream(request, requestOptions);
+    }
+
 
     /**
      * Update Message Stream.

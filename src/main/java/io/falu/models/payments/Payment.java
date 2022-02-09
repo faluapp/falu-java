@@ -5,6 +5,7 @@ import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import java.util.Date;
  */
 @NoArgsConstructor
 @Getter
+@SuperBuilder
 public class Payment extends FaluModel {
     /**
      * Unique identifier for the object.
@@ -48,7 +50,7 @@ public class Payment extends FaluModel {
     /**
      * The medium used for the payment.
      */
-    private PaymentType type;
+    private String type;
 
     /**
      * Details about failure of a payment, transfer or reversal.

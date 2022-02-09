@@ -1,17 +1,20 @@
 package io.falu.services;
 
-import io.falu.AppInformation;
-import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
 import io.falu.models.identity.*;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.Date;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.withSettings;
 
 @ExtendWith(MockitoExtension.class)
 public class IdentityServiceTests extends BaseApiServiceTests {
@@ -34,9 +37,13 @@ public class IdentityServiceTests extends BaseApiServiceTests {
             .phones(new String[]{"+254722000000", "+255722000000"})
             .build();
 
+    @Mock
+    private IdentityService service;
 
     @Test
     public void test_SearchIdentityWork() throws IOException {
+        service = Mockito.mock(IdentityService.class, withSettings().useConstructor(options));
+
         RequestOptions requestOptions = RequestOptions
                 .builder()
                 .idempotencyKey("05bc69eb-218d-46f2-8812-5bede8592abf")
@@ -49,10 +56,14 @@ public class IdentityServiceTests extends BaseApiServiceTests {
                 .country(identityRecord.getCountry())
                 .build();
 
-        IdentityService service = new IdentityService(options);
+        // given
+        ResourceResponse<IdentityRecord> expectedResponse = getResourceResponse(200, identityRecord);
+        when(service.searchIdentity(searchModel, requestOptions)).thenReturn(expectedResponse);
 
+        mockWebServer.enqueue(getMockedResponse(200, identityRecord));
+
+        // when
         ResourceResponse<IdentityRecord> response = service.searchIdentity(searchModel, requestOptions);
-
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
         Assertions.assertEquals(identityRecord.getDocumentNumber(), response.getResource().getDocumentNumber());
@@ -63,15 +74,7 @@ public class IdentityServiceTests extends BaseApiServiceTests {
 
     @Test
     public void test_MarketingResultsWork() throws IOException {
-        AppInformation information = AppInformation.builder()
-                .name("Java-Tests")
-                .version("1.0")
-                .build();
-        FaluClientOptions options = FaluClientOptions.builder()
-                .apiKey("")
-                .enableLogging(true)
-                .appInformation(information)
-                .build();
+        service = Mockito.mock(IdentityService.class, withSettings().useConstructor(options));
 
         RequestOptions requestOptions = RequestOptions
                 .builder()
@@ -83,12 +86,16 @@ public class IdentityServiceTests extends BaseApiServiceTests {
                 .count(1)
                 .build();
 
-        IdentityService service = new IdentityService(options);
+        // given
+        ResourceResponse<MarketingResult[]> expectedResponse = getResourceResponse(200, new MarketingResult[]{marketingResult});
+        when(service.getMarketingResults(listOptions, requestOptions)).thenReturn(expectedResponse);
 
+        mockWebServer.enqueue(getMockedResponse(200, new MarketingResult[]{marketingResult}));
+
+        // when
         ResourceResponse<MarketingResult[]> response = service.getMarketingResults(listOptions, requestOptions);
-
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
-        Assertions.assertFalse(response.getResource().length != 0);
+        Assertions.assertTrue(response.getResource().length > 0);
     }
 }

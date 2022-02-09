@@ -60,39 +60,7 @@ public class QueryValueTests {
         Assertions.assertEquals(Arrays.toString(new String[]{"count", "sort"}), Arrays.toString(query.getKeys()));
         Assertions.assertEquals(Arrays.toString(new String[]{"12", "descending"}), Arrays.toString(query.getParams()));
     }
-
-    @Test
-    public void test_BasicListOptionsWithDateWorks() {
-        RangeFilteringOptions<Date> filter = new RangeFilteringOptions<>(
-                toDate("3/10/2021 4:41:25 PM +00:00"),
-                toDate("3/10/2021 7:41:25 PM +03:00"),
-                toDate("3/11/2021 4:41:25 PM +00:00"),
-                toDate("3/11/2021 4:41:25 PM +00:00"));
-
-        BasicListOptions opt = BasicListOptions.builder()
-                .created(filter)
-                .build();
-
-        QueryValues query = new QueryValues();
-        opt.populate(query);
-
-        Assertions.assertFalse(query.getValues().isEmpty());
-        Assertions.assertEquals(Arrays.toString(new String[]{
-                        "created.gt",
-                        "created.gte",
-                        "created.lt",
-                        "created.lte"}),
-                Arrays.toString(query.getKeys())
-        );
-        Assertions.assertEquals(Arrays.toString(new String[]{
-                        "2021-11-03T01:41:25Z",
-                        "2021-11-03T01:41:25Z",
-                        "2021-10-03T01:41:25Z",
-                        "2021-10-03T04:41:25Z"}),
-                Arrays.toString(query.getParams())
-        );
-    }
-
+    
     @Test
     public void test_MarketingListOptionsWorks() {
         RangeFilteringOptions<Integer> filter = new RangeFilteringOptions<>(40, null, null, 29);

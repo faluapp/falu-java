@@ -2,11 +2,13 @@ package io.falu.models.messages;
 
 import io.falu.models.FaluModel;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Representation of a message request response
  */
 @Getter
+@SuperBuilder
 public class MessageResponse extends FaluModel {
 
     /**

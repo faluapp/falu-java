@@ -5,6 +5,7 @@ import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 
@@ -13,7 +14,13 @@ import java.util.Date;
  */
 @NoArgsConstructor
 @Getter
+@SuperBuilder
 public class File extends FaluModel {
+    /**
+     * The unique identifier of the file
+     */
+    private String id;
+
     /**
      * Purpose of the file.
      */

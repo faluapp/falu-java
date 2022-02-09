@@ -24,12 +24,12 @@ public class MessageStreamCreateRequest {
     /**
      * Type of stream.
      */
-    private MessageStreamType type;
+    private String type;
 
     /**
      * Provider to be used.
      */
-    private MessageStreamProviderType provider;
+    private String provider;
 
     private MessageStreamSettings settings;
 }

@@ -1,20 +1,17 @@
 package io.falu.models.payments.authorization;
 
 
-import com.google.gson.annotations.JsonAdapter;
-import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.FaluModel;
-import io.falu.models.payments.PaymentType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.Date;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Represents a payment authorization.
  */
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 public class PaymentAuthorization extends FaluModel {
     /**
      * Unique identifier for the object.
@@ -39,17 +36,17 @@ public class PaymentAuthorization extends FaluModel {
     /**
      * The authorization was reversed by the payment provider or expired without capture.
      */
-    private PaymentAuthorizationStatus status;
+    private String status;
 
     /**
      * Reason for a given status of payment authorization.
      */
-    private PaymentAuthorizationReason reason;
+    private String reason;
 
     /**
      * The medium used for the payment.
      */
-    private PaymentType type;
+    private String type;
 
     /**
      * Identifier of the payment created after the authorization is approved and closed.

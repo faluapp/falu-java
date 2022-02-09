@@ -3,12 +3,14 @@ package io.falu.models.payments.refunds;
 import io.falu.models.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Represents a reversal of a Payment.
  */
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 public class PaymentRefund extends FaluModel {
     /**
      * Unique identifier for the object.
@@ -33,7 +35,7 @@ public class PaymentRefund extends FaluModel {
     /**
      * The reason for refunding a payment.
      */
-    private PaymentRefundReason reason;
+    private String reason;
 
     /**
      * Details of the reversal if done via MPESA.
@@ -45,5 +47,4 @@ public class PaymentRefund extends FaluModel {
      * Details about failure if the reversal is in failed state.
      */
     private PaymentRefundFailure failure;
-
 }

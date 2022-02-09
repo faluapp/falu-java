@@ -13,39 +13,39 @@ public class EvaluationRequest extends AbstractCreationRequest {
     /**
      * Represents the currency e.g kes
      */
-    String currency;
+    private String currency;
 
     /**
      * Represents the scope within which an evaluation is generated.
      * This can also be considered the purpose of the evaluation.
      */
-    EvaluationScope scope;
+    private String scope;
 
     /**
      * Represents the kind of provider used for a statement in an evaluation.
      */
-    StatementProvider provider;
+    private String provider;
 
     /**
      * The full name of the person or business that owns the statement.
      */
-    String name;
+    private String name;
 
     /**
      * The Phone number for attached to the statement.
      * Only required for statements generated against a phone number e.g. mpesa
      */
-    String phone;
+    private String phone;
 
     /**
      * Password to open the uploaded file. Only required for password-protected files.
      * Certain providers only provide password-protected files.
      * In such cases the password should always be provided.
      */
-    String password;
+    private String password;
 
     /**
      * Unique identifier of the file containing the statement.
      */
-    String fileId;
+    private String file;
 }

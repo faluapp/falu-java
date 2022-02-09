@@ -26,7 +26,7 @@ public class TransferCreateRequest {
     /**
      * Purpose of the transfer.
      */
-    private TransferPurpose purpose;
+    private String purpose;
 
     /**
      * Details about initiation of an MPESA transfer to a customer or another business.

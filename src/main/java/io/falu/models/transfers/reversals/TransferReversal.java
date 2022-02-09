@@ -3,15 +3,16 @@ package io.falu.models.transfers.reversals;
 import io.falu.models.FaluModel;
 import io.falu.models.payments.refunds.PaymentRefundFailure;
 import io.falu.models.payments.refunds.PaymentRefundMpesaDetails;
-import io.falu.models.payments.refunds.PaymentRefundReason;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
  * Represents a reversal of a Transfer.
  */
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 public class TransferReversal extends FaluModel {
 
     /**
@@ -37,7 +38,7 @@ public class TransferReversal extends FaluModel {
     /**
      * The reason for reversing a transfer.
      */
-    private PaymentRefundReason reason;
+    private String reason;
 
     /**
      * Represents the details for an MPESA transfer reversal.
