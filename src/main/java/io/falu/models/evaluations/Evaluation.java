@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
  * Represents a financial evaluation.
  */
 @Getter
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 public class Evaluation extends FaluModel {
     /**
      * Unique identifier of the evaluation.
@@ -35,5 +35,5 @@ public class Evaluation extends FaluModel {
     /**
      * Represents the scoring result for an evaluation.
      */
-    Scoring scoring;
+    private Scoring scoring;
 }
