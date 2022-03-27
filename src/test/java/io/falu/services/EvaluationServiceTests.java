@@ -36,7 +36,7 @@ public class EvaluationServiceTests extends BaseApiServiceTests {
 
     @Mock
     private EvaluationsService service;
-
+ 
     @Test
     public void test_GettingEvaluationsWorks() throws IOException {
         service = Mockito.mock(EvaluationsService.class, withSettings().useConstructor(options));

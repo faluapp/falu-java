@@ -36,7 +36,7 @@ public class BasicListOptions {
         if (values == null) return;
 
         values
-                .add("sort", sorting)
+                .add("sort", new String[] {sorting})
                 .add("count", count)
                 .add("created", new QueryValues().fromRange(created))
                 .add("updated", new QueryValues().fromRange(updated));
