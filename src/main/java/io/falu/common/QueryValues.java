@@ -2,7 +2,6 @@ package io.falu.common;
 
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import okhttp3.HttpUrl;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,10 +12,10 @@ import java.util.Map;
  * Helper for handling query parameters
  */
 public class QueryValues {
-    private final Map<String, String> values;
+    private final Map<String, String[]> values;
 
     /***/
-    public QueryValues(Map<String, String> values) {
+    public QueryValues(Map<String, String[]> values) {
         this.values = values;
     }
 
@@ -27,7 +26,7 @@ public class QueryValues {
     /***/
     public QueryValues add(String key, String value) {
         if (value != null && !value.isEmpty()) {
-            values.put(key, value);
+            add(key, new String[]{value});
         }
         return this;
     }
@@ -43,22 +42,22 @@ public class QueryValues {
         if (value == null) return this;
 
         if (value instanceof Boolean) {
-            add(key, value.toString().toLowerCase(Locale.ROOT));
+            add(key, new String[]{value.toString().toLowerCase(Locale.ROOT)});
         } else if (value instanceof Date) {
-            add(key, ISO8601Utils.format((Date) value));
+            add(key, new String[]{ISO8601Utils.format((Date) value)});
         } else if (value instanceof Integer) {
-            add(key, String.valueOf(value));
+            add(key, new String[]{String.valueOf(value)});
         } else if (value instanceof Long) {
-            add(key, String.valueOf(value));
+            add(key, new String[]{String.valueOf(value)});
         }
-
         return this;
     }
 
     /***/
     public QueryValues add(String key, String[] values) {
-        String value = values == null ? "" : String.join(",", values);
-        add(key, value);
+        if (values != null && values.length > 0) {
+            this.values.put(key, values);
+        }
         return this;
     }
 
@@ -70,7 +69,7 @@ public class QueryValues {
             return this;
         }
 
-        for (Map.Entry<String, String> entry : other.values.entrySet()) {
+        for (Map.Entry<String, String[]> entry : other.values.entrySet()) {
             add(property + "." + entry.getKey(), entry.getValue());
         }
         return this;
@@ -89,8 +88,11 @@ public class QueryValues {
 
     /***/
     public void getQueryParameters(HttpUrl.Builder builder) {
-        for (Map.Entry<String, String> entry : values.entrySet()) {
-            builder.addEncodedQueryParameter(entry.getKey(), entry.getValue());
+        for (Map.Entry<String, String[]> entry : values.entrySet()) {
+            String[] values = entry.getValue();
+            for (String value : values) {
+                builder.addEncodedQueryParameter(entry.getKey(), value);
+            }
         }
     }
 
@@ -98,11 +100,12 @@ public class QueryValues {
         return values.keySet().toArray(new String[0]);
     }
 
-    public String[] getParams() {
+
+    String[] getParams() {
         return values.values().toArray(new String[0]);
     }
 
-    public Map<String, String> getValues() {
+    public Map<String, String[]> getValues() {
         return values;
     }
 }

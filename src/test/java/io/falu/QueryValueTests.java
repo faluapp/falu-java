@@ -22,12 +22,12 @@ public class QueryValueTests {
 
     @Test
     public void test_QueryIsGenerated() {
-        Map<String, String> params = new HashMap<>();
-        params.put("sort", "descending");
-        params.put("count", "100");
-        params.put("ct", "100");
-        params.put("age.lt", "40");
-        params.put("created.gte", "2021-03-10T19:41:25.0000000+03:00");
+        Map<String, String[]> params = new HashMap<>();
+        params.put("sort", new String[]{"descending"});
+        params.put("count", new String[]{"100"});
+        params.put("ct", new String[]{"100"});
+        params.put("age.lt", new String[]{"40"});
+        params.put("created.gte", new String[]{"2021-03-10T19:41:25.0000000+03:00"});
 
         QueryValues values = new QueryValues(params);
 
@@ -58,9 +58,8 @@ public class QueryValueTests {
 
         Assertions.assertFalse(query.getValues().isEmpty());
         Assertions.assertEquals(Arrays.toString(new String[]{"count", "sort"}), Arrays.toString(query.getKeys()));
-        Assertions.assertEquals(Arrays.toString(new String[]{"12", "descending"}), Arrays.toString(query.getParams()));
     }
-    
+
     @Test
     public void test_MarketingListOptionsWorks() {
         RangeFilteringOptions<Integer> filter = new RangeFilteringOptions<>(40, null, null, 29);
@@ -83,10 +82,28 @@ public class QueryValueTests {
                         "country", "gender", "age.lt", "count", "sort", "age.gte",}),
                 Arrays.toString(query.getKeys())
         );
-        Assertions.assertEquals(Arrays.toString(new String[]{
-                        "uga", "female", "40", "12", "descending", "29",}),
-                Arrays.toString(query.getParams())
-        );
+    }
+
+    @Test
+    public void test_MultipleQueryValuesWorks() {
+        Map<String, String[]> params = new HashMap<>();
+
+        QueryValues values = new QueryValues(params);
+        values.add("sort", new String[]{"desc"});
+        values.add("count", new String[]{String.valueOf(100)});
+        values.add("type", new String[]{"evaluation.created", "evaluation.failed", "evaluation.completed"});
+
+        HttpUrl.Builder builder = new HttpUrl.Builder()
+                .scheme("https")
+                .host("example.com")
+                .addPathSegments("events");
+
+        values.getQueryParameters(builder);
+
+        HttpUrl httpUrl = builder.build();
+
+        String url = httpUrl.toString();
+        Assertions.assertEquals("https://example.com/events?count=100&sort=desc&type=evaluation.created&type=evaluation.failed&type=evaluation.completed", url);
     }
 
     private Date toDate(String dateToConsider) {
