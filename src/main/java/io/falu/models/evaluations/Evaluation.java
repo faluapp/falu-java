@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
 /**
- * [The evaluation object](https://docs.falu.io/api/#evaluations/evaluations/schema)
+ * [The evaluation object](<a href="https://docs.falu.io/api/#evaluations/evaluations/schema">...</a>)
  * Represents a financial evaluation.
  */
 @Getter
@@ -31,9 +31,4 @@ public class Evaluation extends FaluModel {
      * Represents the status of an evaluation
      */
     private String status;
-
-    /**
-     * Represents the scoring result for an evaluation.
-     */
-    private Scoring scoring;
 }
