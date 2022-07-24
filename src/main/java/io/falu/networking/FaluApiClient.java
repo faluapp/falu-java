@@ -7,6 +7,8 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
+import io.falu.models.evaluationReports.EvaluationReport;
+import io.falu.models.evaluationReports.EvaluationReportsListOptions;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
@@ -669,6 +671,27 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
     //endregion
 
+    //region Evaluation Reports
+
+    public ResourceResponse<EvaluationReport[]> getEvaluationReports(EvaluationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/evaluations/evaluation_reports", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, EvaluationReport[].class);
+    }
+
+    public ResourceResponse<EvaluationReport> getEvaluationReport(String reportId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/evaluations/evaluation_reports/" + reportId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, EvaluationReport.class);
+    }
+
+    //endregion
     private static Request.Builder buildRequest(RequestOptions options) {
         Request.Builder builder = new Request.Builder();
 
