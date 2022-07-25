@@ -1,6 +1,6 @@
 package io.falu.models.evaluationReports;
 
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 
 public abstract class AbstractEvaluationReport extends FaluModel {
     /**

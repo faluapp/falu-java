@@ -1,6 +1,6 @@
 package io.falu.models.messages.template;
 
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

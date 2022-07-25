@@ -1,7 +1,6 @@
 package io.falu.models.messages;
 
-import io.falu.models.AbstractCreationRequest;
-import lombok.Builder;
+import io.falu.models.core.AbstractCreationRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

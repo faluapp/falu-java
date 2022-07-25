@@ -1,6 +1,6 @@
 package io.falu.models.webhooks;
 
-import io.falu.models.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreationRequest;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;

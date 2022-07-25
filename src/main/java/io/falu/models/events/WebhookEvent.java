@@ -1,6 +1,6 @@
 package io.falu.models.events;
 
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 

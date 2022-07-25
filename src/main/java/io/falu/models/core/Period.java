@@ -1,4 +1,4 @@
-package io.falu.models;
+package io.falu.models.core;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.falu.client.adapters.ISO8601DateAdapter;

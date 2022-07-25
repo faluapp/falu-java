@@ -1,7 +1,7 @@
 package io.falu.models.evaluations;
 
 import com.google.gson.annotations.SerializedName;
-import io.falu.models.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreationRequest;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 

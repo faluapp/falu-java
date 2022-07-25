@@ -2,7 +2,7 @@ package io.falu.models.files.links;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.falu.client.adapters.ISO8601DateAdapter;
-import io.falu.models.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreationRequest;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 

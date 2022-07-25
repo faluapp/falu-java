@@ -1,4 +1,4 @@
-package io.falu.models;
+package io.falu.models.core;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

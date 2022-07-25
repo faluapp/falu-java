@@ -3,7 +3,7 @@ package io.falu.models.messages.stream;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import io.falu.client.adapters.ISO8601DateAdapter;
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
