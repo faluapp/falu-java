@@ -48,4 +48,20 @@ public class EvaluationReportsServiceTests extends BaseApiServiceTests {
         Assertions.assertNotNull(resp);
         Assertions.assertTrue(response.getResource().length > 0);
     }
+
+    @Test
+    public void test_GetEvaluationReportWorks() throws IOException {
+        service = Mockito.mock(EvaluationReportsService.class, withSettings().useConstructor(options));
+
+        // given
+        ResourceResponse<EvaluationReport> expectedResponse = getResourceResponse(200, report);
+        when(service.getEvaluationReport("ev_0o5Fs0EELR0fUjHjbCnEtdUwQe3", requestOptions)).thenReturn(expectedResponse);
+
+        mockWebServer.enqueue(getMockedResponse(200, report));
+
+        // when
+        ResourceResponse<EvaluationReport> response = service.getEvaluationReport("ev_0o5Fs0EELR0fUjHjbCnEtdUwQe3", requestOptions);
+        Assertions.assertNotNull(response);
+        Assertions.assertEquals(200, response.getStatusCode());
+    }
 }
