@@ -3,9 +3,16 @@ package io.falu.models.evaluationReports;
 import io.falu.models.FaluModel;
 import io.falu.models.evaluations.EvaluationScoringOptions;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
+@SuperBuilder(toBuilder = true)
 public class EvaluationReport extends FaluModel {
+    /**
+     * Unique identifier of the evaluation report.
+     */
+    private String id;
+
     /**
      * Identifier of the evaluation that created this report.
      */
