@@ -1,12 +1,14 @@
 package io.falu.models.identityVerification;
 
 import com.google.gson.annotations.SerializedName;
+import lombok.Builder;
 import lombok.Getter;
 
 /**
  * A set of verification checks to be performed.
  */
 @Getter
+@Builder
 public class IdentityVerificationOptions {
 
     /**
