@@ -1,6 +1,7 @@
 package io.falu.models.identityVerification;
 
 import com.google.gson.annotations.SerializedName;
+import io.falu.models.core.DataReduction;
 import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -62,4 +63,9 @@ public class IdentityVerification extends FaluModel {
      * The user's verified data.
      */
     private IdentityVerificationOutputs outputs;
+
+    /**
+     * Redaction information of this object. If the object is not redacted, this field will be null.
+     */
+    private DataReduction reduction;
 }

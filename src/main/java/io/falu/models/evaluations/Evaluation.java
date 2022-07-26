@@ -1,5 +1,6 @@
 package io.falu.models.evaluations;
 
+import io.falu.models.core.DataReduction;
 import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -61,4 +62,9 @@ public class Evaluation extends FaluModel {
      * The evaluations and scoring output data.
      */
     private EvaluationScoringOutputs outputs;
+
+    /**
+     * Redaction information of this object. If the object is not redacted, this field will be null.
+     */
+    private DataReduction reduction;
 }
