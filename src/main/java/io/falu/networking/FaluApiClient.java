@@ -26,6 +26,9 @@ import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
+import io.falu.models.identityVerification.IdentityVerification;
+import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationPatchModel;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
@@ -56,6 +59,7 @@ import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
 import io.falu.models.webhooks.WebhookEndpointPatchModel;
+import io.falu.services.IdentityVerificationListOptions;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
@@ -692,6 +696,65 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     //endregion
+
+    //region IdentityVerification
+    public ResourceResponse<IdentityVerification[]> getIdentityVerifications(IdentityVerificationListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerification[].class);
+    }
+
+    public ResourceResponse<IdentityVerification> createIdentityVerification(IdentityVerificationCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> getIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
+           JsonPatchDocument<IdentityVerificationPatchModel> document, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> cancelIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/cancel", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> redactIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/redact", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    //endregion
+
     private static Request.Builder buildRequest(RequestOptions options) {
         Request.Builder builder = new Request.Builder();
 
