@@ -7,6 +7,8 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
+import io.falu.models.evaluationReports.EvaluationReport;
+import io.falu.models.evaluationReports.EvaluationReportsListOptions;
 import io.falu.models.evaluations.Evaluation;
 import io.falu.models.evaluations.EvaluationPatchModel;
 import io.falu.models.evaluations.EvaluationRequest;
@@ -20,10 +22,16 @@ import io.falu.models.files.links.FileLink;
 import io.falu.models.files.links.FileLinkCreateRequest;
 import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
+import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
+import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
+import io.falu.models.identityVerification.IdentityVerification;
+import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationListOptions;
+import io.falu.models.identityVerification.IdentityVerificationPatchModel;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
 import io.falu.models.messages.stream.MessageStreamCreateRequest;
@@ -668,6 +676,105 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, WebhookEvent.class);
     }
     //endregion
+
+    //region Evaluation Reports
+
+    public ResourceResponse<EvaluationReport[]> getEvaluationReports(EvaluationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/evaluations/evaluation_reports", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, EvaluationReport[].class);
+    }
+
+    public ResourceResponse<EvaluationReport> getEvaluationReport(String reportId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/evaluations/evaluation_reports/" + reportId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, EvaluationReport.class);
+    }
+
+    //endregion
+
+    //region IdentityVerification
+    public ResourceResponse<IdentityVerification[]> getIdentityVerifications(IdentityVerificationListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerification[].class);
+    }
+
+    public ResourceResponse<IdentityVerification> createIdentityVerification(IdentityVerificationCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> getIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
+                                                                             JsonPatchDocument<IdentityVerificationPatchModel> document, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> cancelIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/cancel", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+
+    public ResourceResponse<IdentityVerification> redactIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/redact", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+        return execute(builder, IdentityVerification.class);
+    }
+    //endregion
+
+    //region IdentityVerificationReports
+    public ResourceResponse<IdentityVerificationReport[]> getIdentityVerificationReports(IdentityVerificationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications_reports", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerificationReport[].class);
+    }
+
+    public ResourceResponse<IdentityVerificationReport> getIdentityVerificationReport(String reportId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications_reports/" + reportId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerificationReport.class);
+    }
+    //endRegion
 
     private static Request.Builder buildRequest(RequestOptions options) {
         Request.Builder builder = new Request.Builder();

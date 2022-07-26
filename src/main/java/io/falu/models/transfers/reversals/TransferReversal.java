@@ -1,6 +1,6 @@
 package io.falu.models.transfers.reversals;
 
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 import io.falu.models.payments.refunds.PaymentRefundFailure;
 import io.falu.models.payments.refunds.PaymentRefundMpesaDetails;
 import lombok.Getter;

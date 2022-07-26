@@ -1,6 +1,6 @@
 package io.falu.models.evaluations;
 
-import io.falu.models.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreationRequest;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

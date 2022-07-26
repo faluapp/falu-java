@@ -12,6 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 
+@Deprecated(forRemoval = true)
 public class IdentityService extends BaseApiService {
     public IdentityService(@NotNull FaluClientOptions options) {
         super(options);

@@ -1,6 +1,6 @@
 package io.falu.models.messages.template;
 
-import io.falu.models.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreationRequest;
 import lombok.experimental.SuperBuilder;
 
 /**

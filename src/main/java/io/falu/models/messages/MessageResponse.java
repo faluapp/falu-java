@@ -1,6 +1,6 @@
 package io.falu.models.messages;
 
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 

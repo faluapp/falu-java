@@ -1,7 +1,7 @@
 package io.falu.client.patch;
 
 import io.falu.client.patch.operations.*;
-import io.falu.models.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreationRequest;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,10 +2,7 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
-import io.falu.models.evaluations.Evaluation;
-import io.falu.models.evaluations.EvaluationPatchModel;
-import io.falu.models.evaluations.EvaluationRequest;
-import io.falu.models.evaluations.EvaluationsListOptions;
+import io.falu.models.evaluations.*;
 import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -27,16 +24,24 @@ public class EvaluationServiceTests extends BaseApiServiceTests {
     private final Evaluation evaluation = Evaluation.builder()
             .id("ev_0o5Fs0EELR0fUjHjbCnEtdUwQe3")
             .currency("kes")
-            .scope("personal")
             .status("created")
             .created(new Date())
             .updated(new Date())
             .workspace("wksp_602a8dd0a54847479a874de4")
             .build();
 
+    private final EvaluationScoringOptionsForStatement statement = EvaluationScoringOptionsForStatement.builder()
+            .allowed(new String[]{"mpesa"})
+            .build();
+
+    private final EvaluationScoringOptions evaluationScoringOptions = EvaluationScoringOptions.builder()
+            .scope("personal")
+            .statement(statement)
+            .build();
+
     @Mock
     private EvaluationsService service;
- 
+
     @Test
     public void test_GettingEvaluationsWorks() throws IOException {
         service = Mockito.mock(EvaluationsService.class, withSettings().useConstructor(options));
@@ -80,12 +85,8 @@ public class EvaluationServiceTests extends BaseApiServiceTests {
         // given
         EvaluationRequest request = EvaluationRequest.builder()
                 .currency("kes")
-                .scope("personal")
-                .provider("mpesa")
-                .phone("+254722000000")
-                .file("file_123")
-                .password("test")
-                .name("John Kamau")
+                .options(evaluationScoringOptions)
+                .returnUrl("https://example.com")
                 .build();
 
         ResourceResponse<Evaluation> expectedResponse = getResourceResponse(200, evaluation);

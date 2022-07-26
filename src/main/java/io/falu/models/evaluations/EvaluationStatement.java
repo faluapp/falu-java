@@ -2,7 +2,7 @@ package io.falu.models.evaluations;
 
 import com.google.gson.annotations.JsonAdapter;
 import io.falu.client.adapters.ISO8601DateAdapter;
-import io.falu.models.Period;
+import io.falu.models.core.Period;
 import lombok.Getter;
 
 import java.util.Date;

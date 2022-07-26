@@ -1,7 +1,7 @@
 package io.falu.models.payments.authorization;
 
 
-import io.falu.models.FaluModel;
+import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
