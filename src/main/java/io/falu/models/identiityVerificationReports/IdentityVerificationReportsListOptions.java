@@ -1,4 +1,4 @@
-package io.falu.services;
+package io.falu.models.identiityVerificationReports;
 
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
@@ -9,13 +9,13 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class IdentityVerificationListOptions extends BasicListOptions {
+public class IdentityVerificationReportsListOptions extends BasicListOptions {
 
-    private String[] status;
+    private String verification;
 
     @Override
     public void populate(QueryValues values) {
         super.populate(values);
-        values.add("status", status);
+        values.add("verification", verification);
     }
 }

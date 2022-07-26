@@ -22,12 +22,15 @@ import io.falu.models.files.links.FileLink;
 import io.falu.models.files.links.FileLinkCreateRequest;
 import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
+import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
+import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
 import io.falu.models.identity.IdentityRecord;
 import io.falu.models.identity.IdentitySearchModel;
 import io.falu.models.identity.MarketingListOptions;
 import io.falu.models.identity.MarketingResult;
 import io.falu.models.identityVerification.IdentityVerification;
 import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationListOptions;
 import io.falu.models.identityVerification.IdentityVerificationPatchModel;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
@@ -59,7 +62,6 @@ import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
 import io.falu.models.webhooks.WebhookEndpointPatchModel;
-import io.falu.services.IdentityVerificationListOptions;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
@@ -726,7 +728,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
-           JsonPatchDocument<IdentityVerificationPatchModel> document, RequestOptions requestOptions) throws IOException {
+                                                                             JsonPatchDocument<IdentityVerificationPatchModel> document, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
 
         Request.Builder builder = buildRequest(requestOptions)
@@ -752,8 +754,27 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, IdentityVerification.class);
     }
-
     //endregion
+
+    //region IdentityVerificationReports
+    public ResourceResponse<IdentityVerificationReport[]> getIdentityVerificationReports(IdentityVerificationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications_reports", listOptions);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerificationReport[].class);
+    }
+
+    public ResourceResponse<IdentityVerificationReport> getIdentityVerificationReport(String reportId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/identity/verifications_reports/" + reportId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .get();
+        return execute(builder, IdentityVerificationReport.class);
+    }
+    //endRegion
 
     private static Request.Builder buildRequest(RequestOptions options) {
         Request.Builder builder = new Request.Builder();

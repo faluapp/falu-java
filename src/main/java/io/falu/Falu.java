@@ -19,6 +19,9 @@ public class Falu {
     private final FilesService filesService;
     private final WebhooksService webhooksService;
     private final EventsService eventsService;
+    private final IdentityVerificationReportsService identityVerificationReportsService;
+    private final IdentificationVerificationService identityVerificationService;
+    private final EvaluationReportsService evaluationReportsService;
 
     public Falu(@NotNull FaluClientOptions options) {
         this.evaluationsService = new EvaluationsService(options);
@@ -30,5 +33,8 @@ public class Falu {
         this.filesService = new FilesService(options);
         this.webhooksService = new WebhooksService(options);
         this.eventsService = new EventsService(options);
+        this.identityVerificationReportsService = new IdentityVerificationReportsService(options);
+        this.identityVerificationService = new IdentificationVerificationService(options);
+        this.evaluationReportsService = new EvaluationReportsService(options);
     }
 }

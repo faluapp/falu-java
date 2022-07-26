@@ -5,6 +5,7 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.identityVerification.IdentityVerification;
 import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationListOptions;
 import io.falu.models.identityVerification.IdentityVerificationPatchModel;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;

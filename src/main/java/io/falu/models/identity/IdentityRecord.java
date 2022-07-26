@@ -13,6 +13,7 @@ import java.util.Date;
  */
 @Getter
 @SuperBuilder
+@Deprecated(forRemoval = true)
 public class IdentityRecord extends FaluModel {
     /**
      * Unique identifier for the record
