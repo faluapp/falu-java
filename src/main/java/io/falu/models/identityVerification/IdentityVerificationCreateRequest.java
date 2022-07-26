@@ -2,8 +2,6 @@ package io.falu.models.identityVerification;
 
 import com.google.gson.annotations.SerializedName;
 import io.falu.models.core.AbstractCreationRequest;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
@@ -11,9 +9,7 @@ import lombok.experimental.SuperBuilder;
  * Information for searching for an entity's identity.
  */
 @Setter
-@Getter
-@NoArgsConstructor
-@SuperBuilder(toBuilder = true)
+@SuperBuilder()
 public class IdentityVerificationCreateRequest extends AbstractCreationRequest {
     /**
      * The type of verification check to be performed.
