@@ -44,8 +44,8 @@ public class FaluExample {
                 .appInformation(information)
                 .build();
 
-        EvaluationService service = new EvaluationService(options);
-        ResourceResponse<Evaluation> response = service.getEvaluation("evt_123", null);
+        MessagesService service = new MessagesService(options);
+        ResourceResponse<Message> response = service.getMessage("msg_123", null);
 
         if (response != null && response.successful() && response.getResource()) {
             System.out.println(response.getResource().getId());
@@ -62,13 +62,13 @@ All the service request methods accept an optional `RequestOptions` object. This
 an [idempotency key][idempotency-keys].
 
 ```java
-RequestOptions requestOptions=RequestOptions.builder()
+RequestOptions requestOptions = RequestOptions.builder()
         .idempotencyKey("05bc69eb-...")
-        .workspace("wrk_1243")
+        .workspace("wksp_1243")
         .live(false)
         .build();
 
- ResourceResponse<Evaluation> response=service.getEvaluation("evt_123",requestOptions);
+ ResourceResponse<Message> response = service.getMessage("msg_123",requestOptions);
 ```
 
 ## Messages
@@ -84,7 +84,7 @@ MessageTemplateRequest request = MessageTemplateRequest.builder()
     .alias("Loyalty")
     .body("Hi {{name}}! Thanks for being a loyal customer. We appreciate you!")
     .build();
-    
+
 falu.getMessagesService().createMessageTemplate(request, null);
 
 // sending of messages
@@ -104,13 +104,13 @@ falu.getMessagesService().createMessages(request, null);
 Below is a sample of how to request money from a customer via MPESA STK Push (a.k.a. Popup, Checkout, etc.).
 
 ```java
-PaymentCreateRequest request = PaymentCreateRequest.builder() 
+PaymentCreateRequest request = PaymentCreateRequest.builder()
         .amount(1000)
         .currency("kes")
         .mpesa(MpesaPaymentRequest.builder()
                     .phone("+254722000000")
                     .paybill(true)  // false to tills (a.k.a Buygoods)
-                    .reference("<put-your-ref-here>") 
+                    .reference("<put-your-ref-here>")
                     .destination("<put-short-code-here>")
                     .build()
         )
@@ -138,7 +138,7 @@ TransferCreateRequestMpesa mpesa=TransferCreateRequestMpesa.builder()
         .mpesa(mpesa)
         .build();
 
-        falu.getTransfersService().createTransfer(request,null);      
+        falu.getTransfersService().createTransfer(request,null);
 ```
 
 > Your outgoing account for MPESA must be configured in your [Workspace settings][workspace-settings] before you can initiate an outgoing payment to a customer.
@@ -163,36 +163,7 @@ IdentityVerificationCreateRequest request = IdentityVerificationCreateRequest.bu
     .options(verificationOptions)
     .build();
 
-falu.getIdentityService().searchIdentity(searchModel,null);
-```
-
-## Evaluations
-
-With `Falu` you can evaluate the credit worthiness of your customers via financial statements. This is particularly
-useful for mobile lending. Below is a sample of how to evaluate a user.
-
-```java
-EvaluationScoringOptionsForStatement statement = EvaluationScoringOptionsForStatement.builder()
-        .allowed(new String[]{"mpesa"})
-        .build();
-
-EvaluationScoringOptions evaluationScoringOptions = EvaluationScoringOptions.builder()
-        .scope("personal")
-        .statement(statement)
-        .build();
-
-EvaluationRequest request = EvaluationRequest.builder()
-        .currency("kes")
-        .options(evaluationScoringOptions)
-        .returnUrl("https://my-app.com/evaluation/waiting/user_123")
-        .build();
-
-
-RequestOptions requestOptions=RequestOptions.builder()
-        .live(false)
-        .build();
-
-ResourceResponse<Evaluation> response=falu.getEvaluationsService().createEvaluation(request,requestOptions);
+falu.getIdentityService().searchIdentity(searchModel, null);
 ```
 
 ## Development
