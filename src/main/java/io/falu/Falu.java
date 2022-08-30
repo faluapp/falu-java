@@ -10,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 
 @Getter
 public class Falu {
-    private final EvaluationsService evaluationsService;
     private final IdentityService identityService;
     private final MessagesService messagesService;
     private final MoneyBalancesService moneyBalancesService;
@@ -21,10 +20,8 @@ public class Falu {
     private final EventsService eventsService;
     private final IdentityVerificationReportsService identityVerificationReportsService;
     private final IdentificationVerificationService identityVerificationService;
-    private final EvaluationReportsService evaluationReportsService;
 
     public Falu(@NotNull FaluClientOptions options) {
-        this.evaluationsService = new EvaluationsService(options);
         this.identityService = new IdentityService(options);
         this.messagesService = new MessagesService(options);
         this.moneyBalancesService = new MoneyBalancesService(options);
@@ -35,6 +32,5 @@ public class Falu {
         this.eventsService = new EventsService(options);
         this.identityVerificationReportsService = new IdentityVerificationReportsService(options);
         this.identityVerificationService = new IdentificationVerificationService(options);
-        this.evaluationReportsService = new EvaluationReportsService(options);
     }
 }
