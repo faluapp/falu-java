@@ -57,7 +57,7 @@ public class WebhookServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         WebhookEndpointCreateRequest request = WebhookEndpointCreateRequest.builder()
-                .events(new String[]{"evaluation.completed"})
+                .events(new String[]{"payment.succeeded"})
                 .url("https://localhost:1234")
                 .format("basic")
                 .token("e0gNHBa90CfdKbtcWgksn52cvXoXMqCTaLdttJAsQVU=")

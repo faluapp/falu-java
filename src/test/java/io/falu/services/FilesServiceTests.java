@@ -28,7 +28,7 @@ public class FilesServiceTests extends BaseApiServiceTests {
     private final File file = File.builder()
             .fileName("test.png")
             .type("image/png")
-            .purpose("customer.evaluation")
+            .purpose("customer.selfie")
             .size(1024)
             .id("file_123")
             .build();

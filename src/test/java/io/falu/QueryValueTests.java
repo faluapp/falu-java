@@ -91,7 +91,7 @@ public class QueryValueTests {
         QueryValues values = new QueryValues(params);
         values.add("sort", new String[]{"desc"});
         values.add("count", new String[]{String.valueOf(100)});
-        values.add("type", new String[]{"evaluation.created", "evaluation.failed", "evaluation.completed"});
+        values.add("type", new String[]{"transfer.created", "transfer.failed", "transfer.succeeded"});
 
         HttpUrl.Builder builder = new HttpUrl.Builder()
                 .scheme("https")
@@ -103,7 +103,7 @@ public class QueryValueTests {
         HttpUrl httpUrl = builder.build();
 
         String url = httpUrl.toString();
-        Assertions.assertEquals("https://example.com/events?count=100&sort=desc&type=evaluation.created&type=evaluation.failed&type=evaluation.completed", url);
+        Assertions.assertEquals("https://example.com/events?count=100&sort=desc&type=transfer.created&type=transfer.failed&type=transfer.succeeded", url);
     }
 
     private Date toDate(String dateToConsider) {
