@@ -2,25 +2,6 @@ package io.falu.models.webhooks;
 
 ///
 public class EventTypes {
-// region Evaluation
-
-    /**
-     * Occurs whenever an evaluation is created.
-     */
-    public static String EVALUATION_CREATED = "evaluation.created";
-
-    /**
-     * Occurs whenever an evaluation fails.
-     **/
-    public static String EVALUATION_FAILED = "evaluation.failed";
-
-    /**
-     * Occurs whenever an evaluation is completed.
-     */
-    public static String EVALUATION_COMPLETED = "evaluation.completed";
-
-    //endregion
-
     //region Messages
 
     /**

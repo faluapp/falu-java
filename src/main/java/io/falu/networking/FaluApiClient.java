@@ -7,12 +7,6 @@ import io.falu.client.ResourceResponse;
 import io.falu.client.patch.JsonPatchDocument;
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
-import io.falu.models.evaluationReports.EvaluationReport;
-import io.falu.models.evaluationReports.EvaluationReportsListOptions;
-import io.falu.models.evaluations.Evaluation;
-import io.falu.models.evaluations.EvaluationPatchModel;
-import io.falu.models.evaluations.EvaluationRequest;
-import io.falu.models.evaluations.EvaluationsListOptions;
 import io.falu.models.events.EventListOptions;
 import io.falu.models.events.WebhookEvent;
 import io.falu.models.files.File;
@@ -78,51 +72,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor, Boolean enableLogging) {
         super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor, enableLogging);
     }
-
-    //region Evaluations
-    public ResourceResponse<Evaluation[]> getEvaluations(EvaluationsListOptions options, RequestOptions requestOptions) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations", options);
-        Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
-        return execute(builder, Evaluation[].class);
-    }
-
-    public ResourceResponse<Evaluation> createEvaluation(EvaluationRequest request, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations", null);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
-        return execute(builder, Evaluation.class);
-    }
-
-    public ResourceResponse<Evaluation> getEvaluation(String evaluationId, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations/" + evaluationId, null);
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
-        return execute(builder, Evaluation.class);
-    }
-
-    public ResourceResponse<Evaluation> updateEvaluation(String evaluationId, JsonPatchDocument<EvaluationPatchModel> patch, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations/" + evaluationId, null);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(patch.getOperations()), MEDIA_TYPE_JSON));
-        return execute(builder, Evaluation.class);
-    }
-
-    public ResourceResponse<Evaluation> scoreEvaluation(String evaluationId, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations/" + evaluationId + "/scores", null);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
-        return execute(builder, Evaluation.class);
-    }
-    //endregion
 
     //region Identity
     public ResourceResponse<IdentityRecord> searchIdentity(IdentitySearchModel searchModel, RequestOptions options) throws IOException {
@@ -675,28 +624,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
         return execute(builder, WebhookEvent.class);
     }
-    //endregion
-
-    //region Evaluation Reports
-
-    public ResourceResponse<EvaluationReport[]> getEvaluationReports(EvaluationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations/evaluation_reports", listOptions);
-
-        Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
-        return execute(builder, EvaluationReport[].class);
-    }
-
-    public ResourceResponse<EvaluationReport> getEvaluationReport(String reportId, RequestOptions requestOptions) throws IOException {
-        HttpUrl url = buildUrl("v1/evaluations/evaluation_reports/" + reportId, null);
-
-        Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
-        return execute(builder, EvaluationReport.class);
-    }
-
     //endregion
 
     //region IdentityVerification

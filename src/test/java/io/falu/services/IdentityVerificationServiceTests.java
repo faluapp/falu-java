@@ -91,38 +91,6 @@ public class IdentityVerificationServiceTests extends BaseApiServiceTests {
         Assertions.assertEquals(200, response.getStatusCode());
     }
 
-    @Test
-    public void test_UpdateEvaluationWorks() throws IOException {
-        service = Mockito.mock(IdentificationVerificationService.class, withSettings().useConstructor(options));
-
-        HashMap<String, String> map = new HashMap<>();
-        map.put("", "");
-
-        IdentityVerificationPatchModel patchModel = IdentityVerificationPatchModel.builder()
-                .description("Cake")
-                .metadata(map)
-                .build();
-
-        RequestOptions requestOptions = RequestOptions.builder()
-                .live(false)
-                .build();
-
-        JsonPatchDocument<IdentityVerificationPatchModel> document = new JsonPatchDocument<IdentityVerificationPatchModel>()
-                .replace("description", patchModel.getDescription())
-                .replace("metadata", patchModel.getMetadata());
-
-        // given
-        ResourceResponse<IdentityVerification> expectedResponse = getResourceResponse(200, verification);
-        when(service.updateIdentityVerification("idv_0o5Fs0EELR0fUjHjbCnEtdUwQe3", document, requestOptions)).thenReturn(expectedResponse);
-
-        mockWebServer.enqueue(getMockedResponse(200, verification));
-
-        // when
-        ResourceResponse<IdentityVerification> response = service.updateIdentityVerification("idv_0o5Fs0EELR0fUjHjbCnEtdUwQe3", document, requestOptions);
-        Assertions.assertNotNull(response);
-        Assertions.assertEquals(200, response.getStatusCode());
-    }
-
 
     @Test
     public void test_CancelIdentityVerificationWorks() throws IOException {
