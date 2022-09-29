@@ -3,7 +3,6 @@ package io.falu;
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
 import io.falu.common.RangeFilteringOptions;
-import io.falu.models.identity.MarketingListOptions;
 import okhttp3.HttpUrl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -58,30 +57,6 @@ public class QueryValueTests {
 
         Assertions.assertFalse(query.getValues().isEmpty());
         Assertions.assertEquals(Arrays.toString(new String[]{"count", "sort"}), Arrays.toString(query.getKeys()));
-    }
-
-    @Test
-    public void test_MarketingListOptionsWorks() {
-        RangeFilteringOptions<Integer> filter = new RangeFilteringOptions<>(40, null, null, 29);
-
-        MarketingListOptions opt = MarketingListOptions.builder()
-                .sorting("descending")
-                .count(12)
-                .country("uga")
-                .gender("female")
-                .age(filter)
-                .created(null)
-                .updated(null)
-                .build();
-
-        QueryValues query = new QueryValues();
-        opt.populate(query);
-
-        Assertions.assertFalse(query.getValues().isEmpty());
-        Assertions.assertEquals(Arrays.toString(new String[]{
-                        "country", "gender", "age.lt", "count", "sort", "age.gte",}),
-                Arrays.toString(query.getKeys())
-        );
     }
 
     @Test

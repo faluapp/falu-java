@@ -18,10 +18,6 @@ import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
-import io.falu.models.identity.IdentityRecord;
-import io.falu.models.identity.IdentitySearchModel;
-import io.falu.models.identity.MarketingListOptions;
-import io.falu.models.identity.MarketingResult;
 import io.falu.models.identityVerification.IdentityVerification;
 import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
 import io.falu.models.identityVerification.IdentityVerificationListOptions;
@@ -44,6 +40,8 @@ import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.models.payments.refunds.PaymentRefundsListOptions;
+import io.falu.models.temporaryKeys.TemporaryKey;
+import io.falu.models.temporaryKeys.TemporaryKeyCreateRequest;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
 import io.falu.models.transfers.TransferListOptions;
@@ -72,28 +70,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor, Boolean enableLogging) {
         super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor, enableLogging);
     }
-
-    //region Identity
-    public ResourceResponse<IdentityRecord> searchIdentity(IdentitySearchModel searchModel, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/search", null);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(searchModel), MEDIA_TYPE_JSON));
-
-        return execute(builder, IdentityRecord.class);
-    }
-
-    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions listOptions, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/marketing", listOptions);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
-
-        return execute(builder, MarketingResult[].class);
-    }
-    //endregion
 
     //region Payments
     public ResourceResponse<Payment[]> getPayments(PaymentsListOptions listOptions, RequestOptions requestOptions) throws IOException {
@@ -702,6 +678,26 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, IdentityVerificationReport.class);
     }
     //endRegion
+
+    //region TemporaryKeys
+    public ResourceResponse<TemporaryKey> createTemporaryKey(TemporaryKeyCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/temporary_keys", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, TemporaryKey.class);
+    }
+
+    public ResourceResponse<?> deleteTemporaryKey(String keyId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/temporary_keys/" + keyId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .delete();
+        return execute(builder, ResourceResponse.class);
+    }
+    //endregion
 
     private static Request.Builder buildRequest(RequestOptions options) {
         Request.Builder builder = new Request.Builder();
