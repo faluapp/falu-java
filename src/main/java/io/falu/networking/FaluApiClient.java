@@ -44,6 +44,8 @@ import io.falu.models.payments.refunds.PaymentRefund;
 import io.falu.models.payments.refunds.PaymentRefundPatchModel;
 import io.falu.models.payments.refunds.PaymentRefundRequest;
 import io.falu.models.payments.refunds.PaymentRefundsListOptions;
+import io.falu.models.temporaryKeys.TemporaryKey;
+import io.falu.models.temporaryKeys.TemporaryKeyCreateRequest;
 import io.falu.models.transfers.Transfer;
 import io.falu.models.transfers.TransferCreateRequest;
 import io.falu.models.transfers.TransferListOptions;
@@ -702,6 +704,26 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, IdentityVerificationReport.class);
     }
     //endRegion
+
+    //region TemporaryKeys
+    public ResourceResponse<TemporaryKey> createTemporaryKey(TemporaryKeyCreateRequest request, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/temporary_keys", null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+        return execute(builder, TemporaryKey.class);
+    }
+
+    public ResourceResponse<?> deleteTemporary(String keyId, RequestOptions requestOptions) throws IOException {
+        HttpUrl url = buildUrl("v1/temporary_keys/" + keyId, null);
+
+        Request.Builder builder = buildRequest(requestOptions)
+                .url(url)
+                .delete();
+        return execute(builder, ResourceResponse.class);
+    }
+    //endregion
 
     private static Request.Builder buildRequest(RequestOptions options) {
         Request.Builder builder = new Request.Builder();
