@@ -715,7 +715,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, TemporaryKey.class);
     }
 
-    public ResourceResponse<?> deleteTemporary(String keyId, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<?> deleteTemporaryKey(String keyId, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/temporary_keys/" + keyId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
