@@ -18,10 +18,6 @@ import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
-import io.falu.models.identity.IdentityRecord;
-import io.falu.models.identity.IdentitySearchModel;
-import io.falu.models.identity.MarketingListOptions;
-import io.falu.models.identity.MarketingResult;
 import io.falu.models.identityVerification.IdentityVerification;
 import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
 import io.falu.models.identityVerification.IdentityVerificationListOptions;
@@ -74,28 +70,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
     public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor, Boolean enableLogging) {
         super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor, enableLogging);
     }
-
-    //region Identity
-    public ResourceResponse<IdentityRecord> searchIdentity(IdentitySearchModel searchModel, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/search", null);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(searchModel), MEDIA_TYPE_JSON));
-
-        return execute(builder, IdentityRecord.class);
-    }
-
-    public ResourceResponse<MarketingResult[]> fetchMarketingResults(MarketingListOptions listOptions, RequestOptions options) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/marketing", listOptions);
-
-        Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
-
-        return execute(builder, MarketingResult[].class);
-    }
-    //endregion
 
     //region Payments
     public ResourceResponse<Payment[]> getPayments(PaymentsListOptions listOptions, RequestOptions requestOptions) throws IOException {
