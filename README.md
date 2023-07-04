@@ -4,7 +4,7 @@
 # Falu JAVA
 
 ![GitHub tag (latest by date)][sdk-version]
-[![Build and Publish](https://github.com/tinglesoftware/falu-java/actions/workflows/build-release.yml/badge.svg)](https://github.com/tinglesoftware/falu-java/actions/workflows/build-release.yml)
+[![Build and Publish](https://github.com/faluapp/falu-java/actions/workflows/build-release.yml/badge.svg)](https://github.com/faluapp/falu-java/actions/workflows/build-release.yml)
 
 The official [Falu][falu] Java library, supporting Java 1.8+.
 
@@ -172,19 +172,19 @@ For any requests, bug or comments, please [open an issue][issues] or [submit a p
 
 [api-docs]: https://docs.falu.io/api?lang=dotnet
 
-[service-tests]: https://github.com/tinglesoftware/falu-java/tree/main/src/test/java/io/falu/services
+[service-tests]: https://github.com/faluapp/falu-java/tree/main/src/test/java/io/falu/services
 
 [idempotency-keys]: https://docs.falu.io/guides/developer/idempotency
 
-[issues]: https://github.com/tingle/falu-java/issues/new
+[issues]: https://github.com/faluapp/falu-java/issues/new
 
-[pulls]: https://github.com/tingle/falu-java/pulls
+[pulls]: https://github.com/faluapp/falu-java/pulls
 
 [falu]: https://falu.io
 
 [workspace-settings]: https://dashboard.falu.io/settings
 
-[sdk-version]: https://img.shields.io/github/v/tag/tinglesoftware/falu-java?label=gradle
+[sdk-version]: https://img.shields.io/github/v/tag/faluapp/falu-java?label=gradle
 
 ### License
 
