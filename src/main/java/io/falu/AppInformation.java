@@ -32,10 +32,6 @@ public class AppInformation {
 
     public String getUserAgent() {
         String versionName = System.getenv("VERSION_NAME");
-        String versionCode = System.getenv("VERSION_CODE");
-        System.getenv().forEach((k, v) -> {
-            System.out.println(k + ":" + v);
-        });
-        return "falu-java/" + versionName + "(" + versionCode + ")" + " (" + getName() + ";SDK " + getVersion() + ";)";
+        return "falu-java/" + versionName;
     }
 }
