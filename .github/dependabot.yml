@@ -7,7 +7,7 @@ updates:
       day: "tuesday"
       time: "04:00"
     reviewers:
-      - SecyWecy
+      - sethonyango
       - mburumaxwell
     groups:
       test-framework:
@@ -28,5 +28,5 @@ updates:
       interval: "weekly"
       time: "02:00"
     reviewers:
-      - SecyWecy
+      - sethonyango
       - mburumaxwell
