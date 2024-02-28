@@ -15,7 +15,7 @@ public class IdentityVerificationReportVideo extends AbstractIdentityVerificatio
     private String video;
 
     /**
-     * Identifier of the file holding the image of the potrait used in this check.
+     * Identifier of the file holding the image of the portrait used in this check.
      */
     private String portrait;
 }
