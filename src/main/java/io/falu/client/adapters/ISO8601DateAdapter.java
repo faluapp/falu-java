@@ -8,11 +8,11 @@ import java.text.ParseException;
 import java.text.ParsePosition;
 import java.util.Date;
 
-public class ISO8601DateAdapter extends ISO8601Utils implements JsonDeserializer<Date>, JsonSerializer<Date> {
+public class ISO8601DateAdapter implements JsonDeserializer<Date>, JsonSerializer<Date> {
     @Override
     public Date deserialize(JsonElement jsonElement, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         try {
-            return parse(jsonElement.getAsString(), new ParsePosition(0));
+            return ISO8601Utils.parse(jsonElement.getAsString(), new ParsePosition(0));
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -22,6 +22,6 @@ public class ISO8601DateAdapter extends ISO8601Utils implements JsonDeserializer
 
     @Override
     public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-        return new JsonPrimitive(format(src));
+        return new JsonPrimitive(ISO8601Utils.format(src));
     }
 }
