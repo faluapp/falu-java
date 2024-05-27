@@ -25,7 +25,7 @@ public class AppDetailsInterceptor implements Interceptor {
         Request.Builder builder = chain
                 .request()
                 .newBuilder()
-                .header("X-Falu-Version", "2022-05-01");
+                .header("X-Falu-Version", "2022-09-01");
 
         if (information != null) {
             builder.header("User-Agent", information.getUserAgent());
