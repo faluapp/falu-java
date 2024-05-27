@@ -69,7 +69,7 @@ public class QueryValues {
             return this;
         }
 
-        for (Map.Entry<String, String[]> entry : other.values.entrySet()) {
+        for (Map.Entry<String, String[]> entry : new HashMap<>(other.values).entrySet()) {
             add(property + "." + entry.getKey(), entry.getValue());
         }
         return this;
