@@ -2,7 +2,6 @@ package io.falu;
 
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
-import io.falu.common.RangeFilteringOptions;
 import okhttp3.HttpUrl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
