@@ -82,8 +82,10 @@ public class QueryValues {
             add("lte", options.lessThanOrEqualTo);
             add("gt", options.greaterThan);
             add("gte", options.greaterThanOrEqualTo);
+
+            return this;
         }
-        return this;
+        return null;
     }
 
     /***/

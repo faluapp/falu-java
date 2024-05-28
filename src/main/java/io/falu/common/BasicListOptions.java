@@ -14,7 +14,7 @@ public class BasicListOptions {
     /**
      * The order to use for sorting the objects returned.
      */
-    private String sorting;
+    private String[] sorting;
 
     /**
      * The maximum number of objects to return.
@@ -36,7 +36,7 @@ public class BasicListOptions {
         if (values == null) return;
 
         values
-                .add("sort", new String[] {sorting})
+                .add("sort", sorting)
                 .add("count", count)
                 .add("created", new QueryValues().fromRange(created))
                 .add("updated", new QueryValues().fromRange(updated));
