@@ -1,10 +1,16 @@
 package io.falu.common;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Standard options for range filtering
  */
+@Getter
+@Setter
+@Builder
 public class RangeFilteringOptions<T> {
     public T lessThan;
 

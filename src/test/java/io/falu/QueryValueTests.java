@@ -2,6 +2,8 @@ package io.falu;
 
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
+import io.falu.common.RangeFilteringOptions;
+import io.falu.models.payments.PaymentsListOptions;
 import okhttp3.HttpUrl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,7 +49,7 @@ public class QueryValueTests {
     @Test
     public void test_BasicListOptionsWorks() {
         BasicListOptions opt = BasicListOptions.builder()
-                .sorting("descending")
+                .sorting(new String[]{"descending"})
                 .count(12)
                 .created(null)
                 .updated(null)
@@ -78,6 +82,34 @@ public class QueryValueTests {
 
         String url = httpUrl.toString();
         Assertions.assertEquals("https://example.com/events?count=100&sort=desc&type=transfer.created&type=transfer.failed&type=transfer.succeeded", url);
+    }
+
+    @Test
+    public void test_PopulatingPaymentListOptions() {
+        LocalDate startDate = LocalDate.parse("2018-05-05");
+        LocalDate endDate = LocalDate.parse("2018-05-07");
+
+        RangeFilteringOptions<Date> createdRangeFilter = RangeFilteringOptions.<Date>builder()
+                .greaterThan(Date.from(startDate.atStartOfDay().toInstant(ZoneOffset.MIN)))
+                .lessThan(Date.from(endDate.atStartOfDay().toInstant(ZoneOffset.MIN)))
+                .build();
+
+        PaymentsListOptions options = PaymentsListOptions.builder()
+                .created(createdRangeFilter)
+                .build();
+
+        HttpUrl.Builder builder = new HttpUrl.Builder();
+        builder.scheme("https");
+        builder.host("example.com");
+        builder.addPathSegments("payments");
+
+        QueryValues values = new QueryValues();
+        options.populate(values);
+        values.getQueryParameters(builder);
+
+        HttpUrl url = builder.build();
+        String expectation = "https://example.com/payments?created.gt=2018-05-05T18:00:00Z&created.lt=2018-05-07T18:00:00Z";
+        Assertions.assertEquals(expectation, url.url().toString());
     }
 
     private Date toDate(String dateToConsider) {
