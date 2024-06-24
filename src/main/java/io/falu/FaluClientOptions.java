@@ -17,7 +17,7 @@ public class FaluClientOptions {
     /**
      * The ApiVersion that the SDK conforms to
      */
-    private final String apiVersion = "2021-09-03";
+    private final String apiVersion = "2024-06-01";
 
     /**
      * The API Key for authenticating requests to Falu servers

@@ -2,11 +2,10 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
-import io.falu.models.messages.stream.MessageStreamCreateRequest;
-import io.falu.models.messages.stream.MessageStreamPatchModel;
+import io.falu.models.messages.stream.MessageStreamCreateOptions;
+import io.falu.models.messages.stream.MessageStreamUpdateOptions;
 import io.falu.models.messages.stream.MessageStreamsListOptions;
 import io.falu.models.messages.template.*;
 import io.falu.networking.RequestOptions;
@@ -40,7 +39,7 @@ public class MessagesService extends BaseApiService {
      * @param request        the request object
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageResponse> createMessages(@NotNull MessageCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<MessageResponse> createMessages(@NotNull MessageCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createMessage(request, requestOptions);
     }
 
@@ -58,11 +57,11 @@ public class MessagesService extends BaseApiService {
      * Update Message.
      *
      * @param messageId      the unique identifier of the template.
-     * @param patch          the patch request object.
+     * @param updateOptions  the Message update options.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Message> updateMessage(@NotNull String messageId, @NotNull JsonPatchDocument<MessagePatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateMessage(messageId, patch, requestOptions);
+    public ResourceResponse<Message> updateMessage(@NotNull String messageId, @NotNull MessageUpdateOptions updateOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateMessage(messageId, updateOptions, requestOptions);
     }
 
     /**
@@ -71,7 +70,7 @@ public class MessagesService extends BaseApiService {
      * @param messages       messages to send
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageResponse> sendBulkMessages(@NotNull List<MessageCreateRequest> messages, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<MessageResponse> sendBulkMessages(@NotNull List<MessageCreateOptions> messages, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().sendBulkMessages(messages, requestOptions);
     }
     //endregion
@@ -93,7 +92,7 @@ public class MessagesService extends BaseApiService {
      * @param request        the request object
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageTemplate> createMessageTemplate(@NotNull MessageTemplateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<MessageTemplate> createMessageTemplate(@NotNull MessageTemplateCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createMessageTemplate(request, requestOptions);
     }
 
@@ -111,11 +110,13 @@ public class MessagesService extends BaseApiService {
      * Update Message Template.
      *
      * @param templateId     the unique identifier of the template.
-     * @param patch          the patch document.
+     * @param updateOptions  the Message update request options.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageTemplate> updateMessageTemplate(@NotNull String templateId, @NotNull MessageTemplatePatchModel patchModel, @NonNull RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateMessageTemplate(templateId, patchModel, requestOptions);
+    public ResourceResponse<MessageTemplate> updateMessageTemplate(@NotNull String templateId,
+        @NotNull MessageTemplateUpdateOptions updateOptions, @NonNull RequestOptions requestOptions) throws IOException {
+
+        return getApiClient().updateMessageTemplate(templateId, updateOptions, requestOptions);
     }
 
     /**
@@ -166,7 +167,7 @@ public class MessagesService extends BaseApiService {
      * @param request        the request object
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageStream> createMessageStream(@NotNull MessageStreamCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<MessageStream> createMessageStream(@NotNull MessageStreamCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createMessageStream(request, requestOptions);
     }
 
@@ -175,11 +176,11 @@ public class MessagesService extends BaseApiService {
      * Update Message Stream.
      *
      * @param streamId       the result object for the request.
-     * @param patch          the patch document object.
+     * @param updateOptions  the message stream update options.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageStream> updateMessageStream(@NotNull String streamId, @NotNull JsonPatchDocument<MessageStreamPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateMessageStream(streamId, patch, requestOptions);
+    public ResourceResponse<MessageStream> updateMessageStream(@NotNull String streamId, @NotNull MessageStreamUpdateOptions updateOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateMessageStream(streamId, updateOptions, requestOptions);
     }
 
     /**

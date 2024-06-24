@@ -2,12 +2,11 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.files.File;
-import io.falu.models.files.FileCreateRequest;
+import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
-import io.falu.models.files.links.FileLinkCreateRequest;
+import io.falu.models.files.links.FileLinkCreateOptions;
 import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.networking.RequestOptions;
@@ -37,7 +36,7 @@ public class FilesService extends BaseApiService {
      * @param request        Information for creating a file.
      * @param requestOptions Additional info to add to the request.
      */
-    public ResourceResponse<File> uploadFile(@NotNull FileCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<File> uploadFile(@NotNull FileCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().uploadFile(request, requestOptions);
     }
 
@@ -67,7 +66,7 @@ public class FilesService extends BaseApiService {
      * @param request        Information for creating a file.
      * @param requestOptions Additional info to add to the request.
      */
-    public ResourceResponse<FileLink> createFileLink(@NotNull FileLinkCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> createFileLink(@NotNull FileLinkCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createFileLink(request, requestOptions);
     }
 

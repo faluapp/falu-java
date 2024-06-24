@@ -2,14 +2,13 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.transfers.Transfer;
-import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.TransferCreateOptions;
 import io.falu.models.transfers.TransferListOptions;
-import io.falu.models.transfers.TransferPatchModel;
+import io.falu.models.transfers.TransferUpdateOptions;
 import io.falu.models.transfers.reversals.TransferReversal;
-import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
-import io.falu.models.transfers.reversals.TransferReversalPatchModel;
+import io.falu.models.transfers.reversals.TransferReversalCreateOptions;
+import io.falu.models.transfers.reversals.TransferReversalUpdateOptions;
 import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +36,7 @@ public class TransfersService extends BaseApiService {
      * @param request        the request object.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Transfer> createTransfer(@NotNull TransferCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<Transfer> createTransfer(@NotNull TransferCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createTransfer(request, requestOptions);
     }
 
@@ -55,11 +54,11 @@ public class TransfersService extends BaseApiService {
      * Get Transfer.
      *
      * @param transferId     the unique identifier of the transfer.
-     * @param patch          the patch document.
+     * @param updateOptions  the transfer update options.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<Transfer> updateTransfer(@NotNull String transferId, @NotNull JsonPatchDocument<TransferPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateTransfer(transferId, patch, requestOptions);
+    public ResourceResponse<Transfer> updateTransfer(@NotNull String transferId, @NotNull TransferUpdateOptions updateOptions, @Nullable RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateTransfer(transferId, updateOptions, requestOptions);
     }
 
     /**
@@ -77,7 +76,7 @@ public class TransfersService extends BaseApiService {
      * @param request        the request object.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<TransferReversal> createTransferReversal(@NotNull TransferReversalCreateRequest request, @Nullable RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<TransferReversal> createTransferReversal(@NotNull TransferReversalCreateOptions request, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().createTransferReversal(request, requestOptions);
     }
 
@@ -95,12 +94,12 @@ public class TransfersService extends BaseApiService {
      * Update Transfer Reversal.
      *
      * @param reversalId     the unique identifier of the reversal.
-     * @param patch          the patch document.
+     * @param updateOptions  the transfer reversal update options.
      * @param requestOptions additional info to add to the request.
      */
     public ResourceResponse<TransferReversal> updateTransferReversal(@NotNull String reversalId,
-        @NotNull TransferReversalPatchModel patchModel, @Nullable RequestOptions requestOptions) throws IOException {
+                                                                     @NotNull TransferReversalUpdateOptions updateOptions, @Nullable RequestOptions requestOptions) throws IOException {
 
-        return getApiClient().updateTransferReversal(reversalId, patchModel, requestOptions);
+        return getApiClient().updateTransferReversal(reversalId, updateOptions, requestOptions);
     }
 }

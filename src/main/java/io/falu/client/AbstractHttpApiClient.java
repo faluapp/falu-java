@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 public class AbstractHttpApiClient {
     protected static final MediaType MEDIA_TYPE_JSON = MediaType.get("application/json; charset=utf-8");
     protected static final MediaType MEDIA_TYPE_TEXT_JSON = MediaType.get("text/json");
-    protected static final MediaType MEDIA_TYPE_PATH_JSON = MediaType.get("application/json-path+json");
     protected static final MediaType MEDIA_TYPE_MERGE_PATCH_JSON = MediaType.get("application/merge-patch+json");
     protected static final MediaType MEDIA_TYPE_PLUS_JSON = MediaType.get("application/*+json");
 

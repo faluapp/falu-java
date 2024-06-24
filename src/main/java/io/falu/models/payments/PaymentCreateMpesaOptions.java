@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @NoArgsConstructor
-public class PaymentCreateRequestMpesa {
+public class PaymentCreateMpesaOptions {
     /**
      * The phone number representing the account to be charged.
      */

@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class TransferCreateRequest {
+public class TransferCreateOptions {
     /**
      * Three-letter ISO currency code, in lowercase.
      */
@@ -31,5 +31,5 @@ public class TransferCreateRequest {
     /**
      * Details about initiation of an MPESA transfer to a customer or another business.
      */
-    private TransferCreateRequestMpesa mpesa;
+    private TransferCreateRequestMpesaOptions mpesa;
 }

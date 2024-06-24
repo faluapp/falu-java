@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class MessageTemplateRequest {
+public class MessageTemplateCreateOptions {
     /**
      * An optional string you can provide to identify this template.
      * Allowed characters are numbers, ASCII letters, and ., -, _ characters,

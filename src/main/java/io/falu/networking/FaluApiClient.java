@@ -5,56 +5,55 @@ import com.google.gson.internal.bind.util.ISO8601Utils;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
 import io.falu.models.events.EventListOptions;
 import io.falu.models.events.WebhookEvent;
 import io.falu.models.files.File;
-import io.falu.models.files.FileCreateRequest;
+import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
-import io.falu.models.files.links.FileLinkCreateRequest;
+import io.falu.models.files.links.FileLinkCreateOptions;
 import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
 import io.falu.models.identityVerification.IdentityVerification;
-import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationCreateOptions;
 import io.falu.models.identityVerification.IdentityVerificationListOptions;
-import io.falu.models.identityVerification.IdentityVerificationPatchModel;
+import io.falu.models.identityVerification.IdentityVerificationUpdateOptions;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.MessageStream;
-import io.falu.models.messages.stream.MessageStreamCreateRequest;
-import io.falu.models.messages.stream.MessageStreamPatchModel;
+import io.falu.models.messages.stream.MessageStreamCreateOptions;
+import io.falu.models.messages.stream.MessageStreamUpdateOptions;
 import io.falu.models.messages.stream.MessageStreamsListOptions;
 import io.falu.models.messages.template.*;
 import io.falu.models.moneyBalances.MoneyBalance;
 import io.falu.models.payments.Payment;
-import io.falu.models.payments.PaymentCreateRequest;
-import io.falu.models.payments.PaymentPatchModel;
+import io.falu.models.payments.PaymentCreateOptions;
+import io.falu.models.payments.PaymentUpdateOptions;
 import io.falu.models.payments.PaymentsListOptions;
 import io.falu.models.payments.authorization.PaymentAuthorization;
-import io.falu.models.payments.authorization.PaymentAuthorizationPatchModel;
+import io.falu.models.payments.authorization.PaymentAuthorizationUpdateOptions;
 import io.falu.models.payments.authorization.PaymentAuthorizationsListOptions;
 import io.falu.models.payments.refunds.PaymentRefund;
-import io.falu.models.payments.refunds.PaymentRefundPatchModel;
-import io.falu.models.payments.refunds.PaymentRefundRequest;
+import io.falu.models.payments.refunds.PaymentRefundCreateOptions;
+import io.falu.models.payments.refunds.PaymentRefundUpdateOptions;
 import io.falu.models.payments.refunds.PaymentRefundsListOptions;
 import io.falu.models.temporaryKeys.TemporaryKey;
-import io.falu.models.temporaryKeys.TemporaryKeyCreateRequest;
+import io.falu.models.temporaryKeys.TemporaryKeyCreateOptions;
 import io.falu.models.transfers.Transfer;
-import io.falu.models.transfers.TransferCreateRequest;
+import io.falu.models.transfers.TransferCreateOptions;
 import io.falu.models.transfers.TransferListOptions;
-import io.falu.models.transfers.TransferPatchModel;
+import io.falu.models.transfers.TransferUpdateOptions;
 import io.falu.models.transfers.reversals.TransferReversal;
-import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
-import io.falu.models.transfers.reversals.TransferReversalPatchModel;
+import io.falu.models.transfers.reversals.TransferReversalCreateOptions;
+import io.falu.models.transfers.reversals.TransferReversalUpdateOptions;
 import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
-import io.falu.models.webhooks.WebhookEndpointPatchModel;
+import io.falu.models.webhooks.WebhookEndpointUpdateOptions;
 import okhttp3.HttpUrl;
 import okhttp3.MultipartBody;
 import okhttp3.Request;
@@ -126,7 +125,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Payment.class);
     }
 
-    public ResourceResponse<Payment> updatePayment(String paymentId, PaymentPatchModel patchModel, RequestOptions options) throws IOException {
+    public ResourceResponse<Payment> updatePayment(String paymentId, PaymentUpdateOptions patchModel, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/payments/" + paymentId, null);
 
         Request.Builder builder = buildRequest(options)
@@ -136,7 +135,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Payment.class);
     }
 
-    public ResourceResponse<Payment> createPayment(PaymentCreateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<Payment> createPayment(PaymentCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/payments/", null);
 
         Request.Builder builder = buildRequest(options)
@@ -165,12 +164,15 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, PaymentAuthorization.class);
     }
 
-    public ResourceResponse<PaymentAuthorization> updatePaymentAuthorization(String authorizationId, JsonPatchDocument<PaymentAuthorizationPatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<PaymentAuthorization> updatePaymentAuthorization(String authorizationId,
+                                                                             PaymentAuthorizationUpdateOptions updateOptions, RequestOptions options) throws IOException {
+
         HttpUrl url = buildUrl("v1/payment_authorizations/" + authorizationId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(
+                        makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_MERGE_PATCH_JSON));
         return execute(builder, PaymentAuthorization.class);
     }
 
@@ -202,7 +204,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, PaymentRefund[].class);
     }
 
-    public ResourceResponse<PaymentRefund> createPaymentRefund(PaymentRefundRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<PaymentRefund> createPaymentRefund(PaymentRefundCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/payment_refunds/", null);
 
         Request.Builder builder = buildRequest(options)
@@ -222,12 +224,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, PaymentRefund.class);
     }
 
-    public ResourceResponse<PaymentRefund> updatePaymentRefund(String refundId, JsonPatchDocument<PaymentRefundPatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<PaymentRefund> updatePaymentRefund(String refundId,
+                                                               PaymentRefundUpdateOptions updateOptions, RequestOptions options) throws IOException {
+
         HttpUrl url = buildUrl("v1/payment_refunds/" + refundId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, PaymentRefund.class);
     }
 
@@ -241,7 +245,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Message[].class);
     }
 
-    public ResourceResponse<MessageResponse> createMessage(MessageCreateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageResponse> createMessage(MessageCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/messages", null);
 
         Request.Builder builder = buildRequest(options)
@@ -260,16 +264,16 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Message.class);
     }
 
-    public ResourceResponse<Message> updateMessage(String messageId, JsonPatchDocument<MessagePatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<Message> updateMessage(String messageId, MessageUpdateOptions updateOptions, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/messages/" + messageId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, Message.class);
     }
 
-    public ResourceResponse<MessageResponse> sendBulkMessages(List<MessageCreateRequest> messages, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageResponse> sendBulkMessages(List<MessageCreateOptions> messages, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/messages/batch", null);
 
         Request.Builder builder = buildRequest(options)
@@ -287,7 +291,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageTemplate[].class);
     }
 
-    public ResourceResponse<MessageTemplate> createMessageTemplate(MessageTemplateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageTemplate> createMessageTemplate(MessageTemplateCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/message_templates", null);
 
         Request.Builder builder = buildRequest(options)
@@ -305,7 +309,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageTemplate.class);
     }
 
-    public ResourceResponse<MessageTemplate> updateMessageTemplate(String templateId, MessageTemplatePatchModel patchModel, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageTemplate> updateMessageTemplate(String templateId, MessageTemplateUpdateOptions patchModel, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/message_templates/" + templateId, null);
 
         Request.Builder builder = buildRequest(options)
@@ -341,7 +345,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageStream[].class);
     }
 
-    public ResourceResponse<MessageStream> createMessageStream(MessageStreamCreateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageStream> createMessageStream(MessageStreamCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/message_streams", null);
 
         Request.Builder builder = buildRequest(options)
@@ -359,12 +363,12 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageStream.class);
     }
 
-    public ResourceResponse<MessageStream> updateMessageStream(String streamId, JsonPatchDocument<MessageStreamPatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageStream> updateMessageStream(String streamId, MessageStreamUpdateOptions updateOptions, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageStream.class);
     }
@@ -427,7 +431,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Transfer[].class);
     }
 
-    public ResourceResponse<Transfer> createTransfer(TransferCreateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<Transfer> createTransfer(TransferCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/transfers", null);
 
         Request.Builder builder = buildRequest(options)
@@ -445,12 +449,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Transfer.class);
     }
 
-    public ResourceResponse<Transfer> updateTransfer(String transferId, JsonPatchDocument<TransferPatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<Transfer> updateTransfer(String transferId, TransferUpdateOptions updateOptions,
+        RequestOptions options) throws IOException {
+
         HttpUrl url = buildUrl("v1/transfers" + transferId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, Transfer.class);
     }
 
@@ -463,7 +469,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, TransferReversal[].class);
     }
 
-    public ResourceResponse<TransferReversal> createTransferReversal(TransferReversalCreateRequest request, RequestOptions options) throws IOException {
+    public ResourceResponse<TransferReversal> createTransferReversal(TransferReversalCreateOptions request, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/transfer_reversals", null);
 
         Request.Builder builder = buildRequest(options)
@@ -474,7 +480,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     public ResourceResponse<TransferReversal> updateTransferReversal(String transferId,
-        TransferReversalPatchModel patchModel, RequestOptions options) throws IOException {
+                                                                     TransferReversalUpdateOptions patchModel, RequestOptions options) throws IOException {
 
         HttpUrl url = buildUrl("v1/transfer_reversals/" + transferId, null);
 
@@ -513,7 +519,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, File.class);
     }
 
-    public ResourceResponse<File> uploadFile(FileCreateRequest request, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<File> uploadFile(FileCreateOptions request, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/files", null);
 
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
@@ -544,7 +550,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, FileLink[].class);
     }
 
-    public ResourceResponse<FileLink> createFileLink(FileLinkCreateRequest request, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> createFileLink(FileLinkCreateOptions request, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/file_links", null);
 
         Request.Builder builder = buildRequest(requestOptions)
@@ -600,13 +606,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(String endpointId,
-        WebhookEndpointPatchModel patchModel, RequestOptions requestOptions) throws IOException {
+        WebhookEndpointUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
 
         HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
-                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, WebhookEndpoint.class);
     }
 
@@ -649,7 +655,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, IdentityVerification[].class);
     }
 
-    public ResourceResponse<IdentityVerification> createIdentityVerification(IdentityVerificationCreateRequest request, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<IdentityVerification> createIdentityVerification(IdentityVerificationCreateOptions request, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications", null);
 
         Request.Builder builder = buildRequest(requestOptions)
@@ -668,7 +674,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
-        IdentityVerificationPatchModel patchModel, RequestOptions requestOptions) throws IOException {
+                                                                             IdentityVerificationUpdateOptions patchModel, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
 
         Request.Builder builder = buildRequest(requestOptions)
@@ -718,7 +724,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     //region TemporaryKeys
-    public ResourceResponse<TemporaryKey> createTemporaryKey(TemporaryKeyCreateRequest request, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<TemporaryKey> createTemporaryKey(TemporaryKeyCreateOptions request, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/temporary_keys", null);
 
         Request.Builder builder = buildRequest(requestOptions)

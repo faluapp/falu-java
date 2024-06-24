@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @SuperBuilder
-public class FileCreateRequest {
+public class FileCreateOptions {
     /**
      * Contents of the file
      */

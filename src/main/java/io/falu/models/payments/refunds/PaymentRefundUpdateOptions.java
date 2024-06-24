@@ -1,6 +1,6 @@
 package io.falu.models.payments.refunds;
 
-import io.falu.models.core.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreateOptions;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
 
@@ -9,5 +9,5 @@ import lombok.experimental.SuperBuilder;
  */
 @Getter
 @SuperBuilder
-public class PaymentRefundPatchModel extends AbstractCreationRequest {
+public class PaymentRefundUpdateOptions extends AbstractCreateOptions {
 }

@@ -2,11 +2,10 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.identityVerification.IdentityVerification;
-import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationCreateOptions;
 import io.falu.models.identityVerification.IdentityVerificationListOptions;
-import io.falu.models.identityVerification.IdentityVerificationPatchModel;
+import io.falu.models.identityVerification.IdentityVerificationUpdateOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,7 +21,7 @@ public class IdentificationVerificationService extends BaseApiService {
      * List identity verifications
      */
     public ResourceResponse<IdentityVerification[]> getIdentityVerifications(
-            @Nullable IdentityVerificationListOptions options, @Nullable RequestOptions requestOptions) throws IOException {
+        @Nullable IdentityVerificationListOptions options, @Nullable RequestOptions requestOptions) throws IOException {
         return getApiClient().getIdentityVerifications(options, requestOptions);
     }
 
@@ -30,7 +29,7 @@ public class IdentificationVerificationService extends BaseApiService {
      * Create an identity verification
      */
     public ResourceResponse<IdentityVerification> createIdentityVerification(
-            @NotNull IdentityVerificationCreateRequest request, @Nullable RequestOptions options) throws IOException {
+        @NotNull IdentityVerificationCreateOptions request, @Nullable RequestOptions options) throws IOException {
         return getApiClient().createIdentityVerification(request, options);
     }
 
@@ -45,7 +44,7 @@ public class IdentificationVerificationService extends BaseApiService {
      * Update an identity verification
      */
     public ResourceResponse<IdentityVerification> updateIdentityVerification(
-            @NotNull String id, @NotNull IdentityVerificationPatchModel patchModel, @Nullable RequestOptions options) throws IOException {
+        @NotNull String id, @NotNull IdentityVerificationUpdateOptions patchModel, @Nullable RequestOptions options) throws IOException {
         return getApiClient().updateIdentityVerification(id, patchModel, options);
     }
 

@@ -1,10 +1,9 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.transfers.*;
 import io.falu.models.transfers.reversals.TransferReversal;
-import io.falu.models.transfers.reversals.TransferReversalCreateRequest;
+import io.falu.models.transfers.reversals.TransferReversalCreateOptions;
 import io.falu.models.transfers.reversals.TransferReversalsListOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -23,20 +22,20 @@ import static org.mockito.Mockito.withSettings;
 public class TransferServiceTests extends BaseApiServiceTests {
 
     private final Transfer transfer = Transfer.builder()
-            .currency("kes")
-            .id("tr_123")
-            .created(new Date())
-            .updated(new Date())
-            .amount(4_000_00)
-            .build();
+        .currency("kes")
+        .id("tr_123")
+        .created(new Date())
+        .updated(new Date())
+        .amount(4_000_00)
+        .build();
 
     private final TransferReversal transferReversal = TransferReversal.builder()
-            .amount(4_000_00)
-            .transfer("tr_123")
-            .currency("kes")
-            .created(new Date())
-            .updated(new Date())
-            .build();
+        .amount(4_000_00)
+        .transfer("tr_123")
+        .currency("kes")
+        .created(new Date())
+        .updated(new Date())
+        .build();
 
     @Mock
     private TransfersService service;
@@ -46,8 +45,8 @@ public class TransferServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(TransfersService.class, withSettings().useConstructor(options));
 
         TransferListOptions opt = TransferListOptions.builder()
-                .count(1)
-                .build();
+            .count(1)
+            .build();
 
         // given
         ResourceResponse<Transfer[]> expectedResponse = getResourceResponse(200, new Transfer[]{transfer});
@@ -65,16 +64,16 @@ public class TransferServiceTests extends BaseApiServiceTests {
     public void test_CreateTransferWorks() throws IOException {
         service = Mockito.mock(TransfersService.class, withSettings().useConstructor(options));
 
-        TransferCreateRequestMpesa mpesa = TransferCreateRequestMpesa.builder()
-                .customer(TransferCreateRequestMpesaToCustomer.builder().phone("+254722000000").build())
-                .build();
+        TransferCreateRequestMpesaOptions mpesa = TransferCreateRequestMpesaOptions.builder()
+            .customer(TransferCreateRequestMpesaToCustomer.builder().phone("+254722000000").build())
+            .build();
 
-        TransferCreateRequest request = TransferCreateRequest.builder()
-                .amount(1000)
-                .currency("kes")
-                .purpose("salary")
-                .mpesa(mpesa)
-                .build();
+        TransferCreateOptions request = TransferCreateOptions.builder()
+            .amount(1000)
+            .currency("kes")
+            .purpose("salary")
+            .mpesa(mpesa)
+            .build();
 
         // given
         ResourceResponse<Transfer> expectedResponse = getResourceResponse(200, transfer);
@@ -92,17 +91,18 @@ public class TransferServiceTests extends BaseApiServiceTests {
     public void test_UpdateTransferWorks() throws IOException {
         service = Mockito.mock(TransfersService.class, withSettings().useConstructor(options));
 
-        JsonPatchDocument<TransferPatchModel> document = new JsonPatchDocument<TransferPatchModel>()
-                .replace("description", "cake");
+        TransferUpdateOptions updateOptions = TransferUpdateOptions.builder()
+            .description("cake")
+            .build();
 
         // given
         ResourceResponse<Transfer> expectedResponse = getResourceResponse(200, transfer);
-        when(service.updateTransfer("tr_123", document, requestOptions)).thenReturn(expectedResponse);
+        when(service.updateTransfer("tr_123", updateOptions, requestOptions)).thenReturn(expectedResponse);
 
         mockWebServer.enqueue(getMockedResponse(200, new Transfer[]{transfer}));
 
         // when
-        ResourceResponse<Transfer> response = service.updateTransfer("tr_123", document, requestOptions);
+        ResourceResponse<Transfer> response = service.updateTransfer("tr_123", updateOptions, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }
@@ -128,8 +128,8 @@ public class TransferServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(TransfersService.class, withSettings().useConstructor(options));
 
         TransferReversalsListOptions opt = TransferReversalsListOptions.builder()
-                .count(1)
-                .build();
+            .count(1)
+            .build();
 
         // given
         ResourceResponse<TransferReversal[]> expectedResponse = getResourceResponse(200, new TransferReversal[]{transferReversal});
@@ -147,10 +147,10 @@ public class TransferServiceTests extends BaseApiServiceTests {
     public void test_CreateTransferReversalWorks() throws IOException {
         service = Mockito.mock(TransfersService.class, withSettings().useConstructor(options));
 
-        TransferReversalCreateRequest request = TransferReversalCreateRequest.builder()
-                .transfer("tr_123")
-                .reason("customerRequested")
-                .build();
+        TransferReversalCreateOptions request = TransferReversalCreateOptions.builder()
+            .transfer("tr_123")
+            .reason("customerRequested")
+            .build();
 
         // given
         ResourceResponse<TransferReversal> expectedResponse = getResourceResponse(200, transferReversal);

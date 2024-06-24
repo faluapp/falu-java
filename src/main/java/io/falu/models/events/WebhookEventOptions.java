@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @NoArgsConstructor
-public class WebhookEventRequest {
+public class WebhookEventOptions {
 
     /**
      * ID of the API request that caused the event. If null, the event was automatic

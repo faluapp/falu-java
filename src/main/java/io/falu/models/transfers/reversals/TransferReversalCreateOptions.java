@@ -1,6 +1,5 @@
 package io.falu.models.transfers.reversals;
 
-import io.falu.models.payments.refunds.PaymentRefundReason;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class TransferReversalCreateRequest {
+public class TransferReversalCreateOptions {
     /**
      * Identifier of the Transfer to reverse.
      */

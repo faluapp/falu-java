@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class PaymentRefundRequest {
+public class PaymentRefundCreateOptions {
     /**
      * Identifier of the payment to refund.
      */

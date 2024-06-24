@@ -1,6 +1,6 @@
 package io.falu.models.messages;
 
-import io.falu.models.core.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreateOptions;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-public class MessageCreateRequest extends AbstractCreationRequest {
+public class MessageCreateOptions extends AbstractCreateOptions {
     /**
      * Destination phone number in ${https://en.wikipedia.org/wiki/E.164} E.164 format</see>.
      */
