@@ -87,7 +87,7 @@ public class FilesService extends BaseApiService {
      * @param linkId         Unique identifier of the file.
      * @param requestOptions Additional info to add to the request.
      */
-    public ResourceResponse<FileLink> updateFileLink(@NotNull String linkId, @NotNull JsonPatchDocument<FileLinkPatchModel> patch, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> updateFileLink(@NotNull String linkId, @NotNull FileLinkPatchModel patch, RequestOptions requestOptions) throws IOException {
         return getApiClient().updateFileLink(linkId, patch, requestOptions);
     }
 }

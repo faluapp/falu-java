@@ -95,17 +95,18 @@ public class WebhookServiceTests extends BaseApiServiceTests {
     public void test_updateWebhookWorks() throws IOException {
         service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
-        JsonPatchDocument<WebhookEndpointPatchModel> document = new JsonPatchDocument<WebhookEndpointPatchModel>()
-                .replace("description", "cake");
+        WebhookEndpointPatchModel patchModel = WebhookEndpointPatchModel.builder()
+                .description("cake")
+                .build();
 
         // given
         ResourceResponse<WebhookEndpoint> expectedResponse = getResourceResponse(200, webhookEndpoint);
-        when(service.updateWebhookEndpoint("we_123", document, requestOptions)).thenReturn(expectedResponse);
+        when(service.updateWebhookEndpoint("we_123", patchModel, requestOptions)).thenReturn(expectedResponse);
 
         mockWebServer.enqueue(getMockedResponse(200, webhookEndpoint));
 
         // when
-        ResourceResponse<WebhookEndpoint> response = service.updateWebhookEndpoint("we_123", document, requestOptions);
+        ResourceResponse<WebhookEndpoint> response = service.updateWebhookEndpoint("we_123", patchModel, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

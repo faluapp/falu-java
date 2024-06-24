@@ -205,17 +205,16 @@ public class MessageServiceTests extends BaseApiServiceTests {
     public void test_UpdateMessageTemplateWorks() throws IOException {
         service = Mockito.mock(MessagesService.class, withSettings().useConstructor(options));
 
-        JsonPatchDocument<MessageTemplatePatchModel> document = new JsonPatchDocument<MessageTemplatePatchModel>()
-                .replace("description", "cake");
+        MessageTemplatePatchModel patchModel = MessageTemplatePatchModel.builder().description("cake").build();
 
         // given
         ResourceResponse<MessageTemplate> expectedResponse = getResourceResponse(200, messageTemplate);
-        when(service.updateMessageTemplate("tmp_123", document, requestOptions)).thenReturn(expectedResponse);
+        when(service.updateMessageTemplate("tmp_123", patchModel, requestOptions)).thenReturn(expectedResponse);
 
         mockWebServer.enqueue(getMockedResponse(200, messageResponse));
 
         // when
-        ResourceResponse<MessageTemplate> response = service.updateMessageTemplate("tmp_123", document, requestOptions);
+        ResourceResponse<MessageTemplate> response = service.updateMessageTemplate("tmp_123", patchModel, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

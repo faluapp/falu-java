@@ -1,7 +1,6 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.files.File;
 import io.falu.models.files.FileCreateRequest;
 import io.falu.models.files.FileListOptions;
@@ -160,17 +159,18 @@ public class FilesServiceTests extends BaseApiServiceTests {
     public void test_UpdateFileLinkWorks() throws IOException {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
-        JsonPatchDocument<FileLinkPatchModel> document = new JsonPatchDocument<FileLinkPatchModel>()
-                .replace("description", "cake");
+        FileLinkPatchModel patchModel = FileLinkPatchModel.builder()
+                .description("cake")
+                .build();
 
         // given
         ResourceResponse<FileLink> expectedResponse = getResourceResponse(200, fileLink);
-        when(service.updateFileLink("link_123", document, requestOptions)).thenReturn(expectedResponse);
+        when(service.updateFileLink("link_123", patchModel, requestOptions)).thenReturn(expectedResponse);
 
         mockWebServer.enqueue(getMockedResponse(200, file));
 
         // when
-        ResourceResponse<FileLink> response = service.updateFileLink("link_123", document, requestOptions);
+        ResourceResponse<FileLink> response = service.updateFileLink("link_123", patchModel, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

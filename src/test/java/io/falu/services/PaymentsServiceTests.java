@@ -120,17 +120,18 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
     public void test_UpdatePaymentWorks() throws IOException {
         service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
-        JsonPatchDocument<PaymentPatchModel> document = new JsonPatchDocument<PaymentPatchModel>()
-                .replace("description", "cake");
+        PaymentPatchModel patchModel = PaymentPatchModel.builder()
+                .description("cake")
+                .build();
 
         // given
         ResourceResponse<Payment> expectedResponse = getResourceResponse(200, payment);
-        when(service.updatePayment("pa_123", document, requestOptions)).thenReturn(expectedResponse);
+        when(service.updatePayment("pa_123", patchModel, requestOptions)).thenReturn(expectedResponse);
 
         mockWebServer.enqueue(getMockedResponse(200, payment));
 
         // when
-        ResourceResponse<Payment> response = service.updatePayment("pa_123", document, requestOptions);
+        ResourceResponse<Payment> response = service.updatePayment("pa_123", patchModel, requestOptions);
         Assertions.assertEquals(200, response.getStatusCode());
         Assertions.assertNotNull(response.getResource());
     }

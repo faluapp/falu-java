@@ -1,5 +1,6 @@
 package io.falu.networking;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
@@ -71,6 +72,39 @@ public class FaluApiClient extends AbstractHttpApiClient {
         super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor, enableLogging);
     }
 
+    private static Request.Builder buildRequest(RequestOptions options) {
+        Request.Builder builder = new Request.Builder();
+
+        if (options.workspace != null && !options.workspace.isEmpty()) {
+            builder.header("X-Workspace-Id", options.workspace);
+        }
+
+        if (options.idempotencyKey != null && !options.idempotencyKey.isEmpty()) {
+            builder.header("X-Idempotency-Key", options.idempotencyKey);
+        }
+
+        boolean live = options.live != null && options.live;
+        builder.header("X-Live-Mode", String.valueOf(live));
+
+
+        return builder;
+    }
+
+    private static HttpUrl buildUrl(String path, @Nullable BasicListOptions listOptions) {
+        HttpUrl.Builder builder = new HttpUrl.Builder();
+        builder.scheme(SCHEME);
+        builder.host(HOST);
+        builder.addPathSegments(path);
+
+        if (listOptions != null) {
+            QueryValues args = new QueryValues();
+            listOptions.populate(args);
+            args.getQueryParameters(builder);
+        }
+
+        return builder.build();
+    }
+
     //region Payments
     public ResourceResponse<Payment[]> getPayments(PaymentsListOptions listOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/payments", listOptions);
@@ -92,12 +126,12 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, Payment.class);
     }
 
-    public ResourceResponse<Payment> updatePayment(String paymentId, JsonPatchDocument<PaymentPatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<Payment> updatePayment(String paymentId, PaymentPatchModel patchModel, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/payments/" + paymentId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
 
         return execute(builder, Payment.class);
     }
@@ -177,6 +211,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
         return execute(builder, PaymentRefund.class);
     }
+    //endregion
 
     public ResourceResponse<PaymentRefund> getPaymentRefund(String refundId, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/payment_refunds/" + refundId, null);
@@ -195,7 +230,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
         return execute(builder, PaymentRefund.class);
     }
-    //endregion
 
     //region Messages, Message Templates, and Message Streams
     public ResourceResponse<Message[]> getMessages(MessagesListOptions listOptions, RequestOptions options) throws IOException {
@@ -271,12 +305,12 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, MessageTemplate.class);
     }
 
-    public ResourceResponse<MessageTemplate> updateMessageTemplate(String templateId, JsonPatchDocument<MessageTemplatePatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<MessageTemplate> updateMessageTemplate(String templateId, MessageTemplatePatchModel patchModel, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/message_templates/" + templateId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, MessageTemplate.class);
     }
 
@@ -343,6 +377,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .delete();
         return execute(builder, ResourceResponse.class);
     }
+    //endregion
 
     public ResourceResponse<MessageStream> archiveMessageStream(String streamId, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId + "/archive", null);
@@ -381,7 +416,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, MoneyBalance.class);
     }
-    //endregion
 
     //region Transfers, Transfer Reversals
     public ResourceResponse<Transfer[]> getTransfers(TransferListOptions listOptions, RequestOptions requestOptions) throws IOException {
@@ -437,13 +471,16 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
         return execute(builder, TransferReversal.class);
     }
+    //endregion
 
-    public ResourceResponse<TransferReversal> updateTransferReversal(String transferId, JsonPatchDocument<TransferReversalPatchModel> document, RequestOptions options) throws IOException {
+    public ResourceResponse<TransferReversal> updateTransferReversal(String transferId,
+        TransferReversalPatchModel patchModel, RequestOptions options) throws IOException {
+
         HttpUrl url = buildUrl("v1/transfer_reversals/" + transferId, null);
 
         Request.Builder builder = buildRequest(options)
                 .url(url)
-                .post(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .post(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
 
         return execute(builder, TransferReversal.class);
     }
@@ -456,8 +493,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .get();
         return execute(builder, TransferReversal.class);
     }
-    //endregion
-
 
     //region Files and File Links
     public ResourceResponse<File[]> getFiles(FileListOptions listOptions, RequestOptions requestOptions) throws IOException {
@@ -517,6 +552,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
         return execute(builder, FileLink.class);
     }
+    //endregion
 
     public ResourceResponse<FileLink> getFileLink(String linkId, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
@@ -527,15 +563,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, FileLink.class);
     }
 
-    public ResourceResponse<FileLink> updateFileLink(String linkId, JsonPatchDocument<FileLinkPatchModel> document, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> updateFileLink(String linkId, FileLinkPatchModel patchModel, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_MERGE_PATCH_JSON));
         return execute(builder, FileLink.class);
     }
-    //endregion
 
     //region Webhook Endpoints, Events
     public ResourceResponse<WebhookEndpoint[]> getWebhookEndpoints(WebhookEndpointListOptions listOptions, RequestOptions requestOptions) throws IOException {
@@ -564,12 +599,14 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, WebhookEndpoint.class);
     }
 
-    public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(String endpointId, JsonPatchDocument<WebhookEndpointPatchModel> document, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(String endpointId,
+        WebhookEndpointPatchModel patchModel, RequestOptions requestOptions) throws IOException {
+
         HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, WebhookEndpoint.class);
     }
 
@@ -581,6 +618,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .delete();
         return execute(builder, ResourceResponse.class);
     }
+    //endregion
 
     public ResourceResponse<WebhookEvent[]> getWebhookEvents(EventListOptions listOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/events", listOptions);
@@ -600,7 +638,6 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
         return execute(builder, WebhookEvent.class);
     }
-    //endregion
 
     //region IdentityVerification
     public ResourceResponse<IdentityVerification[]> getIdentityVerifications(IdentityVerificationListOptions listOptions, RequestOptions requestOptions) throws IOException {
@@ -631,14 +668,15 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
-                                                                             JsonPatchDocument<IdentityVerificationPatchModel> document, RequestOptions requestOptions) throws IOException {
+        IdentityVerificationPatchModel patchModel, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
 
         Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
-                .patch(RequestBody.create(makeJson(document.getOperations()), MEDIA_TYPE_JSON));
+                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
         return execute(builder, IdentityVerification.class);
     }
+    //endregion
 
     public ResourceResponse<IdentityVerification> cancelIdentityVerification(String id, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/cancel", null);
@@ -657,7 +695,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, IdentityVerification.class);
     }
-    //endregion
+    //endRegion
 
     //region IdentityVerificationReports
     public ResourceResponse<IdentityVerificationReport[]> getIdentityVerificationReports(IdentityVerificationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
@@ -677,7 +715,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .get();
         return execute(builder, IdentityVerificationReport.class);
     }
-    //endRegion
+    //endregion
 
     //region TemporaryKeys
     public ResourceResponse<TemporaryKey> createTemporaryKey(TemporaryKeyCreateRequest request, RequestOptions requestOptions) throws IOException {
@@ -696,39 +734,5 @@ public class FaluApiClient extends AbstractHttpApiClient {
                 .url(url)
                 .delete();
         return execute(builder, ResourceResponse.class);
-    }
-    //endregion
-
-    private static Request.Builder buildRequest(RequestOptions options) {
-        Request.Builder builder = new Request.Builder();
-
-        if (options.workspace != null && !options.workspace.isEmpty()) {
-            builder.header("X-Workspace-Id", options.workspace);
-        }
-
-        if (options.idempotencyKey != null && !options.idempotencyKey.isEmpty()) {
-            builder.header("X-Idempotency-Key", options.idempotencyKey);
-        }
-
-        boolean live = options.live != null && options.live;
-        builder.header("X-Live-Mode", String.valueOf(live));
-
-
-        return builder;
-    }
-
-    private static HttpUrl buildUrl(String path, @Nullable BasicListOptions listOptions) {
-        HttpUrl.Builder builder = new HttpUrl.Builder();
-        builder.scheme(SCHEME);
-        builder.host(HOST);
-        builder.addPathSegments(path);
-
-        if (listOptions != null) {
-            QueryValues args = new QueryValues();
-            listOptions.populate(args);
-            args.getQueryParameters(builder);
-        }
-
-        return builder.build();
     }
 }
