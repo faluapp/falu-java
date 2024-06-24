@@ -45,8 +45,8 @@ public class IdentificationVerificationService extends BaseApiService {
      * Update an identity verification
      */
     public ResourceResponse<IdentityVerification> updateIdentityVerification(
-            @NotNull String id, @NotNull JsonPatchDocument<IdentityVerificationPatchModel> patch, @Nullable RequestOptions options) throws IOException {
-        return getApiClient().updateIdentityVerification(id, patch, options);
+            @NotNull String id, @NotNull IdentityVerificationPatchModel patchModel, @Nullable RequestOptions options) throws IOException {
+        return getApiClient().updateIdentityVerification(id, patchModel, options);
     }
 
     /**

@@ -61,8 +61,10 @@ public class PaymentsService extends BaseApiService {
      * @param patch     the patch document.
      * @param options   additional info to add to the request.
      */
-    public ResourceResponse<Payment> updatePayment(@NotNull String paymentId, @NotNull JsonPatchDocument<PaymentPatchModel> patch, @Nullable RequestOptions options) throws IOException {
-        return getApiClient().updatePayment(paymentId, patch, options);
+    public ResourceResponse<Payment> updatePayment(@NotNull String paymentId, @NotNull PaymentPatchModel patchModel,
+        @Nullable RequestOptions options) throws IOException {
+
+        return getApiClient().updatePayment(paymentId, patchModel, options);
     }
 
     /**

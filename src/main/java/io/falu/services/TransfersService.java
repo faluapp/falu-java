@@ -98,7 +98,9 @@ public class TransfersService extends BaseApiService {
      * @param patch          the patch document.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<TransferReversal> updateTransferReversal(@NotNull String reversalId, @NotNull JsonPatchDocument<TransferReversalPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateTransferReversal(reversalId, patch, requestOptions);
+    public ResourceResponse<TransferReversal> updateTransferReversal(@NotNull String reversalId,
+        @NotNull TransferReversalPatchModel patchModel, @Nullable RequestOptions requestOptions) throws IOException {
+
+        return getApiClient().updateTransferReversal(reversalId, patchModel, requestOptions);
     }
 }

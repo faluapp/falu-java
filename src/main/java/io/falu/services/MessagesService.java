@@ -114,8 +114,8 @@ public class MessagesService extends BaseApiService {
      * @param patch          the patch document.
      * @param requestOptions additional info to add to the request.
      */
-    public ResourceResponse<MessageTemplate> updateMessageTemplate(@NotNull String templateId, @NotNull JsonPatchDocument<MessageTemplatePatchModel> patch, @NonNull RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateMessageTemplate(templateId, patch, requestOptions);
+    public ResourceResponse<MessageTemplate> updateMessageTemplate(@NotNull String templateId, @NotNull MessageTemplatePatchModel patchModel, @NonNull RequestOptions requestOptions) throws IOException {
+        return getApiClient().updateMessageTemplate(templateId, patchModel, requestOptions);
     }
 
     /**

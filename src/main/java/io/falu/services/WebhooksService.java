@@ -55,8 +55,10 @@ public class WebhooksService extends BaseApiService {
      * @param patch          Details about what is to be changed.
      * @param requestOptions Additional info to add to the request.
      */
-    public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(@NotNull String endpointId, JsonPatchDocument<WebhookEndpointPatchModel> patch, @Nullable RequestOptions requestOptions) throws IOException {
-        return getApiClient().updateWebhookEndpoint(endpointId, patch, requestOptions);
+    public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(@NotNull String endpointId,
+        WebhookEndpointPatchModel patchModel, @Nullable RequestOptions requestOptions) throws IOException {
+
+        return getApiClient().updateWebhookEndpoint(endpointId, patchModel, requestOptions);
     }
 
     /**
