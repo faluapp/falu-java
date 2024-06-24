@@ -2,11 +2,10 @@ package io.falu.services;
 
 import io.falu.FaluClientOptions;
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
-import io.falu.models.webhooks.WebhookEndpointPatchModel;
+import io.falu.models.webhooks.WebhookEndpointUpdateOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -52,13 +51,13 @@ public class WebhooksService extends BaseApiService {
      * Get Webhook Endpoints.
      *
      * @param endpointId     Unique identifier of the webhook.
-     * @param patch          Details about what is to be changed.
+     * @param updateOptions          Details about what is to be changed.
      * @param requestOptions Additional info to add to the request.
      */
     public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(@NotNull String endpointId,
-        WebhookEndpointPatchModel patchModel, @Nullable RequestOptions requestOptions) throws IOException {
+        WebhookEndpointUpdateOptions updateOptions, @Nullable RequestOptions requestOptions) throws IOException {
 
-        return getApiClient().updateWebhookEndpoint(endpointId, patchModel, requestOptions);
+        return getApiClient().updateWebhookEndpoint(endpointId, updateOptions, requestOptions);
     }
 
     /**

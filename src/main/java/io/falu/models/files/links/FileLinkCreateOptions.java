@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-public class FileLinkCreateRequest {
+public class FileLinkCreateOptions {
     /**
      * Unique identifier of the file.
      */

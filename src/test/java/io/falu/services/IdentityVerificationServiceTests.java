@@ -1,12 +1,9 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.identityVerification.IdentityVerification;
-import io.falu.models.identityVerification.IdentityVerificationCreateRequest;
+import io.falu.models.identityVerification.IdentityVerificationCreateOptions;
 import io.falu.models.identityVerification.IdentityVerificationListOptions;
-import io.falu.models.identityVerification.IdentityVerificationPatchModel;
-import io.falu.networking.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,7 +13,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.HashMap;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.withSettings;
@@ -75,7 +71,7 @@ public class IdentityVerificationServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(IdentificationVerificationService.class, withSettings().useConstructor(options));
 
         // given
-        IdentityVerificationCreateRequest request = IdentityVerificationCreateRequest.builder()
+        IdentityVerificationCreateOptions request = IdentityVerificationCreateOptions.builder()
                 .returnUrl("https://example.com")
                 .type("id_number")
                 .build();

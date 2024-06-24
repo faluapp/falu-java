@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class MessageStreamCreateRequest {
+public class MessageStreamCreateOptions {
     /**
      * A string of 3-50 characters used for easier identification of a message stream.
      * This value cannot be changed after creation.

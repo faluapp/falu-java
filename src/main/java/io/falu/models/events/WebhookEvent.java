@@ -19,7 +19,7 @@ public class WebhookEvent<TObject> extends FaluModel {
     /**
      * Information on the API request that instigated the event.
      */
-    public WebhookEventRequest request;
+    public WebhookEventOptions request;
 
     /**
      * Object containing data associated with the event.

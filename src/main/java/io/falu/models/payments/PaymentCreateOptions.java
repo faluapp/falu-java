@@ -10,7 +10,7 @@ import java.util.Map;
  */
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-public class PaymentCreateRequest {
+public class PaymentCreateOptions {
     /**
      * Three-letter ISO currency code, in lowercase.
      */

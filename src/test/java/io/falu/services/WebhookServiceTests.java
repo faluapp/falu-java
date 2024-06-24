@@ -1,11 +1,10 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
-import io.falu.client.patch.JsonPatchDocument;
 import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
-import io.falu.models.webhooks.WebhookEndpointPatchModel;
+import io.falu.models.webhooks.WebhookEndpointUpdateOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,11 +22,11 @@ import static org.mockito.Mockito.withSettings;
 public class WebhookServiceTests extends BaseApiServiceTests {
 
     private final WebhookEndpoint webhookEndpoint = WebhookEndpoint.builder()
-            .id("we_123")
-            .url("https://localhost:1234")
-            .created(new Date())
-            .updated(new Date())
-            .build();
+        .id("we_123")
+        .url("https://localhost:1234")
+        .created(new Date())
+        .updated(new Date())
+        .build();
 
     @Mock
     private WebhooksService service;
@@ -37,8 +36,8 @@ public class WebhookServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         WebhookEndpointListOptions opt = WebhookEndpointListOptions.builder()
-                .count(1)
-                .build();
+            .count(1)
+            .build();
 
         // given
         ResourceResponse<WebhookEndpoint[]> expectedResponse = getResourceResponse(200, new WebhookEndpoint[]{webhookEndpoint});
@@ -57,11 +56,11 @@ public class WebhookServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         WebhookEndpointCreateRequest request = WebhookEndpointCreateRequest.builder()
-                .events(new String[]{"payment.succeeded"})
-                .url("https://localhost:1234")
-                .format("basic")
-                .token("e0gNHBa90CfdKbtcWgksn52cvXoXMqCTaLdttJAsQVU=")
-                .build();
+            .events(new String[]{"payment.succeeded"})
+            .url("https://localhost:1234")
+            .format("basic")
+            .token("e0gNHBa90CfdKbtcWgksn52cvXoXMqCTaLdttJAsQVU=")
+            .build();
 
         // given
         ResourceResponse<WebhookEndpoint> expectedResponse = getResourceResponse(200, webhookEndpoint);
@@ -95,9 +94,9 @@ public class WebhookServiceTests extends BaseApiServiceTests {
     public void test_updateWebhookWorks() throws IOException {
         service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
-        WebhookEndpointPatchModel patchModel = WebhookEndpointPatchModel.builder()
-                .description("cake")
-                .build();
+        WebhookEndpointUpdateOptions patchModel = WebhookEndpointUpdateOptions.builder()
+            .description("cake")
+            .build();
 
         // given
         ResourceResponse<WebhookEndpoint> expectedResponse = getResourceResponse(200, webhookEndpoint);

@@ -1,7 +1,7 @@
 package io.falu.models.identityVerification;
 
 import com.google.gson.annotations.SerializedName;
-import io.falu.models.core.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreateOptions;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
  */
 @Setter
 @SuperBuilder()
-public class IdentityVerificationCreateRequest extends AbstractCreationRequest {
+public class IdentityVerificationCreateOptions extends AbstractCreateOptions {
     /**
      * The type of verification check to be performed.
      */

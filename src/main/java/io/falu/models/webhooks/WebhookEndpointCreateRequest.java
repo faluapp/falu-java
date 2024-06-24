@@ -1,6 +1,6 @@
 package io.falu.models.webhooks;
 
-import io.falu.models.core.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreateOptions;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.experimental.SuperBuilder;
@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
  */
 @NoArgsConstructor
 @SuperBuilder
-public class WebhookEndpointCreateRequest extends AbstractCreationRequest {
+public class WebhookEndpointCreateRequest extends AbstractCreateOptions {
     /**
      * The format to be used for a request to a webhook endpoint.
      */

@@ -11,7 +11,7 @@ import java.util.HashMap;
 @Getter
 @NoArgsConstructor
 @SuperBuilder
-public abstract class AbstractCreationRequest {
+public abstract class AbstractCreateOptions {
     /**
      * An optional arbitrary string attached to the object. Mainly used to describe the object and often useful for displaying to users.
      */

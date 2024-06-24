@@ -1,13 +1,13 @@
 package io.falu.models.webhooks;
 
-import io.falu.models.core.AbstractCreationRequest;
+import io.falu.models.core.AbstractCreateOptions;
 import lombok.experimental.SuperBuilder;
 
 /**
  * A model representing details that can be changed about a Webhook endpoint
  */
 @SuperBuilder
-public class WebhookEndpointPatchModel extends AbstractCreationRequest {
+public class WebhookEndpointUpdateOptions extends AbstractCreateOptions {
     /**
      * The list of events to enable for this endpoint.
      */

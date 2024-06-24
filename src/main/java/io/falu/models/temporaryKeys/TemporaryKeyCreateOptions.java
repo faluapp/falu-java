@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
  */
 @NoArgsConstructor
 @SuperBuilder
-public class TemporaryKeyCreateRequest {
+public class TemporaryKeyCreateOptions {
     /**
      * Unique identifier of the identity verification to be accessed using the key.
      */

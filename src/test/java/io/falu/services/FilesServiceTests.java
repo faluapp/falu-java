@@ -2,10 +2,10 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.models.files.File;
-import io.falu.models.files.FileCreateRequest;
+import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
-import io.falu.models.files.links.FileLinkCreateRequest;
+import io.falu.models.files.links.FileLinkCreateOptions;
 import io.falu.models.files.links.FileLinkPatchModel;
 import io.falu.models.files.links.FileLinksListOptions;
 import org.junit.jupiter.api.Assertions;
@@ -65,7 +65,7 @@ public class FilesServiceTests extends BaseApiServiceTests {
     public void test_FileUploadWorks() throws IOException {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
-        FileCreateRequest request = FileCreateRequest.builder()
+        FileCreateOptions request = FileCreateOptions.builder()
                 .content(new java.io.File("file.pdf"))
                 .description("cake")
                 .purpose("customer.signature")
@@ -123,7 +123,7 @@ public class FilesServiceTests extends BaseApiServiceTests {
     public void test_CreateFileLinkWorks() throws IOException {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
-        FileLinkCreateRequest request = FileLinkCreateRequest.builder()
+        FileLinkCreateOptions request = FileLinkCreateOptions.builder()
                 .fileId("file_123")
                 .build();
 

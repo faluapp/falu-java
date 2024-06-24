@@ -2,7 +2,7 @@ package io.falu.services;
 
 import io.falu.client.ResourceResponse;
 import io.falu.models.temporaryKeys.TemporaryKey;
-import io.falu.models.temporaryKeys.TemporaryKeyCreateRequest;
+import io.falu.models.temporaryKeys.TemporaryKeyCreateOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,7 +33,7 @@ public class TemporaryKeyServiceTests extends BaseApiServiceTests {
     public void test_CreateTemporaryKeyWorks() throws IOException {
         service = Mockito.mock(TemporaryKeyService.class, withSettings().useConstructor(options));
 
-        TemporaryKeyCreateRequest request = TemporaryKeyCreateRequest.builder()
+        TemporaryKeyCreateOptions request = TemporaryKeyCreateOptions.builder()
                 .identityVerification("idv_1234567890")
                 .build();
 

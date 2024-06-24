@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @NoArgsConstructor
 @SuperBuilder(toBuilder = true)
-public class TransferCreateRequestMpesa {
+public class TransferCreateRequestMpesaOptions {
     /**
      * Details about initiation of an MPESA payment to customer.
      * This is also referred to as a Business To Customer (B2C) transfer.
