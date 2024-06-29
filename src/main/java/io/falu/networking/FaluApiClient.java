@@ -705,7 +705,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     //region IdentityVerificationReports
     public ResourceResponse<IdentityVerificationReport[]> getIdentityVerificationReports(IdentityVerificationReportsListOptions listOptions, RequestOptions requestOptions) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/verifications_reports", listOptions);
+        HttpUrl url = buildUrl("v1/identity/verification_reports", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
@@ -714,7 +714,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<IdentityVerificationReport> getIdentityVerificationReport(String reportId, RequestOptions requestOptions) throws IOException {
-        HttpUrl url = buildUrl("v1/identity/verifications_reports/" + reportId, null);
+        HttpUrl url = buildUrl("v1/identity/verification_reports/" + reportId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
                 .url(url)
