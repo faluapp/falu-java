@@ -2,6 +2,7 @@ package io.falu.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import io.falu.client.adapters.OptionalAdapter;
 import io.falu.client.headers.IAuthenticationProvider;
 import io.falu.networking.AppDetailsInterceptor;
 import okhttp3.*;
@@ -10,6 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -31,12 +33,12 @@ public class AbstractHttpApiClient {
      */
     public AbstractHttpApiClient(@NotNull IAuthenticationProvider authenticationProvider, AppDetailsInterceptor interceptor, Boolean enableDebug) {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
-                .addInterceptor(authenticationProvider)
-                .addInterceptor(interceptor)
-                .followRedirects(false)
-                .connectTimeout(50, TimeUnit.SECONDS) // default is 50 seconds
-                .readTimeout(50, TimeUnit.SECONDS)
-                .writeTimeout(50, TimeUnit.SECONDS);
+            .addInterceptor(authenticationProvider)
+            .addInterceptor(interceptor)
+            .followRedirects(false)
+            .connectTimeout(50, TimeUnit.SECONDS) // default is 50 seconds
+            .readTimeout(50, TimeUnit.SECONDS)
+            .writeTimeout(50, TimeUnit.SECONDS);
 
         if (enableDebug != null && enableDebug) {
             builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
@@ -75,11 +77,11 @@ public class AbstractHttpApiClient {
         }
 
         return (ResourceResponse<TResult>) ResourceResponse.builder()
-                .statusCode(code)
-                .headers(response.headers())
-                .resource(result)
-                .error(error)
-                .build();
+            .statusCode(code)
+            .headers(response.headers())
+            .resource(result)
+            .error(error)
+            .build();
     }
 
     protected String makeJson(@Nullable Object o) {
@@ -87,7 +89,10 @@ public class AbstractHttpApiClient {
     }
 
     protected String makeJson(@Nullable Object o, GsonBuilder builder) {
-        gson = builder.create();
+        gson = builder
+            .registerTypeAdapter(Optional.class, new OptionalAdapter<>())
+            .create();
+        
         return gson.toJson(o);
     }
 }
