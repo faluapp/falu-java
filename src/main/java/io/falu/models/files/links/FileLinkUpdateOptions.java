@@ -1,5 +1,6 @@
 package io.falu.models.files.links;
 
+import io.falu.common.Optional;
 import io.falu.models.core.AbstractCreateOptions;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -11,9 +12,9 @@ import java.util.Date;
  */
 @NoArgsConstructor
 @SuperBuilder
-public class FileLinkPatchModel extends AbstractCreateOptions {
+public class FileLinkUpdateOptions extends AbstractCreateOptions {
     /**
      * Time at which the link expires
      */
-    public Date expires;
+    public Optional<Date> expires;
 }

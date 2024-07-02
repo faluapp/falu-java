@@ -13,7 +13,7 @@ import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
 import io.falu.models.files.links.FileLinkCreateOptions;
-import io.falu.models.files.links.FileLinkPatchModel;
+import io.falu.models.files.links.FileLinkUpdateOptions;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
@@ -601,7 +601,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
         return execute(builder, FileLink.class);
     }
 
-    public ResourceResponse<FileLink> updateFileLink(String linkId, FileLinkPatchModel updateOptions, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> updateFileLink(String linkId, FileLinkUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
 
         Request.Builder builder = buildRequest(requestOptions)

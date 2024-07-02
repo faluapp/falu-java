@@ -1,6 +1,7 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.common.Optional;
 import io.falu.models.messages.*;
 import io.falu.models.messages.stream.*;
 import io.falu.models.messages.template.*;
@@ -129,7 +130,7 @@ public class MessageServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(MessagesService.class, withSettings().useConstructor(options));
 
         MessageUpdateOptions updateOptions = MessageUpdateOptions.builder()
-            .metadata(new HashMap<>())
+            .metadata(Optional.of(new HashMap<>()))
             .build();
 
         ResourceResponse<Message> expectedResponse = getResourceResponse(200, message);
@@ -205,7 +206,7 @@ public class MessageServiceTests extends BaseApiServiceTests {
     public void test_UpdateMessageTemplateWorks() throws IOException {
         service = Mockito.mock(MessagesService.class, withSettings().useConstructor(options));
 
-        MessageTemplateUpdateOptions patchModel = MessageTemplateUpdateOptions.builder().description("cake").build();
+        MessageTemplateUpdateOptions patchModel = MessageTemplateUpdateOptions.builder().description(Optional.of("cake")).build();
 
         // given
         ResourceResponse<MessageTemplate> expectedResponse = getResourceResponse(200, messageTemplate);
@@ -336,7 +337,7 @@ public class MessageServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(MessagesService.class, withSettings().useConstructor(options));
 
         MessageStreamUpdateOptions updateOptions = MessageStreamUpdateOptions.builder()
-            .description("cake")
+            .description(Optional.of("cake"))
             .build();
 
         // given

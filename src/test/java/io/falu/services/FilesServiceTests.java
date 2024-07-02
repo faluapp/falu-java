@@ -1,12 +1,13 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.common.Optional;
 import io.falu.models.files.File;
 import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
 import io.falu.models.files.links.FileLinkCreateOptions;
-import io.falu.models.files.links.FileLinkPatchModel;
+import io.falu.models.files.links.FileLinkUpdateOptions;
 import io.falu.models.files.links.FileLinksListOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -25,19 +26,19 @@ import static org.mockito.Mockito.withSettings;
 public class FilesServiceTests extends BaseApiServiceTests {
 
     private final File file = File.builder()
-            .fileName("test.png")
-            .type("image/png")
-            .purpose("customer.selfie")
-            .size(1024)
-            .id("file_123")
-            .build();
+        .fileName("test.png")
+        .type("image/png")
+        .purpose("customer.selfie")
+        .size(1024)
+        .id("file_123")
+        .build();
 
     private final FileLink fileLink = FileLink.builder()
-            .fileId("file_123")
-            .created(new Date())
-            .url("https/::example.com/123")
-            .expired(false)
-            .build();
+        .fileId("file_123")
+        .created(new Date())
+        .url("https/::example.com/123")
+        .expired(false)
+        .build();
 
     @Mock
     private FilesService service;
@@ -47,8 +48,8 @@ public class FilesServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
         FileListOptions opt = FileListOptions.builder()
-                .count(1)
-                .build();
+            .count(1)
+            .build();
 
         ResourceResponse<File[]> response = getResourceResponse(200, new File[]{file});
         when(service.getFiles(opt, requestOptions)).thenReturn(response);
@@ -66,10 +67,10 @@ public class FilesServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
         FileCreateOptions request = FileCreateOptions.builder()
-                .content(new java.io.File("file.pdf"))
-                .description("cake")
-                .purpose("customer.signature")
-                .build();
+            .content(new java.io.File("file.pdf"))
+            .description("cake")
+            .purpose("customer.signature")
+            .build();
 
         // given
         ResourceResponse<File> expectedResponse = getResourceResponse(200, file);
@@ -104,8 +105,8 @@ public class FilesServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
         FileLinksListOptions opt = FileLinksListOptions.builder()
-                .count(1)
-                .build();
+            .count(1)
+            .build();
 
         // given
         ResourceResponse<FileLink[]> expectedResponse = getResourceResponse(200, new FileLink[]{fileLink});
@@ -124,8 +125,8 @@ public class FilesServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
         FileLinkCreateOptions request = FileLinkCreateOptions.builder()
-                .fileId("file_123")
-                .build();
+            .fileId("file_123")
+            .build();
 
         // given
         ResourceResponse<FileLink> expectedResponse = getResourceResponse(200, fileLink);
@@ -159,9 +160,9 @@ public class FilesServiceTests extends BaseApiServiceTests {
     public void test_UpdateFileLinkWorks() throws IOException {
         service = Mockito.mock(FilesService.class, withSettings().useConstructor(options));
 
-        FileLinkPatchModel patchModel = FileLinkPatchModel.builder()
-                .description("cake")
-                .build();
+        FileLinkUpdateOptions patchModel = FileLinkUpdateOptions.builder()
+            .description(Optional.of("cake"))
+            .build();
 
         // given
         ResourceResponse<FileLink> expectedResponse = getResourceResponse(200, fileLink);
