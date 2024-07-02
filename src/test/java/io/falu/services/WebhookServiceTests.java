@@ -1,6 +1,7 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.common.Optional;
 import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
@@ -95,7 +96,7 @@ public class WebhookServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(WebhooksService.class, withSettings().useConstructor(options));
 
         WebhookEndpointUpdateOptions patchModel = WebhookEndpointUpdateOptions.builder()
-            .description("cake")
+            .description(Optional.of("cake"))
             .build();
 
         // given

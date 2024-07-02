@@ -7,7 +7,7 @@ import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
 import io.falu.models.files.links.FileLinkCreateOptions;
-import io.falu.models.files.links.FileLinkPatchModel;
+import io.falu.models.files.links.FileLinkUpdateOptions;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.networking.RequestOptions;
 import org.jetbrains.annotations.NotNull;
@@ -86,7 +86,7 @@ public class FilesService extends BaseApiService {
      * @param linkId         Unique identifier of the file.
      * @param requestOptions Additional info to add to the request.
      */
-    public ResourceResponse<FileLink> updateFileLink(@NotNull String linkId, @NotNull FileLinkPatchModel patch, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> updateFileLink(@NotNull String linkId, @NotNull FileLinkUpdateOptions patch, RequestOptions requestOptions) throws IOException {
         return getApiClient().updateFileLink(linkId, patch, requestOptions);
     }
 }

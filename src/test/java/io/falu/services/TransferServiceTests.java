@@ -1,6 +1,7 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.common.Optional;
 import io.falu.models.transfers.*;
 import io.falu.models.transfers.reversals.TransferReversal;
 import io.falu.models.transfers.reversals.TransferReversalCreateOptions;
@@ -92,7 +93,7 @@ public class TransferServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(TransfersService.class, withSettings().useConstructor(options));
 
         TransferUpdateOptions updateOptions = TransferUpdateOptions.builder()
-            .description("cake")
+            .description(Optional.of("cake"))
             .build();
 
         // given

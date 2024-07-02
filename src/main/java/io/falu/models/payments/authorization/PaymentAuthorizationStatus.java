@@ -1,6 +1,6 @@
 package io.falu.models.payments.authorization;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The status of a payment authorization.
@@ -9,18 +9,18 @@ public enum PaymentAuthorizationStatus {
     /**
      * The authorization was created and is awaiting approval or was approved and is awaiting capture.
      */
-    @SerializedName("pending")
+    @JsonProperty("pending")
     PENDING,
 
     /**
      * The authorization was declined or captured.
      */
-    @SerializedName("closed")
+    @JsonProperty("closed")
     CLOSED,
 
     /**
      * The authorization was reversed by the payment provider or expired without capture.
      */
-    @SerializedName("reversed")
+    @JsonProperty("reversed")
     REVERSED
 }

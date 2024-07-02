@@ -1,6 +1,7 @@
 package io.falu.services;
 
 import io.falu.client.ResourceResponse;
+import io.falu.common.Optional;
 import io.falu.models.payments.*;
 import io.falu.models.payments.authorization.PaymentAuthorization;
 import io.falu.models.payments.authorization.PaymentAuthorizationUpdateOptions;
@@ -120,7 +121,7 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentUpdateOptions patchModel = PaymentUpdateOptions.builder()
-            .description("cake")
+            .description(Optional.of("cake"))
             .build();
 
         // given
@@ -176,7 +177,7 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentAuthorizationUpdateOptions updateOptions = PaymentAuthorizationUpdateOptions.builder()
-            .description("cake")
+            .description(Optional.of("cake"))
             .build();
 
         // given
@@ -285,7 +286,7 @@ public class PaymentsServiceTests extends BaseApiServiceTests {
         service = Mockito.mock(PaymentsService.class, withSettings().useConstructor(options));
 
         PaymentRefundUpdateOptions updateOptions = PaymentRefundUpdateOptions.builder()
-            .description("cake")
+            .description(Optional.of("cake"))
             .build();
 
         // given

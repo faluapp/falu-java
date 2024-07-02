@@ -1,6 +1,6 @@
 package io.falu.models.events;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -21,6 +21,6 @@ public class WebhookEventOptions {
     /**
      * The idempotency key transmitted during the request, if any.
      */
-    @SerializedName("idempotency_key")
+    @JsonProperty("idempotency_key")
     private String idempotencyKey;
 }

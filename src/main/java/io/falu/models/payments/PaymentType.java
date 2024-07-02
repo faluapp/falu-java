@@ -1,20 +1,20 @@
 package io.falu.models.payments;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The type of payment.
  * Usually represent the medium used to make payment.
  */
 public enum PaymentType {
-    @SerializedName("mpesa")
+    @JsonProperty("mpesa")
     MPESA,
-    @SerializedName("airtelmoney")
+    @JsonProperty("airtelmoney")
     AIRTEL_MONEY,
-    @SerializedName("mtnmoney")
+    @JsonProperty("mtnmoney")
     MTN_MONEY,
-    @SerializedName("pesalink")
+    @JsonProperty("pesalink")
     PESALINK,
-    @SerializedName("tkash")
+    @JsonProperty("tkash")
     TKASH
 }

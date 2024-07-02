@@ -1,8 +1,6 @@
 package io.falu.models.identiityVerificationReports;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import io.falu.client.adapters.ISO8601DateAdapter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 import java.util.Date;
@@ -12,25 +10,25 @@ public class IdentityVerificationReportIdNumber extends AbstractIdentityVerifica
     /**
      * Type of ID number.
      */
-    @SerializedName("id_number_type")
+    @JsonProperty("id_number_type")
     private String IdNumberType;
 
     /**
      * Identification number.
      */
-    @SerializedName("id_number")
+    @JsonProperty("id_number")
     private String IdNumber;
 
     /**
      * First name as it appears in the document.
      */
-    @SerializedName("first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
     /**
      * Last name as it appears in the document.
      */
-    @SerializedName("last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
     /**
@@ -41,12 +39,11 @@ public class IdentityVerificationReportIdNumber extends AbstractIdentityVerifica
     /**
      * Sex as it appears on the document
      */
-    @SerializedName("sex")
+    @JsonProperty("sex")
     private String sex;
 
     /**
      * Date of birth as it appears in the document.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date birthday;
 }

@@ -1,7 +1,6 @@
 package io.falu.networking;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
@@ -14,7 +13,7 @@ import io.falu.models.files.FileCreateOptions;
 import io.falu.models.files.FileListOptions;
 import io.falu.models.files.links.FileLink;
 import io.falu.models.files.links.FileLinkCreateOptions;
-import io.falu.models.files.links.FileLinkPatchModel;
+import io.falu.models.files.links.FileLinkUpdateOptions;
 import io.falu.models.files.links.FileLinksListOptions;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReport;
 import io.falu.models.identiityVerificationReports.IdentityVerificationReportsListOptions;
@@ -109,8 +108,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payments", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
 
         return execute(builder, Payment[].class);
     }
@@ -119,18 +118,18 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payments/" + paymentId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
 
         return execute(builder, Payment.class);
     }
 
-    public ResourceResponse<Payment> updatePayment(String paymentId, PaymentUpdateOptions patchModel, RequestOptions options) throws IOException {
+    public ResourceResponse<Payment> updatePayment(String paymentId, PaymentUpdateOptions updateOptions, RequestOptions options) throws IOException {
         HttpUrl url = buildUrl("v1/payments/" + paymentId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
 
         return execute(builder, Payment.class);
     }
@@ -139,8 +138,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payments/", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, Payment.class);
     }
@@ -149,8 +148,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_authorizations", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
 
         return execute(builder, PaymentAuthorization[].class);
     }
@@ -159,8 +158,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_authorizations/" + authorizationId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, PaymentAuthorization.class);
     }
 
@@ -170,9 +170,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_authorizations/" + authorizationId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(
-                        makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_MERGE_PATCH_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_MERGE_PATCH_JSON));
+
         return execute(builder, PaymentAuthorization.class);
     }
 
@@ -180,8 +180,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_authorizations/" + authorizationId + "/approve", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, PaymentAuthorization.class);
     }
 
@@ -189,8 +189,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_authorizations/" + authorizationId + "/decline", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
         return execute(builder, PaymentAuthorization.class);
     }
 
@@ -198,8 +198,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_refunds/", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
 
         return execute(builder, PaymentRefund[].class);
     }
@@ -208,8 +208,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_refunds/", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
 
         return execute(builder, PaymentRefund.class);
     }
@@ -219,19 +219,21 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/payment_refunds/" + refundId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, PaymentRefund.class);
     }
 
     public ResourceResponse<PaymentRefund> updatePaymentRefund(String refundId,
-                                                               PaymentRefundUpdateOptions updateOptions, RequestOptions options) throws IOException {
+        PaymentRefundUpdateOptions updateOptions, RequestOptions options) throws IOException {
 
         HttpUrl url = buildUrl("v1/payment_refunds/" + refundId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
+
         return execute(builder, PaymentRefund.class);
     }
 
@@ -240,8 +242,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/messages", listOptions);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, Message[].class);
     }
 
@@ -249,8 +252,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/messages", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageResponse.class);
     }
 
@@ -258,8 +262,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/messages/" + messageId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
 
         return execute(builder, Message.class);
     }
@@ -268,8 +272,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/messages/" + messageId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
+
         return execute(builder, Message.class);
     }
 
@@ -277,8 +282,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/messages/batch", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(messages), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(messages), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageResponse.class);
     }
 
@@ -286,8 +292,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_templates", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, MessageTemplate[].class);
     }
 
@@ -295,8 +302,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_templates", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageTemplate.class);
     }
 
@@ -304,8 +312,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_templates/" + templateId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, MessageTemplate.class);
     }
 
@@ -313,8 +322,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_templates/" + templateId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(patchModel), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageTemplate.class);
     }
 
@@ -322,8 +332,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_templates/" + templateId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .delete();
+            .url(url)
+            .delete();
+
         return execute(builder, ResourceResponse.class);
     }
 
@@ -331,8 +342,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_templates/validate", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageTemplateValidationResponse.class);
     }
 
@@ -340,8 +352,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, MessageStream[].class);
     }
 
@@ -349,8 +362,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageStream.class);
     }
 
@@ -358,8 +372,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, MessageStream.class);
     }
 
@@ -367,8 +382,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
 
         return execute(builder, MessageStream.class);
     }
@@ -377,8 +392,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .delete();
+            .url(url)
+            .delete();
+
         return execute(builder, ResourceResponse.class);
     }
     //endregion
@@ -387,8 +403,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId + "/archive", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageStream.class);
     }
 
@@ -396,8 +413,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/message_streams/" + streamId + "/unarchive", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
         return execute(builder, MessageStream.class);
     }
     //endregion
@@ -407,8 +425,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/money_balances/", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, MoneyBalance.class);
     }
 
@@ -416,8 +435,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/money_balances/refresh", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
         return execute(builder, MoneyBalance.class);
     }
 
@@ -426,8 +446,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfers", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, Transfer[].class);
     }
 
@@ -435,8 +456,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfers", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, Transfer.class);
     }
 
@@ -444,8 +466,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfers" + transferId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, Transfer.class);
     }
 
@@ -455,8 +478,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfers" + transferId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
+
         return execute(builder, Transfer.class);
     }
 
@@ -464,8 +488,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfer_reversals", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, TransferReversal[].class);
     }
 
@@ -473,20 +498,21 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfer_reversals", null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, TransferReversal.class);
     }
     //endregion
 
     public ResourceResponse<TransferReversal> updateTransferReversal(String transferId,
-                                                                     TransferReversalUpdateOptions patchModel, RequestOptions options) throws IOException {
+        TransferReversalUpdateOptions updateOptions, RequestOptions options) throws IOException {
 
         HttpUrl url = buildUrl("v1/transfer_reversals/" + transferId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .post(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
 
         return execute(builder, TransferReversal.class);
     }
@@ -495,8 +521,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/transfer_reversals/" + transferId, null);
 
         Request.Builder builder = buildRequest(options)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, TransferReversal.class);
     }
 
@@ -505,8 +532,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/files", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, File[].class);
     }
 
@@ -514,8 +542,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/files/" + fileId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, File.class);
     }
 
@@ -523,11 +552,11 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/files", null);
 
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("purpose", request.getPurpose())
-                .addFormDataPart("file",
-                        request.getContent().getName(), RequestBody.create(request.getContent(), request.getMediaType()))
-                .addFormDataPart("description", request.getDescription());
+            .setType(MultipartBody.FORM)
+            .addFormDataPart("purpose", request.getPurpose())
+            .addFormDataPart("file",
+                request.getContent().getName(), RequestBody.create(request.getContent(), request.getMediaType()))
+            .addFormDataPart("description", request.getDescription());
 
         if (request.getExpires() != null) {
             bodyBuilder.addFormDataPart("expires", ISO8601Utils.format(request.getExpires()));
@@ -536,8 +565,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         RequestBody requestBody = bodyBuilder.build();
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(requestBody);
+            .url(url)
+            .post(requestBody);
+
         return execute(builder, File.class);
     }
 
@@ -545,8 +575,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/file_links", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, FileLink[].class);
     }
 
@@ -554,8 +585,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/file_links", null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, FileLink.class);
     }
     //endregion
@@ -564,17 +596,18 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
         return execute(builder, FileLink.class);
     }
 
-    public ResourceResponse<FileLink> updateFileLink(String linkId, FileLinkPatchModel patchModel, RequestOptions requestOptions) throws IOException {
+    public ResourceResponse<FileLink> updateFileLink(String linkId, FileLinkUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/file_links/" + linkId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_MERGE_PATCH_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_MERGE_PATCH_JSON));
+
         return execute(builder, FileLink.class);
     }
 
@@ -583,16 +616,18 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/webhooks/endpoints", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, WebhookEndpoint[].class);
     }
 
     public ResourceResponse<WebhookEndpoint> createWebhookEndpoint(WebhookEndpointCreateRequest request, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/webhooks/endpoints", null);
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, WebhookEndpoint.class);
     }
 
@@ -600,8 +635,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, WebhookEndpoint.class);
     }
 
@@ -611,8 +647,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .patch(RequestBody.create(makeJson(updateOptions, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
         return execute(builder, WebhookEndpoint.class);
     }
 
@@ -620,8 +656,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .delete();
+            .url(url)
+            .delete();
+
         return execute(builder, ResourceResponse.class);
     }
     //endregion
@@ -630,8 +667,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/events", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, WebhookEvent[].class);
     }
 
@@ -639,8 +677,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/event/" + eventId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
 
         return execute(builder, WebhookEvent.class);
     }
@@ -650,8 +688,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verifications", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, IdentityVerification[].class);
     }
 
@@ -659,8 +698,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verifications", null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+
         return execute(builder, IdentityVerification.class);
     }
 
@@ -668,18 +708,20 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, IdentityVerification.class);
     }
 
     public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
-                                                                             IdentityVerificationUpdateOptions patchModel, RequestOptions requestOptions) throws IOException {
+        IdentityVerificationUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .patch(RequestBody.create(makeJson(patchModel, new GsonBuilder().serializeNulls()), MEDIA_TYPE_JSON));
+            .url(url)
+            .patch(RequestBody.create(makeJson(updateOptions), MEDIA_TYPE_JSON));
+
         return execute(builder, IdentityVerification.class);
     }
     //endregion
@@ -688,8 +730,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/cancel", null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
         return execute(builder, IdentityVerification.class);
     }
 
@@ -697,8 +740,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id + "/redact", null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(null), MEDIA_TYPE_JSON));
+
         return execute(builder, IdentityVerification.class);
     }
     //endRegion
@@ -708,8 +752,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verification_reports", listOptions);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, IdentityVerificationReport[].class);
     }
 
@@ -717,8 +762,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/identity/verification_reports/" + reportId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .get();
+            .url(url)
+            .get();
+
         return execute(builder, IdentityVerificationReport.class);
     }
     //endregion
@@ -728,8 +774,8 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/temporary_keys", null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
+            .url(url)
+            .post(RequestBody.create(makeJson(request), MEDIA_TYPE_JSON));
         return execute(builder, TemporaryKey.class);
     }
 
@@ -737,8 +783,9 @@ public class FaluApiClient extends AbstractHttpApiClient {
         HttpUrl url = buildUrl("v1/temporary_keys/" + keyId, null);
 
         Request.Builder builder = buildRequest(requestOptions)
-                .url(url)
-                .delete();
+            .url(url)
+            .delete();
+
         return execute(builder, ResourceResponse.class);
     }
 }

@@ -1,8 +1,6 @@
 package io.falu.models.identiityVerificationReports;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import io.falu.client.adapters.ISO8601DateAdapter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.falu.models.core.PhysicalAddress;
 import lombok.Getter;
 
@@ -13,13 +11,11 @@ public class IdentityVerificationReportDocument extends AbstractIdentityVerifica
     /**
      * Expiry date of the document.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date expiry;
 
     /**
      * Issued date of the document.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date issued;
 
     /**
@@ -41,7 +37,7 @@ public class IdentityVerificationReportDocument extends AbstractIdentityVerifica
     /**
      * Sub-type for the document
      */
-    @SerializedName("sub_type")
+    @JsonProperty("sub_type")
     private String subType;
 
     /**
@@ -52,19 +48,19 @@ public class IdentityVerificationReportDocument extends AbstractIdentityVerifica
     /**
      * Personal number
      */
-    @SerializedName("personal_number")
+    @JsonProperty("personal_number")
     private String personalNumber;
 
     /**
      * First name as it appears in the document.
      */
-    @SerializedName("first_name")
+    @JsonProperty("first_name")
     private String firstName;
 
     /**
      * Last name as it appears in the document.
      */
-    @SerializedName("last_name")
+    @JsonProperty("last_name")
     private String lastName;
 
     /**
@@ -75,13 +71,12 @@ public class IdentityVerificationReportDocument extends AbstractIdentityVerifica
     /**
      * Sex as it appears on the document
      */
-    @SerializedName("sex")
+    @JsonProperty("sex")
     private String sex;
 
     /**
      * Date of birth as it appears in the document.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date birthday;
 
     /**
@@ -92,7 +87,7 @@ public class IdentityVerificationReportDocument extends AbstractIdentityVerifica
     /**
      * The driving license vehicle categories. Only populated if this report is for a driving licence.
      */
-    @SerializedName("driving_license_categories")
+    @JsonProperty("driving_license_categories")
     private String[] drivingLicenseCategories;
 
     /**

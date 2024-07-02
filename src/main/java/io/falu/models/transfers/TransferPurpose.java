@@ -1,15 +1,15 @@
 package io.falu.models.transfers;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The purpose of a transfer.
  */
 public enum TransferPurpose {
-    @SerializedName("business")
+    @JsonProperty("business")
     BUSINESS,
-    @SerializedName("salary")
+    @JsonProperty("salary")
     SALARY,
-    @SerializedName("promotion")
+    @JsonProperty("promotion")
     PROMOTION
 }

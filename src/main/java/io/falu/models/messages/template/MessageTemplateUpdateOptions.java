@@ -1,5 +1,6 @@
 package io.falu.models.messages.template;
 
+import io.falu.common.Optional;
 import io.falu.models.core.AbstractCreateOptions;
 import lombok.experimental.SuperBuilder;
 
@@ -13,11 +14,11 @@ public class MessageTemplateUpdateOptions extends AbstractCreateOptions {
      * Allowed characters are numbers, ASCII letters, and ., -, _ characters,
      * and the string has to start with a letter.
      */
-    public String alias;
+    public Optional<String> alias;
 
     /**
      * The content to use when this template is used to send messages.
      * See our template language documentation for more information on the syntax for this field.
      */
-    public String body;
+    public Optional<String> body;
 }

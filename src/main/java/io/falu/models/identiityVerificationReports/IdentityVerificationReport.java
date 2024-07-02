@@ -1,6 +1,6 @@
 package io.falu.models.identiityVerificationReports;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.falu.models.core.FaluModel;
 import io.falu.models.identityVerification.IdentityVerificationOptions;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class IdentityVerificationReport extends FaluModel {
     /**
      * Result from an id number check.
      */
-    @SerializedName("id_number")
+    @JsonProperty("id_number")
     private IdentityVerificationReportIdNumber idNumber;
 
     /**

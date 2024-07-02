@@ -1,13 +1,13 @@
 package io.falu.common;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The sorting order for a list operation.
  */
 public enum SortingOrder {
-    @SerializedName("ascending")
+    @JsonProperty("ascending")
     ASCENDING,
-    @SerializedName("descending")
+    @JsonProperty("descending")
     DESCENDING
 }

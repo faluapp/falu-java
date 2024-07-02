@@ -1,21 +1,21 @@
 package io.falu.models.payments.refunds;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Reason for failure of a payment refund.
  */
 public enum PaymentRefundFailureReason {
-    @SerializedName("unknown")
+    @JsonProperty("unknown")
     UNKNOWN,
-    @SerializedName("insufficient_balance")
+    @JsonProperty("insufficient_balance")
     INSUFFICIENT_BALANCE,
-    @SerializedName("authentication_error")
+    @JsonProperty("authentication_error")
     AUTHENTICATION_ERROR,
-    @SerializedName("amount_out_of_bound")
+    @JsonProperty("amount_out_of_bound")
     AMOUNT_OUT_OF_BOUND,
-    @SerializedName("timeout")
+    @JsonProperty("timeout")
     TIMEOUT,
-    @SerializedName("other")
+    @JsonProperty("other")
     OTHER
 }

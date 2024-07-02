@@ -1,24 +1,24 @@
 package io.falu.models.messages;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The status of a message.
  */
 public enum MessageStatus {
 
-    @SerializedName("accepted")
+    @JsonProperty("accepted")
     ACCEPTED,
 
-    @SerializedName("sending")
+    @JsonProperty("sending")
     SENDING,
 
-    @SerializedName("sent")
+    @JsonProperty("sent")
     SENT,
 
-    @SerializedName("failed")
+    @JsonProperty("failed")
     FAILED,
 
-    @SerializedName("delivered")
+    @JsonProperty("delivered")
     DELIVERED
 }
