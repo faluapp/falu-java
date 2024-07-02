@@ -1,7 +1,5 @@
 package io.falu.models.payments;
 
-import com.google.gson.annotations.JsonAdapter;
-import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -39,7 +37,6 @@ public class Payment extends FaluModel {
     /**
      * Time at which the payment succeeded. Only populated when successful.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date succeeded;
 
     /**

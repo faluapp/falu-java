@@ -1,20 +1,20 @@
 package io.falu.models.payments.refunds;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The status of a payment refund.
  */
 public enum PaymentRefundStatus {
-    @SerializedName("pending")
+    @JsonProperty("pending")
     PENDING,
 
-    @SerializedName("inTransit")
+    @JsonProperty("inTransit")
     IN_TRANSIT,
 
-    @SerializedName("succeeded")
+    @JsonProperty("succeeded")
     SUCCEEDED,
 
-    @SerializedName("failed")
+    @JsonProperty("failed")
     FAILED
 }

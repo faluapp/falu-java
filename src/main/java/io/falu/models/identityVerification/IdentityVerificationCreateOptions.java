@@ -1,6 +1,6 @@
 package io.falu.models.identityVerification;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.falu.models.core.AbstractCreateOptions;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
@@ -24,6 +24,6 @@ public class IdentityVerificationCreateOptions extends AbstractCreateOptions {
     /**
      * The URL the user will be redirected to upon completing the verification flow.
      */
-    @SerializedName("return_url")
+    @JsonProperty("return_url")
     private String returnUrl;
 }

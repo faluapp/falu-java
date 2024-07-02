@@ -1,8 +1,9 @@
 package io.falu.client;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import io.falu.client.adapters.OptionalAdapter;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import io.falu.client.adapters.OptionalSerializer;
 import io.falu.client.headers.IAuthenticationProvider;
 import io.falu.networking.AppDetailsInterceptor;
 import okhttp3.*;
@@ -24,7 +25,7 @@ public class AbstractHttpApiClient {
     protected static final MediaType MEDIA_TYPE_PLUS_JSON = MediaType.get("application/*+json");
 
     private final OkHttpClient backChannel;
-    private Gson gson = new Gson();
+    private ObjectMapper objectMapper;
 
     /**
      * Creates an instance of @[AbstractHttpApiClient]
@@ -45,6 +46,11 @@ public class AbstractHttpApiClient {
         }
 
         backChannel = builder.build();
+
+        objectMapper = new ObjectMapper();
+        SimpleModule module = new SimpleModule();
+        module.addSerializer(Optional.class, new OptionalSerializer());
+        objectMapper.registerModule(module);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,11 +70,11 @@ public class AbstractHttpApiClient {
                 case 201:
                 case 204: {
                     if (classOfTResult != null) {
-                        result = gson.fromJson(body.charStream(), classOfTResult);
+                        result = objectMapper.readValue(body.charStream(), classOfTResult);
                     }
                 }
                 case 400: {
-                    error = gson.fromJson(body.charStream(), HttpResponseProblem.class);
+                    error = objectMapper.readValue(body.charStream(), HttpResponseProblem.class);
                 }
             }
 
@@ -85,14 +91,18 @@ public class AbstractHttpApiClient {
     }
 
     protected String makeJson(@Nullable Object o) {
-        return gson.toJson(o);
+        try {
+            return objectMapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    protected String makeJson(@Nullable Object o, GsonBuilder builder) {
-        gson = builder
-            .registerTypeAdapter(Optional.class, new OptionalAdapter<>())
-            .create();
-        
-        return gson.toJson(o);
+    protected String makeJson(@Nullable Object o, ObjectMapper objectMapper) {
+        try {
+            return objectMapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

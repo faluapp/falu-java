@@ -1,6 +1,6 @@
 package io.falu.models.identityVerification;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.falu.models.core.DataReduction;
 import io.falu.models.core.FaluModel;
 import lombok.Getter;
@@ -39,7 +39,7 @@ public class IdentityVerification extends FaluModel {
      * Don’t store it, log it, embed it in a URL, or expose it to anyone other than the user.
      * Make sure that you have TLS enabled on any page that includes the client secret.
      */
-    @SerializedName("client_secret")
+    @JsonProperty("client_secret")
     private String clientSecret;
 
     /**

@@ -1,6 +1,6 @@
 package io.falu.models.payments.refunds;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import lombok.Getter;
 
@@ -13,7 +13,7 @@ public class PaymentRefundMpesaDetails {
     /**
      * The target MPESA business short code.
      */
-    @SerializedName("business_short_code")
+    @JsonProperty("business_short_code")
     private String businessShortCode;
 
     /**

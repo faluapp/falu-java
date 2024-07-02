@@ -1,17 +1,18 @@
 package io.falu.models.messages.stream;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Represents the types of streams for messages.
  */
 public enum MessageStreamType {
-    @SerializedName("transactional")
+    @JsonProperty("transactional")
     TRANSACTIONAL,
 
-    @SerializedName("inbound")
+    @JsonProperty("inbound")
     INBOUND,
 
-    @SerializedName("broadcasts")
+    @JsonProperty("broadcasts")
     BROADCASTS
 }

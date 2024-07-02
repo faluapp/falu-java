@@ -1,6 +1,6 @@
 package io.falu.client;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,14 +45,14 @@ class HttpResponseProblem {
     /**
      * Gets the validation errors associated with this instance of ProblemDetails.
      */
-    @SerializedName("error_code")
+    @JsonProperty("error_code")
     String legacyCode;
 
     /**
      * The detailed description for the error.
      * Where provided, it can be used as a display message to the user in an interactive environment.
      */
-    @SerializedName("error_description")
+    @JsonProperty("error_description")
     String legacyDescription;
 
     String getCode() {

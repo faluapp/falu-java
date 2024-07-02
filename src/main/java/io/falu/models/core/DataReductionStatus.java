@@ -1,10 +1,11 @@
 package io.falu.models.core;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum DataReductionStatus {
-    @SerializedName("redacted")
+    @JsonProperty("redacted")
     REDACTED,
-    @SerializedName("processing")
+    @JsonProperty("processing")
     PROCESSING
 }

@@ -1,6 +1,6 @@
 package io.falu.models.temporaryKeys;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
@@ -13,6 +13,6 @@ public class TemporaryKeyCreateOptions {
     /**
      * Unique identifier of the identity verification to be accessed using the key.
      */
-    @SerializedName("identity_verification")
+    @JsonProperty("identity_verification")
     private String identityVerification;
 }

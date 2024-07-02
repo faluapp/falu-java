@@ -1,7 +1,5 @@
 package io.falu.models.files;
 
-import com.google.gson.annotations.JsonAdapter;
-import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +42,5 @@ public class File extends FaluModel {
     /**
      * Time at which the file expires.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date expires;
 }

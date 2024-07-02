@@ -1,9 +1,10 @@
 package io.falu.models.messages;
 
-import com.google.gson.annotations.JsonAdapter;
-import io.falu.client.adapters.ISO8601DateAdapter;
 import io.falu.models.core.FaluModel;
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
@@ -45,7 +46,6 @@ public class Message extends FaluModel {
     /**
      * Time at which the message was delivered. This is dependent on the underlying provider.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date delivered;
 
     /**

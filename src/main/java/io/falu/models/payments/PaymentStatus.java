@@ -1,15 +1,15 @@
 package io.falu.models.payments;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The status of a payment.
  */
 public enum PaymentStatus {
-    @SerializedName("pending")
+    @JsonProperty("pending")
     PENDING,
-    @SerializedName("succeeded")
+    @JsonProperty("succeeded")
     SUCCEEDED,
-    @SerializedName("failed")
+    @JsonProperty("failed")
     FAILED
 }

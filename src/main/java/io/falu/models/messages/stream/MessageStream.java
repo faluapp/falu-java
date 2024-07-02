@@ -1,8 +1,6 @@
 package io.falu.models.messages.stream;
 
-import com.google.gson.annotations.JsonAdapter;
-import com.google.gson.annotations.SerializedName;
-import io.falu.client.adapters.ISO8601DateAdapter;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.falu.models.core.FaluModel;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -40,12 +38,11 @@ public class MessageStream extends FaluModel {
     /**
      * Time at which the stream was archived. Only populated once a stream is archived.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date archived;
 
     /**
      * Indicates if the stream is one created by default.
      */
-    @SerializedName("default")
+    @JsonProperty("default")
     private boolean defaultStream;
 }

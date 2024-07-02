@@ -1,7 +1,5 @@
 package io.falu.models.identiityVerificationReports;
 
-import com.google.gson.annotations.JsonAdapter;
-import io.falu.client.adapters.ISO8601DateAdapter;
 import lombok.Getter;
 
 import java.util.Date;
@@ -11,7 +9,6 @@ public class IdentityVerificationReportConsent {
     /**
      * The timestamp marking when the user gave consent for the identity verification to be done.
      */
-    @JsonAdapter(ISO8601DateAdapter.class)
     private Date date;
 
     /**

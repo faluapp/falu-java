@@ -1,20 +1,21 @@
 package io.falu.models.payments.refunds;
 
-import com.google.gson.annotations.SerializedName;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The reason for refunding a payment.
  */
 public enum PaymentRefundReason {
-    @SerializedName("duplicate")
+    @JsonProperty("duplicate")
     DUPLICATE,
 
-    @SerializedName("fraudulent")
+    @JsonProperty("fraudulent")
     FRAUDULENT,
 
-    @SerializedName("customerRequested")
+    @JsonProperty("customerRequested")
     CUSTOMER_REQUESTED,
 
-    @SerializedName("other")
+    @JsonProperty("other")
     OTHER
 }

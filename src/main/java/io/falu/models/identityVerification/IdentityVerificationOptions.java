@@ -1,6 +1,6 @@
 package io.falu.models.identityVerification;
 
-import com.google.gson.annotations.SerializedName;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -14,7 +14,7 @@ public class IdentityVerificationOptions {
     /**
      * Options for the id number check.
      */
-    @SerializedName("id_number")
+    @JsonProperty("id_number")
     private IdentityVerificationOptionsForIdNumber idNumber;
 
     /**

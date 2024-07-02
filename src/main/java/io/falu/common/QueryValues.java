@@ -1,6 +1,6 @@
 package io.falu.common;
 
-import com.google.gson.internal.bind.util.ISO8601Utils;
+import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import okhttp3.HttpUrl;
 
 import java.util.Date;
