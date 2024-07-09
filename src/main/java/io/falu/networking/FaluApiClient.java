@@ -64,6 +64,9 @@ import java.util.List;
 
 public class FaluApiClient extends AbstractHttpApiClient {
     private static final String HOST = "api.falu.io";
+
+    private static final String FILES_HOST = "files.falu.io";
+
     private static final String SCHEME = "https";
 
     public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor, Boolean enableLogging) {
@@ -89,9 +92,13 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     private static HttpUrl buildUrl(String path, @Nullable BasicListOptions listOptions) {
+        return buildUrl(HOST, path, listOptions);
+    }
+
+    private static HttpUrl buildUrl(String host, String path, @Nullable BasicListOptions listOptions) {
         HttpUrl.Builder builder = new HttpUrl.Builder();
         builder.scheme(SCHEME);
-        builder.host(HOST);
+        builder.host(host);
         builder.addPathSegments(path);
 
         if (listOptions != null) {
@@ -226,7 +233,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<PaymentRefund> updatePaymentRefund(String refundId,
-        PaymentRefundUpdateOptions updateOptions, RequestOptions options) throws IOException {
+                                                               PaymentRefundUpdateOptions updateOptions, RequestOptions options) throws IOException {
 
         HttpUrl url = buildUrl("v1/payment_refunds/" + refundId, null);
 
@@ -473,7 +480,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<Transfer> updateTransfer(String transferId, TransferUpdateOptions updateOptions,
-        RequestOptions options) throws IOException {
+                                                     RequestOptions options) throws IOException {
 
         HttpUrl url = buildUrl("v1/transfers" + transferId, null);
 
@@ -506,7 +513,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     //endregion
 
     public ResourceResponse<TransferReversal> updateTransferReversal(String transferId,
-        TransferReversalUpdateOptions updateOptions, RequestOptions options) throws IOException {
+                                                                     TransferReversalUpdateOptions updateOptions, RequestOptions options) throws IOException {
 
         HttpUrl url = buildUrl("v1/transfer_reversals/" + transferId, null);
 
@@ -549,7 +556,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<File> uploadFile(FileCreateOptions request, RequestOptions requestOptions) throws IOException {
-        HttpUrl url = buildUrl("v1/files", null);
+        HttpUrl url = buildUrl(FILES_HOST, "v1/files", null);
 
         MultipartBody.Builder bodyBuilder = new MultipartBody.Builder()
             .setType(MultipartBody.FORM)
@@ -642,7 +649,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<WebhookEndpoint> updateWebhookEndpoint(String endpointId,
-        WebhookEndpointUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
+                                                                   WebhookEndpointUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
 
         HttpUrl url = buildUrl("v1/webhooks/endpoints/" + endpointId, null);
 
@@ -715,7 +722,7 @@ public class FaluApiClient extends AbstractHttpApiClient {
     }
 
     public ResourceResponse<IdentityVerification> updateIdentityVerification(String id,
-        IdentityVerificationUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
+                                                                             IdentityVerificationUpdateOptions updateOptions, RequestOptions requestOptions) throws IOException {
         HttpUrl url = buildUrl("v1/identity/verifications/" + id, null);
 
         Request.Builder builder = buildRequest(requestOptions)
