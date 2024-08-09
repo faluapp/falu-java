@@ -45,12 +45,16 @@ public class AbstractHttpApiClient {
             builder.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
         }
 
-        backChannel = builder.build();
+        backChannel = buildBackChannel(builder);
 
         objectMapper = new ObjectMapper();
         SimpleModule module = new SimpleModule();
         module.addSerializer(Optional.class, new OptionalSerializer());
         objectMapper.registerModule(module);
+    }
+
+    protected OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
+        return builder.build();
     }
 
     @SuppressWarnings("unchecked")
