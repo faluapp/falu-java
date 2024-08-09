@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.ISO8601Utils;
 import io.falu.FaluClientOptions;
 import io.falu.client.AbstractHttpApiClient;
 import io.falu.client.ResourceResponse;
+import io.falu.client.headers.RetriesHeaderProvider;
 import io.falu.common.BasicListOptions;
 import io.falu.common.QueryValues;
 import io.falu.models.events.EventListOptions;
@@ -53,10 +54,7 @@ import io.falu.models.webhooks.WebhookEndpoint;
 import io.falu.models.webhooks.WebhookEndpointCreateRequest;
 import io.falu.models.webhooks.WebhookEndpointListOptions;
 import io.falu.models.webhooks.WebhookEndpointUpdateOptions;
-import okhttp3.HttpUrl;
-import okhttp3.MultipartBody;
-import okhttp3.Request;
-import okhttp3.RequestBody;
+import okhttp3.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
@@ -69,8 +67,11 @@ public class FaluApiClient extends AbstractHttpApiClient {
 
     private static final String SCHEME = "https";
 
+    private int maxNetworkRetries = 0;
+
     public FaluApiClient(FaluClientOptions options, AppDetailsInterceptor interceptor, Boolean enableLogging) {
         super(new FaluAuthenticationHeaderProvider(options.getApiKey()), interceptor, enableLogging);
+        this.maxNetworkRetries = options.getMaxNetworkRetries();
     }
 
     private static Request.Builder buildRequest(RequestOptions options) {
@@ -794,5 +795,12 @@ public class FaluApiClient extends AbstractHttpApiClient {
             .delete();
 
         return execute(builder, ResourceResponse.class);
+    }
+
+    @Override
+    protected OkHttpClient buildBackChannel(OkHttpClient.Builder builder) {
+        builder.addInterceptor(new RetriesHeaderProvider(maxNetworkRetries));
+
+        return builder.build();
     }
 }

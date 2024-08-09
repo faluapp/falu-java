@@ -26,6 +26,11 @@ public class FaluClientOptions {
     private String apiKey;
 
     /**
+     * The maximum number of times requests will be retried.
+     */
+    private int maxNetworkRetries = 0;
+
+    /**
      * Information about the application.
      */
     private AppInformation appInformation;
