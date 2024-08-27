@@ -76,15 +76,16 @@ public class AbstractHttpApiClient {
                     if (classOfTResult != null) {
                         result = objectMapper.readValue(body.charStream(), classOfTResult);
                     }
+                    break;
                 }
                 case 400: {
                     error = objectMapper.readValue(body.charStream(), HttpResponseProblem.class);
+                    break;
                 }
             }
-
-            // close the body stream
-            body.close();
         }
+
+        response.close();
 
         return (ResourceResponse<TResult>) ResourceResponse.builder()
             .statusCode(code)
